@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <script>
+      // 모든 기기: 실제 CSS 픽셀 기준으로 반응형 레이아웃
+      // is-tablet / is-phone 은 터치 전용 동작(붓 커서, 음성)에만 사용하고 크기는 CSS가 담당
+      (function () {
+        var root = document.documentElement;
+        var meta = document.querySelector("meta[name=\"viewport\"]");
+        if (meta) {
+          meta.setAttribute(
+            "content",
+            "width=device-width, initial-scale=1.0, viewport-fit=cover"
+          );
+        }
+        function syncDeviceClass() {
+          var touch = (navigator.maxTouchPoints || 0) > 1 || "ontouchstart" in window;
+          var coarse = false;
+          try { coarse = window.matchMedia("(any-pointer: coarse)").matches; } catch (e) {}
+          var shortSide = Math.min(screen.width, screen.height);
+          var isTablet = (touch || coarse) && shortSide >= 600;
+          var isPhone = (touch || coarse) && shortSide < 600;
+          root.classList.toggle("is-tablet", isTablet);
+          root.classList.toggle("is-phone", isPhone);
+          root.classList.toggle("is-touch", !!(touch || coarse));
+          root.classList.toggle("is-desktop", !isTablet && !isPhone);
+        }
+        syncDeviceClass();
+        window.addEventListener("orientationchange", function () { setTimeout(syncDeviceClass, 80); });
+        window.addEventListener("resize", syncDeviceClass);
+      })();
+    </script>
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="theme-color" content="#fffaf2" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>우리 문화 수호대</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Round:wght@700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./style.css?v=rev278" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./assets/js/asset-url.js?v=1" defer></script>
+    <script src="./assets/js/dancheong-patterns.js?v=10" defer></script>
+    <!-- 한옥마을 실시간 공유용 (Firebase 설정 시에만 사용, 없어도 게임은 정상 동작) -->
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js" defer></script>
+    <script src="./assets/js/firebase-config.js?v=1" defer></script>
+    <script src="./assets/js/kculture-firebase.js?v=12" defer></script>
+    <script src="./assets/js/hanok-clay-game.js?v=10" defer></script>
+    <script src="./assets/js/hanok-tour.js?v=9" defer></script>
+    <script src="./assets/js/hanok-explorer.js?v=4" defer></script>
+    <script src="./assets/js/thinking-friend-activities.js?v=6" defer></script>
+    <script src="./assets/js/thinking-friend-questions.js?v=3" defer></script>
+    <script src="./assets/js/thinking-friend-engine.js?v=20" defer></script>
+    <script src="./assets/js/thinking-friend-panel.js?v=7" defer></script>
+    <script src="./assets/js/sentence-wrap.js?v=1" defer></script>
+    <script src="./assets/js/value-guardian-book.js?v=34" defer></script>
+    <script src="./assets/js/value-reflection-flow.js?v=26" defer></script>
+    <script src="./assets/js/classroom-extension.js?v=11" defer></script>
+    <script src="./assets/js/teacher-target-ideas.js?v=3" defer></script>
+    <script src="./assets/js/teacher-lesson-questions.js?v=2" defer></script>
+    <script src="./assets/js/teacher-analysis.js?v=13" defer></script>
+    <script src="./assets/js/teacher-tools.js?v=23" defer></script>
+    <script src="./assets/js/review-demo-records.js?v=5" defer></script>
+  </head>
+  <body>
+    <!-- 모든 화면 공통 상단 버튼 바: 화면별 버튼은 app.js가 이 바 안으로 옮겨 옆에 나란히 배치 -->
+    <nav class="global-nav global-nav--left" id="globalNavLeft">
+      <div class="global-nav-top-row" id="globalNavTopRow">
+        <button type="button" id="globalHomeBtn" class="global-btn">🏠 홈</button>
+        <button type="button" id="globalClassExtBtn" class="global-btn global-class-ext-btn">우리반 게시판</button>
+      </div>
+    </nav>
+    <nav class="global-nav global-nav--right" id="globalNavRight">
+      <button
+        type="button"
+        id="displayModeBtn"
+        class="display-mode-btn"
+        aria-label="전체화면으로 보기"
+        title="전체화면"
+      >
+        <span class="display-mode-btn__icon" aria-hidden="true">⛶</span>
+        <span class="display-mode-btn__label">전체화면</span>
+      </button>
+      <button type="button" id="globalExitBtn" class="global-btn">✖ 종료</button>
+    </nav>
+    <button type="button" id="globalBackBtn" class="global-back-btn" aria-label="이전 화면으로">◀ 이전</button>
+    <button type="button" id="globalNextBtn" class="global-next-btn" aria-label="다음 화면으로">다음 ▶</button>
+    <div id="app"></div>
+    <script src="./app.js?v=rev400" defer></script>
+  </body>
+</html>

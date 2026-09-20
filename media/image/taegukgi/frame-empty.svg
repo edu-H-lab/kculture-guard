@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600">
+  <rect width="900" height="600" fill="#f8f8f8" stroke="#ccc" stroke-width="4"/>
+  <rect x="40" y="40" width="820" height="520" fill="#ffffff" stroke="#e0e0e0" stroke-width="2" stroke-dasharray="12 8" rx="4"/>
+  <!-- 태극 자리 -->
+  <circle cx="450" cy="300" r="95" fill="none" stroke="#e8e8e8" stroke-width="2" stroke-dasharray="8 6"/>
+  <!-- 4괘 자리 -->
+  <g stroke="#e8e8e8" stroke-width="2" stroke-dasharray="8 6" fill="none">
+    <rect x="72" y="72" width="130" height="130" rx="6"/>
+    <rect x="698" y="72" width="130" height="130" rx="6"/>
+    <rect x="72" y="398" width="130" height="130" rx="6"/>
+    <rect x="698" y="398" width="130" height="130" rx="6"/>
+  </g>
+</svg>

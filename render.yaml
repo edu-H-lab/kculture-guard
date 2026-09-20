@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: kculture-guard
+    runtime: node
+    plan: free
+    region: singapore
+    buildCommand: npm install --prefix source/server
+    startCommand: node source/server/server.js
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: THINKING_FRIEND_PROVIDER
+        value: gemini
+      - key: GEMINI_MODEL
+        value: gemini-2.0-flash
+      - key: GEMINI_API_KEY
+        sync: false

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="0 0 500 500" aria-label="기하 단청 문양">
+  <rect width="500" height="500" fill="#faf6ef"/>
+  <rect x="18" y="18" width="464" height="464" fill="none" stroke="#000000" stroke-width="4"/>
+  <rect x="30" y="30" width="440" height="440" fill="none" stroke="#000000" stroke-width="2"/>
+  <polygon class="dc-zone" data-zone="corner-tl-a" points="46,46 182,46 182,182" fill="#f0ebe3" stroke="#000000" stroke-width="2.5" stroke-linejoin="round"/>
+  <polygon class="dc-zone" data-zone="corner-tl-b" points="46,46 182,182 46,182" fill="#f0ebe3" stroke="#000000" stroke-width="2.5" stroke-linejoin="round"/>
+  <polygon class="dc-zone" data-zone="corner-tr-a" points="318,46 454,46 454,182" fill="#f0ebe3" stroke="#000000" stroke-width="2.5" stroke-linejoin="round"/>
+  <polygon class="dc-zone" data-zone="corner-tr-b" points="318,46 454,182 318,182" fill="#f0ebe3" stroke="#000000" stroke-width="2.5" stroke-linejoin="round"/>
+  <polygon class="dc-zone" data-zone="corner-bl-a" points="46,318 182,318 182,454" fill="#f0ebe3" stroke="#000000" stroke-width="2.5" stroke-linejoin="round"/>
+  <polygon class="dc-zone" data-zone="corner-bl-b" points="46,318 182,454 46,454" fill="#f0ebe3" stroke="#000000" stroke-width="2.5" stroke-linejoin="round"/>
+  <polygon class="dc-zone" data-zone="corner-br-a" points="318,318 454,318 454,454" fill="#f0ebe3" stroke="#000000" stroke-width="2.5" stroke-linejoin="round"/>
+  <polygon class="dc-zone" data-zone="corner-br-b" points="318,318 454,454 318,454" fill="#f0ebe3" stroke="#000000" stroke-width="2.5" stroke-linejoin="round"/>
+  <rect class="dc-zone" data-zone="edge-top-0" x="182" y="46" width="136" height="44.333333333333336" fill="#f0ebe3" stroke="#000000" stroke-width="2.5"/>
+  <rect class="dc-zone" data-zone="edge-top-1" x="182" y="91.33333333333334" width="136" height="44.333333333333336" fill="#f0ebe3" stroke="#000000" stroke-width="2.5"/>
+  <rect class="dc-zone" data-zone="edge-top-2" x="182" y="136.66666666666669" width="136" height="44.333333333333336" fill="#f0ebe3" stroke="#000000" stroke-width="2.5"/>
+  <rect class="dc-zone" data-zone="edge-bottom-0" x="182" y="318" width="136" height="44.333333333333336" fill="#f0ebe3" stroke="#000000" stroke-width="2.5"/>
+  <rect class="dc-zone" data-zone="edge-bottom-1" x="182" y="363.3333333333333" width="136" height="44.333333333333336" fill="#f0ebe3" stroke="#000000" stroke-width="2.5"/>
+  <rect class="dc-zone" data-zone="edge-bottom-2" x="182" y="408.6666666666667" width="136" height="44.333333333333336" fill="#f0ebe3" stroke="#000000" stroke-width="2.5"/>
+  <rect class="dc-zone" data-zone="edge-left-0" x="46" y="182" width="44.333333333333336" height="136" fill="#f0ebe3" stroke="#000000" stroke-width="2.5"/>
+  <rect class="dc-zone" data-zone="edge-left-1" x="91.33333333333334" y="182" width="44.333333333333336" height="136" fill="#f0ebe3" stroke="#000000" stroke-width="2.5"/>
+  <rect class="dc-zone" data-zone="edge-left-2" x="136.66666666666669" y="182" width="44.333333333333336" height="136" fill="#f0ebe3" stroke="#000000" stroke-width="2.5"/>
+  <rect class="dc-zone" data-zone="edge-right-0" x="318" y="182" width="44.333333333333336" height="136" fill="#f0ebe3" stroke="#000000" stroke-width="2.5"/>
+  <rect class="dc-zone" data-zone="edge-right-1" x="363.3333333333333" y="182" width="44.333333333333336" height="136" fill="#f0ebe3" stroke="#000000" stroke-width="2.5"/>
+  <rect class="dc-zone" data-zone="edge-right-2" x="408.6666666666667" y="182" width="44.333333333333336" height="136" fill="#f0ebe3" stroke="#000000" stroke-width="2.5"/>
+  <polygon class="dc-zone" data-zone="center-n" points="182,182 318,182 250,250" fill="#f0ebe3" stroke="#000000" stroke-width="2.5" stroke-linejoin="round"/>
+  <polygon class="dc-zone" data-zone="center-e" points="318,182 318,318 250,250" fill="#f0ebe3" stroke="#000000" stroke-width="2.5" stroke-linejoin="round"/>
+  <polygon class="dc-zone" data-zone="center-s" points="318,318 182,318 250,250" fill="#f0ebe3" stroke="#000000" stroke-width="2.5" stroke-linejoin="round"/>
+  <polygon class="dc-zone" data-zone="center-w" points="182,318 182,182 250,250" fill="#f0ebe3" stroke="#000000" stroke-width="2.5" stroke-linejoin="round"/>
+  <g fill="none" pointer-events="none"><line x1="46" y1="46" x2="46" y2="454" stroke="#000000" stroke-width="1.5"/><line x1="46" y1="46" x2="454" y2="46" stroke="#000000" stroke-width="1.5"/><line x1="182" y1="46" x2="182" y2="454" stroke="#000000" stroke-width="1.5"/><line x1="46" y1="182" x2="454" y2="182" stroke="#000000" stroke-width="1.5"/><line x1="318" y1="46" x2="318" y2="454" stroke="#000000" stroke-width="1.5"/><line x1="46" y1="318" x2="454" y2="318" stroke="#000000" stroke-width="1.5"/><line x1="454" y1="46" x2="454" y2="454" stroke="#000000" stroke-width="1.5"/><line x1="46" y1="454" x2="454" y2="454" stroke="#000000" stroke-width="1.5"/><line x1="182" y1="182" x2="318" y2="318" stroke="#000000" stroke-width="1.5"/><line x1="318" y1="182" x2="182" y2="318" stroke="#000000" stroke-width="1.5"/></g>
+</svg>

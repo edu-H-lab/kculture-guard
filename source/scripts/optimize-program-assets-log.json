@@ -1,0 +1,2749 @@
+{
+  "converted": 274,
+  "skipped": 0,
+  "before_bytes": 111574399,
+  "after_bytes": 40589124,
+  "saved_bytes": 70985275,
+  "files": [
+    {
+      "file": "hanok/hanok-01-exterior.png",
+      "before": 722917,
+      "after": 463830,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "hanok/hanok-02-gate.png",
+      "before": 607416,
+      "after": 350922,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "hanok/hanok-03-map.png",
+      "before": 830940,
+      "after": 468312,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "hanok/hanok-03-topview.png",
+      "before": 830940,
+      "after": 468312,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "hanok/hanok-04-courtyard.png",
+      "before": 689502,
+      "after": 351926,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "hanok/hanok-05-anchae.png",
+      "before": 637131,
+      "after": 364480,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "hanok/hanok-06-sarangchae.png",
+      "before": 581861,
+      "after": 315208,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "hanok/hanok-07-kitchen.png",
+      "before": 808568,
+      "after": 274460,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "hanok/hanok-08-maru.png",
+      "before": 647063,
+      "after": 326934,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "hanok/hanok-09-room.png",
+      "before": 598618,
+      "after": 180324,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "hanok/hanok-10-hanji-window.png",
+      "before": 681132,
+      "after": 143616,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "hanok/hanok-11-ondol.png",
+      "before": 601517,
+      "after": 360846,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "hanok/hanok-12-hwangto-wall.png",
+      "before": 737587,
+      "after": 284980,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "hanok/hanok-13-giwa-roof.png",
+      "before": 426912,
+      "after": 166314,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "hanok/hanok-14-dwitgan.png",
+      "before": 599495,
+      "after": 343598,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "hanok/hanok-15-dwitgan-inside.png",
+      "before": 619876,
+      "after": 158186,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "hanok/hanok-16-modern-home.png",
+      "before": 575214,
+      "after": 229620,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "hanok/hanok-17-modern-floor-heating.png",
+      "before": 610576,
+      "after": 283990,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "hanok/hanok-18-glass-window.png",
+      "before": 548265,
+      "after": 231052,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "hanok/hanok-19-modern-structure.png",
+      "before": 749643,
+      "after": 372968,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/home-bg.png",
+      "before": 462328,
+      "after": 185490,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/janggu.png",
+      "before": 165917,
+      "after": 180624,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/logo-start.png",
+      "before": 1222232,
+      "after": 215484,
+      "size": [
+        1000,
+        838
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/note_gunggeul.png",
+      "before": 61714,
+      "after": 62566,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/note_yeol.png",
+      "before": 207151,
+      "after": 27358,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/stage1-bg.png",
+      "before": 580159,
+      "after": 167220,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/stage1-icon.png",
+      "before": 111810,
+      "after": 125166,
+      "size": [
+        1080,
+        1080
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/stage2-bg.png",
+      "before": 367546,
+      "after": 112676,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/stage2-icon.png",
+      "before": 113534,
+      "after": 130788,
+      "size": [
+        1080,
+        1080
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/stage3-bg.png",
+      "before": 448703,
+      "after": 127010,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/stage3-icon.png",
+      "before": 154429,
+      "after": 171100,
+      "size": [
+        1080,
+        1080
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/stage4-bg.png",
+      "before": 518782,
+      "after": 84108,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/stage4-icon.png",
+      "before": 94115,
+      "after": 115484,
+      "size": [
+        1080,
+        1080
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/suho-main.png",
+      "before": 163517,
+      "after": 204712,
+      "size": [
+        1122,
+        1402
+      ],
+      "alpha": true
+    },
+    {
+      "file": "review-demo/songpyeon.png",
+      "before": 581866,
+      "after": 123390,
+      "size": [
+        1448,
+        1086
+      ],
+      "alpha": false
+    },
+    {
+      "file": "value-book/value-book-bookmark.png",
+      "before": 157058,
+      "after": 157310,
+      "size": [
+        1086,
+        1448
+      ],
+      "alpha": true
+    },
+    {
+      "file": "value-book/value-book-cover.png",
+      "before": 714087,
+      "after": 236630,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "value-book/value-book-page.png",
+      "before": 721820,
+      "after": 174356,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/hanbok-01.jpg",
+      "before": 44197,
+      "after": 21350,
+      "size": [
+        555,
+        366
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/hanbok-02.jpg",
+      "before": 43700,
+      "after": 19430,
+      "size": [
+        602,
+        368
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/hanbok-03.jpg",
+      "before": 37602,
+      "after": 16582,
+      "size": [
+        585,
+        363
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/hanbok-04.jpg",
+      "before": 34630,
+      "after": 15514,
+      "size": [
+        550,
+        336
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/hanbok-05.jpg",
+      "before": 39399,
+      "after": 18088,
+      "size": [
+        566,
+        365
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/holiday-01.jpg",
+      "before": 36342,
+      "after": 25504,
+      "size": [
+        330,
+        344
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/holiday-02.jpg",
+      "before": 47779,
+      "after": 33328,
+      "size": [
+        392,
+        406
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/holiday-03.jpg",
+      "before": 23866,
+      "after": 13854,
+      "size": [
+        318,
+        318
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/holiday-04.jpg",
+      "before": 22946,
+      "after": 13510,
+      "size": [
+        328,
+        279
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/holiday-05.jpg",
+      "before": 27606,
+      "after": 18648,
+      "size": [
+        277,
+        281
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/holiday-06.jpg",
+      "before": 29999,
+      "after": 18806,
+      "size": [
+        348,
+        334
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/holiday-07.jpg",
+      "before": 41706,
+      "after": 27366,
+      "size": [
+        366,
+        362
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/holiday-08.jpg",
+      "before": 29000,
+      "after": 19136,
+      "size": [
+        314,
+        312
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/holiday-09.jpg",
+      "before": 41882,
+      "after": 28398,
+      "size": [
+        377,
+        385
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/holiday-10.jpg",
+      "before": 37063,
+      "after": 22324,
+      "size": [
+        364,
+        392
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/mask-01.jpg",
+      "before": 36320,
+      "after": 18388,
+      "size": [
+        372,
+        436
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/mask-02.jpg",
+      "before": 30653,
+      "after": 14278,
+      "size": [
+        352,
+        422
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/mask-03.jpg",
+      "before": 29091,
+      "after": 14308,
+      "size": [
+        335,
+        408
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/mask-04.jpg",
+      "before": 36351,
+      "after": 17592,
+      "size": [
+        430,
+        430
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/mask-05.jpg",
+      "before": 37166,
+      "after": 18810,
+      "size": [
+        402,
+        427
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/mask-06.jpg",
+      "before": 41411,
+      "after": 23538,
+      "size": [
+        390,
+        413
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/mask-07.jpg",
+      "before": 30573,
+      "after": 15684,
+      "size": [
+        320,
+        374
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/mask-08.jpg",
+      "before": 38078,
+      "after": 20658,
+      "size": [
+        353,
+        430
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/mask-09.jpg",
+      "before": 41127,
+      "after": 23640,
+      "size": [
+        377,
+        413
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/money-01.jpg",
+      "before": 20906,
+      "after": 12582,
+      "size": [
+        201,
+        289
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/money-02.jpg",
+      "before": 24320,
+      "after": 16494,
+      "size": [
+        219,
+        292
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/money-03.jpg",
+      "before": 24403,
+      "after": 14662,
+      "size": [
+        211,
+        303
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/money-04.jpg",
+      "before": 20696,
+      "after": 12954,
+      "size": [
+        197,
+        271
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/money-05.jpg",
+      "before": 22169,
+      "after": 14436,
+      "size": [
+        203,
+        284
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/mugunghwa-01.jpg",
+      "before": 25880,
+      "after": 13526,
+      "size": [
+        292,
+        279
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/mugunghwa-02.jpg",
+      "before": 18807,
+      "after": 11580,
+      "size": [
+        261,
+        271
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/mugunghwa-03.jpg",
+      "before": 18711,
+      "after": 11030,
+      "size": [
+        262,
+        275
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/mugunghwa-04.jpg",
+      "before": 16667,
+      "after": 9930,
+      "size": [
+        260,
+        256
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/mugunghwa-05.jpg",
+      "before": 19405,
+      "after": 12232,
+      "size": [
+        260,
+        260
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/mugunghwa-06.jpg",
+      "before": 18378,
+      "after": 11374,
+      "size": [
+        280,
+        273
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/mugunghwa-07.jpg",
+      "before": 16564,
+      "after": 9962,
+      "size": [
+        270,
+        238
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/mugunghwa-08.jpg",
+      "before": 34125,
+      "after": 19710,
+      "size": [
+        357,
+        388
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/mugunghwa-09.jpg",
+      "before": 34366,
+      "after": 21062,
+      "size": [
+        341,
+        388
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/mugunghwa-10.jpg",
+      "before": 16963,
+      "after": 9646,
+      "size": [
+        263,
+        263
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/norigae-01.jpg",
+      "before": 41100,
+      "after": 23480,
+      "size": [
+        270,
+        749
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/norigae-02.jpg",
+      "before": 37723,
+      "after": 18912,
+      "size": [
+        282,
+        739
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/norigae-03.jpg",
+      "before": 32899,
+      "after": 16504,
+      "size": [
+        247,
+        684
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/norigae-04.jpg",
+      "before": 34532,
+      "after": 16786,
+      "size": [
+        253,
+        669
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/norigae-05.jpg",
+      "before": 32299,
+      "after": 16942,
+      "size": [
+        228,
+        631
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/taegeukgi-01.jpg",
+      "before": 7569,
+      "after": 4854,
+      "size": [
+        137,
+        149
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/taegeukgi-02.jpg",
+      "before": 6289,
+      "after": 4278,
+      "size": [
+        101,
+        134
+      ],
+      "alpha": false
+    },
+    {
+      "file": "review-demo/works/taegeukgi-03.jpg",
+      "before": 173662,
+      "after": 95160,
+      "size": [
+        890,
+        957
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/bibimbap/bean-sprout.png",
+      "before": 152686,
+      "after": 166242,
+      "size": [
+        1080,
+        1080
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/bibimbap/beef.png",
+      "before": 177181,
+      "after": 175752,
+      "size": [
+        1080,
+        1080
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/bibimbap/carrot.png",
+      "before": 113947,
+      "after": 131766,
+      "size": [
+        1080,
+        1080
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/bibimbap/egg.png",
+      "before": 48770,
+      "after": 52862,
+      "size": [
+        1080,
+        1080
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/bibimbap/fern.png",
+      "before": 162660,
+      "after": 168746,
+      "size": [
+        1080,
+        1080
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/bibimbap/gochujang.png",
+      "before": 94978,
+      "after": 117662,
+      "size": [
+        1080,
+        1080
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/bibimbap/layer-beansprout.png",
+      "before": 151712,
+      "after": 22770,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/bibimbap/layer-beef.png",
+      "before": 224068,
+      "after": 34234,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/bibimbap/layer-carrot.png",
+      "before": 141865,
+      "after": 22878,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/bibimbap/layer-egg.png",
+      "before": 156756,
+      "after": 17386,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/bibimbap/layer-fern.png",
+      "before": 172131,
+      "after": 28376,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/bibimbap/layer-gochujang.png",
+      "before": 102441,
+      "after": 22064,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/bibimbap/layer-radish.png",
+      "before": 143422,
+      "after": 21438,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/bibimbap/layer-rice.png",
+      "before": 209103,
+      "after": 229432,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/bibimbap/layer-sesame.png",
+      "before": 320942,
+      "after": 393162,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/bibimbap/layer-zucchini.png",
+      "before": 148919,
+      "after": 21708,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/bibimbap/radish.png",
+      "before": 119160,
+      "after": 137904,
+      "size": [
+        1080,
+        1080
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/bibimbap/rice.png",
+      "before": 132108,
+      "after": 133538,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/bibimbap/sesame-oil.png",
+      "before": 105050,
+      "after": 126562,
+      "size": [
+        1080,
+        1080
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/bibimbap/stone-pot.png",
+      "before": 108624,
+      "after": 124936,
+      "size": [
+        1080,
+        1080
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/bibimbap/zucchini.png",
+      "before": 151514,
+      "after": 151622,
+      "size": [
+        1080,
+        1080
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/character/bear.png",
+      "before": 124256,
+      "after": 143898,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/character/HOME-CHARAC.png",
+      "before": 341761,
+      "after": 432386,
+      "size": [
+        1920,
+        1920
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/character/rabbit.png",
+      "before": 106358,
+      "after": 126184,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/character/suho.png",
+      "before": 120511,
+      "after": 148036,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/base-boy.png",
+      "before": 95355,
+      "after": 102426,
+      "size": [
+        1060,
+        1484
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/base-girl.png",
+      "before": 93396,
+      "after": 96534,
+      "size": [
+        1060,
+        1484
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/boy-icon-baeja.png",
+      "before": 126196,
+      "after": 122802,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/boy-icon-baji1.png",
+      "before": 85724,
+      "after": 76812,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/boy-icon-baji2.png",
+      "before": 86506,
+      "after": 76226,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/boy-icon-baji3.png",
+      "before": 141048,
+      "after": 154338,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/boy-icon-gat.png",
+      "before": 230144,
+      "after": 380612,
+      "size": [
+        1060,
+        1484
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/boy-icon-jeogori1.png",
+      "before": 109584,
+      "after": 128186,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/boy-icon-jeogori2.png",
+      "before": 135405,
+      "after": 154288,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/boy-icon-jeogori3.png",
+      "before": 236600,
+      "after": 271316,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/boy-icon-shoe.png",
+      "before": 92641,
+      "after": 113020,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/boy-layer-baeja.png",
+      "before": 50094,
+      "after": 7594,
+      "size": [
+        500,
+        700
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/boy-layer-baji1.png",
+      "before": 58219,
+      "after": 7882,
+      "size": [
+        500,
+        700
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/boy-layer-baji2.png",
+      "before": 62342,
+      "after": 8772,
+      "size": [
+        502,
+        700
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/boy-layer-baji3.png",
+      "before": 52549,
+      "after": 7056,
+      "size": [
+        500,
+        700
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/boy-layer-gat.png",
+      "before": 81792,
+      "after": 15836,
+      "size": [
+        500,
+        700
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/boy-layer-jeogori1.png",
+      "before": 56750,
+      "after": 8508,
+      "size": [
+        500,
+        700
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/boy-layer-jeogori2.png",
+      "before": 59301,
+      "after": 8424,
+      "size": [
+        500,
+        700
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/boy-layer-jeogori3.png",
+      "before": 120241,
+      "after": 20324,
+      "size": [
+        500,
+        700
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/boy-layer-shoe.png",
+      "before": 18130,
+      "after": 5470,
+      "size": [
+        500,
+        700
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/girl-icon-ayam.png",
+      "before": 97445,
+      "after": 20066,
+      "size": [
+        300,
+        300
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/girl-icon-baeja.png",
+      "before": 123712,
+      "after": 17366,
+      "size": [
+        300,
+        300
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/girl-icon-chima1.png",
+      "before": 87954,
+      "after": 11672,
+      "size": [
+        300,
+        300
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/girl-icon-chima2.png",
+      "before": 141542,
+      "after": 25672,
+      "size": [
+        300,
+        300
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/girl-icon-chima3.png",
+      "before": 156371,
+      "after": 171010,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/girl-icon-daengi.png",
+      "before": 174389,
+      "after": 177126,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/girl-icon-jeogori1.png",
+      "before": 81884,
+      "after": 14626,
+      "size": [
+        300,
+        300
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/girl-icon-jeogori2.png",
+      "before": 127498,
+      "after": 23318,
+      "size": [
+        300,
+        300
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/girl-icon-jeogori3.png",
+      "before": 105983,
+      "after": 115920,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/girl-icon-norigae1.png",
+      "before": 37479,
+      "after": 11950,
+      "size": [
+        300,
+        300
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/girl-icon-norigae2.png",
+      "before": 41846,
+      "after": 11680,
+      "size": [
+        300,
+        300
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/girl-icon-shoe1.png",
+      "before": 191123,
+      "after": 228898,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/girl-icon-shoe2.png",
+      "before": 195608,
+      "after": 228910,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/girl-layer-ayam.png",
+      "before": 38514,
+      "after": 8294,
+      "size": [
+        500,
+        700
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/girl-layer-baeja.png",
+      "before": 51834,
+      "after": 8770,
+      "size": [
+        500,
+        700
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/girl-layer-chima1.png",
+      "before": 87006,
+      "after": 11628,
+      "size": [
+        500,
+        700
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/girl-layer-chima2.png",
+      "before": 113893,
+      "after": 22208,
+      "size": [
+        500,
+        700
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/girl-layer-chima3.png",
+      "before": 104471,
+      "after": 14070,
+      "size": [
+        500,
+        700
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/girl-layer-daengi.png",
+      "before": 15983,
+      "after": 3682,
+      "size": [
+        500,
+        700
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/girl-layer-jeogori1.png",
+      "before": 46537,
+      "after": 8120,
+      "size": [
+        500,
+        700
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/girl-layer-jeogori2.png",
+      "before": 78575,
+      "after": 15780,
+      "size": [
+        500,
+        700
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/girl-layer-jeogori3.png",
+      "before": 46896,
+      "after": 9078,
+      "size": [
+        500,
+        700
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/girl-layer-shoe1.png",
+      "before": 13644,
+      "after": 3614,
+      "size": [
+        495,
+        700
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/hanbok/girl-layer-shoe2.png",
+      "before": 15533,
+      "after": 4946,
+      "size": [
+        500,
+        700
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/holiday/chuseok-beolcho.png",
+      "before": 509500,
+      "after": 194984,
+      "size": [
+        1448,
+        1086
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/holiday/chuseok-bg.png",
+      "before": 652287,
+      "after": 331882,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/holiday/chuseok-date.png",
+      "before": 621600,
+      "after": 71160,
+      "size": [
+        1448,
+        1086
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/holiday/chuseok-ganggangsullae.png",
+      "before": 387567,
+      "after": 139768,
+      "size": [
+        1448,
+        1086
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/holiday/chuseok-harvest.png",
+      "before": 513622,
+      "after": 199840,
+      "size": [
+        1448,
+        1086
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/holiday/chuseok-songpyeon.png",
+      "before": 581866,
+      "after": 123390,
+      "size": [
+        1448,
+        1086
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/holiday/seollal-bg.png",
+      "before": 775981,
+      "after": 383692,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/holiday/seollal-bokjori.png",
+      "before": 530732,
+      "after": 146000,
+      "size": [
+        1448,
+        1086
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/holiday/seollal-date.png",
+      "before": 615335,
+      "after": 109770,
+      "size": [
+        1448,
+        1086
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/holiday/seollal-deokdam.png",
+      "before": 582525,
+      "after": 106084,
+      "size": [
+        1448,
+        1086
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/holiday/seollal-kite-top.png",
+      "before": 490055,
+      "after": 96024,
+      "size": [
+        1448,
+        1086
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/holiday/seollal-sebae.png",
+      "before": 419457,
+      "after": 122956,
+      "size": [
+        1448,
+        1086
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/holiday/seollal-tteokguk.png",
+      "before": 535270,
+      "after": 81958,
+      "size": [
+        1448,
+        1086
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/money/계상정거도.png",
+      "before": 862895,
+      "after": 95738,
+      "size": [
+        738,
+        469
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/money/달밤에 핀 매화(e뮤지엄, 공공누리1유형).jpg",
+      "before": 8762366,
+      "after": 842700,
+      "size": [
+        1280,
+        1920
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/money/맨드라미와개구리-한국민족문화대백과,공공누리1유형.jpg",
+      "before": 2143148,
+      "after": 194094,
+      "size": [
+        1421,
+        1920
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/money/묵포도도(간송미술문화재단).jpeg",
+      "before": 464121,
+      "after": 114748,
+      "size": [
+        554,
+        1201
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/money/보현산천문대망원경(한국향토문화대전).jpeg",
+      "before": 65540,
+      "after": 64656,
+      "size": [
+        427,
+        640
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/money/서울 문묘 명륜당(국가유산포털,공공누리open).jpg",
+      "before": 245299,
+      "after": 162740,
+      "size": [
+        945,
+        748
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/money/수박과여치-한국민족문화대백과,공공누리1유형.jpg",
+      "before": 1716558,
+      "after": 192422,
+      "size": [
+        1428,
+        1920
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/money/오죽헌(e뮤지엄, 공공누리 4유형).jpg",
+      "before": 468293,
+      "after": 320742,
+      "size": [
+        1648,
+        999
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/money/용비어천가 권8의 권수(국가유산포털).jpg",
+      "before": 162416,
+      "after": 85606,
+      "size": [
+        544,
+        894
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/money/천상열차분야지도 (e뮤지엄, 공공누리1유형).jpg",
+      "before": 101320,
+      "after": 81178,
+      "size": [
+        371,
+        515
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/money/초충도병풍-한국민족문화대백과,공공누리1유형.jpg",
+      "before": 3980389,
+      "after": 197498,
+      "size": [
+        1920,
+        760
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/money/풍죽도-위키디피아 커먼즈,퍼블릭도메인.jpg",
+      "before": 176187,
+      "after": 123540,
+      "size": [
+        600,
+        1065
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/money/혼천의(e뮤지엄,공공누리1유형).jpg",
+      "before": 26666,
+      "after": 21808,
+      "size": [
+        322,
+        500
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/mugunghwa/국회회의장(대한민국국회,공공누리open).JPG",
+      "before": 5776305,
+      "after": 442464,
+      "size": [
+        1920,
+        1280
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/mugunghwa/대통령휘장-공공누리open.jpg",
+      "before": 31822,
+      "after": 37782,
+      "size": [
+        500,
+        303
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/mugunghwa/대한민국여권(외교부 여권 안내, 공공누리 0유형).png",
+      "before": 76935,
+      "after": 9576,
+      "size": [
+        226,
+        311
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/mugunghwa/백단심계1.jpg",
+      "before": 309186,
+      "after": 218794,
+      "size": [
+        1837,
+        1223
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/mugunghwa/백단심계3.jpg",
+      "before": 277572,
+      "after": 197014,
+      "size": [
+        1837,
+        1223
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/mugunghwa/법원(서울고등법원).jpeg",
+      "before": 4361404,
+      "after": 558328,
+      "size": [
+        1920,
+        1280
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/mugunghwa/완성.png",
+      "before": 155972,
+      "after": 155188,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/mugunghwa/홍단심계1.jpg",
+      "before": 317449,
+      "after": 236468,
+      "size": [
+        1837,
+        1223
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/mugunghwa/홍단심계4.jpg",
+      "before": 438701,
+      "after": 429298,
+      "size": [
+        1152,
+        1536
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/question/anthem.png",
+      "before": 510767,
+      "after": 275358,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/question/bibimbap.png",
+      "before": 587396,
+      "after": 275026,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/question/dancheong.png",
+      "before": 550687,
+      "after": 307380,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/question/ddakji.png",
+      "before": 437150,
+      "after": 220438,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/question/hanbok.png",
+      "before": 578117,
+      "after": 280876,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/question/hangul.png",
+      "before": 488597,
+      "after": 243672,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/question/hanok.png",
+      "before": 555631,
+      "after": 328550,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/question/holiday.png",
+      "before": 544158,
+      "after": 319948,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/question/minyo.png",
+      "before": 549076,
+      "after": 319048,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/question/money.png",
+      "before": 516995,
+      "after": 274986,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/question/mugunghwa.png",
+      "before": 553120,
+      "after": 297552,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/question/taegeukgi.png",
+      "before": 532875,
+      "after": 277216,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/question/talchum.png",
+      "before": 492302,
+      "after": 257756,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/question/yut.png",
+      "before": 577019,
+      "after": 287194,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/stage1/anthem.png",
+      "before": 158457,
+      "after": 194196,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/stage1/money.png",
+      "before": 231125,
+      "after": 249948,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/stage1/mugunghwa.png",
+      "before": 221660,
+      "after": 235350,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/stage1/taegeukgi.png",
+      "before": 179277,
+      "after": 208010,
+      "size": [
+        1127,
+        1395
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/stage2/dancheong.png",
+      "before": 248498,
+      "after": 317402,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/stage2/hangul.png",
+      "before": 154796,
+      "after": 188900,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/stage2/hanok.png",
+      "before": 271385,
+      "after": 311196,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/stage3/bibimbap.png",
+      "before": 250260,
+      "after": 287328,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/stage3/hanbok.png",
+      "before": 285546,
+      "after": 326272,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/stage3/holiday.png",
+      "before": 269797,
+      "after": 319110,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/stage4/ddakji.png",
+      "before": 207810,
+      "after": 268584,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/stage4/minyo.png",
+      "before": 272945,
+      "after": 340398,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/stage4/talchum.png",
+      "before": 335366,
+      "after": 355634,
+      "size": [
+        1402,
+        1122
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/stage4/yut.png",
+      "before": 270433,
+      "after": 337874,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/taegukgi/flag.png",
+      "before": 117116,
+      "after": 105332,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/taegukgi/gam.png",
+      "before": 37245,
+      "after": 47196,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/taegukgi/geon.png",
+      "before": 38368,
+      "after": 50122,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/taegukgi/gon.png",
+      "before": 32972,
+      "after": 42002,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/taegukgi/ri.png",
+      "before": 49149,
+      "after": 65448,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/taegukgi/stick.png",
+      "before": 167812,
+      "after": 14172,
+      "size": [
+        1024,
+        1535
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/taegukgi/taeguk.png",
+      "before": 122326,
+      "after": 171546,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/taegukgi/taegukgi-bg.png",
+      "before": 424641,
+      "after": 142142,
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/taegukgi/taegukgi.png",
+      "before": 146398,
+      "after": 103334,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/talchum/gaksi.png",
+      "before": 1788294,
+      "after": 215124,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/talchum/malttugi.png",
+      "before": 1997341,
+      "after": 301074,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/talchum/saja.png",
+      "before": 2692081,
+      "after": 473486,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/talchum/yangban.png",
+      "before": 1716210,
+      "after": 244608,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/treasures/baekje_golden_incense_burner.png",
+      "before": 180336,
+      "after": 169158,
+      "size": [
+        1086,
+        1448
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/treasures/celadon_inlaid_maebyeong.png",
+      "before": 160183,
+      "after": 146790,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/treasures/daedongyeojido.png",
+      "before": 431643,
+      "after": 466698,
+      "size": [
+        1402,
+        1122
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/treasures/emile_bell.png",
+      "before": 199680,
+      "after": 176832,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/treasures/face_pattern_roof_tiles.png",
+      "before": 200553,
+      "after": 196100,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/treasures/hahoe_mask.png",
+      "before": 202110,
+      "after": 210898,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/treasures/horse_rider_figurine.png",
+      "before": 212238,
+      "after": 198760,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/treasures/hunminjeongeum.png",
+      "before": 257175,
+      "after": 244848,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/treasures/hwangnamdaechong_gold_crown.png",
+      "before": 190120,
+      "after": 218960,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/treasures/kim_hongdo_folk_painting_album.png",
+      "before": 327853,
+      "after": 414566,
+      "size": [
+        1402,
+        1122
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/treasures/mireuk_bodhisattva_half.png",
+      "before": 180316,
+      "after": 184496,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/treasures/muryeong_stone_beast.png",
+      "before": 240959,
+      "after": 227882,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/treasures/sangpyeong_tongbo_coin.png",
+      "before": 309922,
+      "after": 343210,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/treasures/white_porcelain_moon_jar.png",
+      "before": 95588,
+      "after": 74368,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/yut/board.png",
+      "before": 163703,
+      "after": 186278,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/yut/mat.png",
+      "before": 293985,
+      "after": 420838,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/yut/stick-back.png",
+      "before": 60419,
+      "after": 72860,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/yut/stick-front.png",
+      "before": 74514,
+      "after": 79412,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/yut/token-dokkaebi.png",
+      "before": 315921,
+      "after": 345732,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/yut/token1.png",
+      "before": 126953,
+      "after": 132636,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/yut/token2.png",
+      "before": 174174,
+      "after": 229086,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/yut/token3.png",
+      "before": 191376,
+      "after": 220728,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/mugunghwa/parts/icon-calyx.png",
+      "before": 102999,
+      "after": 101266,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/mugunghwa/parts/icon-gotsul.png",
+      "before": 60640,
+      "after": 70590,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/mugunghwa/parts/icon-petal.png",
+      "before": 82806,
+      "after": 83502,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/mugunghwa/parts/layer-calyx.png",
+      "before": 157645,
+      "after": 18462,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/mugunghwa/parts/layer-gotsul.png",
+      "before": 86165,
+      "after": 13860,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/mugunghwa/parts/layer-petal-1.png",
+      "before": 250765,
+      "after": 27342,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/mugunghwa/parts/layer-petal-2.png",
+      "before": 243868,
+      "after": 25528,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/mugunghwa/parts/layer-petal-3.png",
+      "before": 193260,
+      "after": 18314,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/mugunghwa/parts/layer-petal-4.png",
+      "before": 198274,
+      "after": 18984,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/mugunghwa/parts/layer-petal-5.png",
+      "before": 242696,
+      "after": 25564,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/money/화폐/1000.jpg",
+      "before": 735380,
+      "after": 212080,
+      "size": [
+        1000,
+        504
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/money/화폐/10000.jpg",
+      "before": 622392,
+      "after": 165126,
+      "size": [
+        1000,
+        458
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/money/화폐/10000p.png",
+      "before": 1235521,
+      "after": 152710,
+      "size": [
+        1080,
+        1080
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/money/화폐/10000_back.jpg",
+      "before": 678613,
+      "after": 196128,
+      "size": [
+        1000,
+        458
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/money/화폐/1000p.png",
+      "before": 1724303,
+      "after": 185916,
+      "size": [
+        1080,
+        1080
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/money/화폐/1000_back.jpg",
+      "before": 6672797,
+      "after": 738344,
+      "size": [
+        1920,
+        965
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/money/화폐/5000.jpg",
+      "before": 680593,
+      "after": 175526,
+      "size": [
+        1000,
+        472
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/money/화폐/50000.jpg",
+      "before": 691865,
+      "after": 177378,
+      "size": [
+        1000,
+        445
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/money/화폐/50000p.png",
+      "before": 1619228,
+      "after": 191008,
+      "size": [
+        1080,
+        1080
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/money/화폐/50000_back.jpg",
+      "before": 685575,
+      "after": 173842,
+      "size": [
+        1000,
+        435
+      ],
+      "alpha": false
+    },
+    {
+      "file": "images/money/화폐/5000p.png",
+      "before": 1547667,
+      "after": 204198,
+      "size": [
+        1080,
+        1080
+      ],
+      "alpha": true
+    },
+    {
+      "file": "images/money/화폐/5000_back.jpg",
+      "before": 666566,
+      "after": 177088,
+      "size": [
+        1000,
+        473
+      ],
+      "alpha": false
+    }
+  ]
+}
