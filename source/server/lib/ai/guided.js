@@ -5,8 +5,7 @@
  * react():   아이 답을 받아 (1) 막힘 종류 판단 (2) 칭찬하며 따라 말하기 (3) 다음 단계 맞춤 보기 1개
  * summary(): ①②③ 답을 모아 핵심 질문의 답으로 3문장 정리 (아이 말·고른 보기만 사용)
  */
-const path = require("path");
-const Q = require(path.join(require("../programDir"), "assets/js/thinking-friend-questions.js"));
+const Q = require("../../../../program/assets/js/thinking-friend-questions.js");
 const grounding = require("./grounding");
 
 const BANNED = Q.BANNED_WORDS;
@@ -22,21 +21,38 @@ function hasBanned(t) {
   return BANNED.some((w) => String(t || "").indexOf(w) >= 0);
 }
 
+// '예뻐요, 재미있어요, 예쁜 거, 다 좋아요'처럼 무엇이 어떤지 없는 막연한 느낌말
+const FILLER_RE = /(너무|정말|진짜|아주|엄청|되게|완전|그냥|다|전부|모두|좀|넘|많이)/g;
+const FEEL_ONLY_RE = /^((예쁘|예뻐|예쁜|예뻤|이쁘|이뻐|이쁜|이뻤|재미|재밌|좋|멋|신기|귀엽|귀여|귀여웠|웃기|웃겨|웃긴|웃겼|신나|신난|신났|최고|대박|즐거|즐겁|행복)[가-힣]{0,4}\s*(거|것|걸|게)?\s*)+$/;
+
+function isVague(text) {
+  const t = clean(text).replace(FILLER_RE, " ").replace(/\s+/g, " ").trim();
+  if (!t || t.length > 14) return false;
+  return BARE_RE.test(clean(text)) || FEEL_ONLY_RE.test(t);
+}
+
 function localKind(text) {
   const t = clean(text);
   if (!t) return "unsure";
   if (UNSURE_RE.test(t) || (UNSURE_LOOSE_RE.test(t) && t.length <= 12)) return "unsure";
-  if (BARE_RE.test(t)) return "bare";
+  if (isVague(t)) return "bare";
   return "";
 }
 
 function bareFollow(text) {
   const t = clean(text);
-  if (/재미|재밌/.test(t)) return "우와! 어떤 게 제일 재밌었어?";
-  if (/예뻐|예뻤/.test(t)) return "우와! 어떤 게 제일 예뻤어?";
+  if (/재미|재밌|즐거|신나|신난/.test(t)) return "우와! 어떤 게 제일 재미있었어?";
+  if (/예쁘|예뻐|예쁜|예뻤|이쁘|이뻐|이쁜/.test(t)) return "우와! 어떤 부분이 예뻤어?";
   if (/멋/.test(t)) return "우와! 어떤 게 제일 멋있었어?";
   if (/신기/.test(t)) return "우와! 어떤 게 제일 신기했어?";
+  if (/귀엽|귀여/.test(t)) return "우와! 어떤 게 귀여웠어?";
+  if (/웃기|웃겨|웃긴/.test(t)) return "하하! 어떤 게 웃겼어?";
   return "우와! 어떤 게 제일 좋았어?";
+}
+
+function usableFollowUp(q) {
+  const t = String(q || "").trim();
+  return t && t.length <= 40 && (t.match(/\?/g) || []).length === 1 && !hasBanned(t) && !/혹시/.test(t);
 }
 
 const PRAISE = ["멋진 생각이야!", "잘 골랐어!", "좋은 생각이야!", "그렇구나, 좋아!"];
@@ -54,10 +70,12 @@ const REACT_SCHEMA = {
   type: "OBJECT",
   properties: {
     onTopic: { type: "BOOLEAN" },
+    vague: { type: "BOOLEAN" },
+    followUp: { type: "STRING" },
     echo: { type: "STRING" },
     extraChoice: { type: "STRING" }
   },
-  required: ["onTopic", "echo", "extraChoice"]
+  required: ["onTopic", "vague", "followUp", "echo", "extraChoice"]
 };
 
 const { guidedReactPrompts: reactPrompts, guidedSummaryPrompts } = require("./prompts");
@@ -73,17 +91,28 @@ async function react(body, provider) {
   const picked = Array.isArray(body.picked) ? body.picked.map((p) => String(p || "").trim()).filter(Boolean) : [];
   const text = String((body && body.text) || "").trim();
 
+  // 이미 한 번 되물었으면(vagueAsked) 막연한 답이라도 받아들이고 넘어간다
+  const vagueAsked = !!(body && body.vagueAsked);
+  let localBare = false;
   if (!picked.length) {
     const k = localKind(text);
     if (k === "unsure") return { kind: "unsure", echo: "", followUp: "괜찮아! 그럼 이 중에 골라 볼래?", extraChoice: "" };
-    if (k === "bare") return { kind: "bare", echo: "", followUp: bareFollow(text), extraChoice: "" };
+    if (k === "bare" && !vagueAsked) localBare = true;
   }
 
   let out = { kind: "answer", echo: templateEcho(picked, text, stepIndex + picked.length), followUp: "", extraChoice: "" };
-  if (!provider || typeof provider.generateRaw !== "function") return out;
+  if (!provider || typeof provider.generateRaw !== "function") {
+    if (localBare) return { kind: "bare", echo: "", followUp: bareFollow(text), extraChoice: "" };
+    return out;
+  }
   try {
     const { system, user } = reactPrompts(entry, stepIndex, picked, text);
     const r = await provider.generateRaw({ system, user, schema: REACT_SCHEMA, purpose: "guided-react", timeoutMs: 7000, retries: 1 });
+    // 막연한 느낌말 → 구체적인 생각을 이끄는 되묻기
+    if (!picked.length && !vagueAsked && (localBare || (r && r.vague === true))) {
+      const fq = usableFollowUp(r && r.followUp) ? String(r.followUp).trim() : bareFollow(text);
+      return { kind: "bare", echo: "", followUp: fq, extraChoice: "" };
+    }
     if (r && r.onTopic === false && !picked.length) {
       const step = entry.steps[stepIndex];
       return { kind: "offtopic", echo: "", followUp: `그렇구나! 그런데 ${step.q}`, extraChoice: "" };
@@ -97,6 +126,7 @@ async function react(body, provider) {
     }
   } catch (err) {
     console.warn("[ThinkFriend:guided] react 실패 -> 기본 칭찬 사용:", err && err.message);
+    if (localBare) return { kind: "bare", echo: "", followUp: bareFollow(text), extraChoice: "" };
   }
   return out;
 }

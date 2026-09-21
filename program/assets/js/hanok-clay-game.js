@@ -269,7 +269,7 @@
     }
     return _fbReady;
   }
-  function isSharedMode() { return initFirebase(); }
+  function isSharedMode() { return false; }
 
   function myBuilderCode() {
     const code = _ctx && _ctx.getState().code;
@@ -1490,7 +1490,7 @@
     _appEl.innerHTML = _ctx.sceneTemplate("우리들의 한옥마을", `
       <div class="section-card hanok-game">
         <p class="hanok-msg" id="hanokVillageMsg">마을을 불러오는 중...</p>
-        <p class="hanok-learn">친구들이 지은 한옥을 눌러 구경하고 ❤️ 좋아요를 눌러 응원해 주세요! ${fbBadge()}</p>
+        <p class="hanok-learn">이 기기에서 지은 한옥을 눌러 구경하고 ❤️ 좋아요를 눌러 보세요! ${fbBadge()}</p>
         <div class="hanok-village-grid" id="hanokVillageGrid" style="--village-cols:${VILLAGE_COLS}"></div>
         <div class="hanok-village-actions">
           <button type="button" class="btn" id="hanokRebuildBtn">🔨 다시 짓기</button>
@@ -1498,7 +1498,7 @@
         <div class="hanok-village-detail hidden" id="hanokVillageDetail"></div>
       </div>
     `);
-    if (_ctx.setupNavigationAndHelp) _ctx.setupNavigationAndHelp("우리들의 한옥마을에서 친구들의 집을 구경해 보세요!");
+    if (_ctx.setupNavigationAndHelp) _ctx.setupNavigationAndHelp("이 기기에 저장한 한옥을 구경해 보세요!");
 
     document.getElementById("hanokRebuildBtn").onclick = () => {
       nextPhase("game");

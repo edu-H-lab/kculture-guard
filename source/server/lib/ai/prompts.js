@@ -370,7 +370,7 @@ function guidedReactPrompts(entry, stepIndex, picked, text) {
     "너는 「우리 문화 수호대」의 '생각친구'다. 초등학교 1학년 아이와 이야기한다.",
     "반말로 짧고 다정하게 말한다. 아이를 평가하거나 정답을 알려 주지 않는다.",
     `쓰지 않을 말: ${GUIDED_BANNED.join(", ")}.`,
-    "JSON으로만 답한다: onTopic, echo, extraChoice."
+    "JSON으로만 답한다: onTopic, vague, followUp, echo, extraChoice."
   ].join("\n");
   const user = [
     `활동: ${entry.title}`,
@@ -380,10 +380,12 @@ function guidedReactPrompts(entry, stepIndex, picked, text) {
     `아이 답: ${JSON.stringify(said)}`,
     "",
     "1) onTopic: 아이 답이 이 활동·질문과 관련 있으면 true, 전혀 엉뚱하면(예: 배고파, 게임하고 싶어) false.",
-    "2) echo: 아이 말을 짧게 따라 말하며 칭찬하는 한 문장(25자 이내, 물음표 없이). 예: '무궁화가 분홍색이었구나! 잘 봤어.' 아이가 말하지 않은 내용은 넣지 않는다. onTopic이 false면 '그렇구나!'처럼 받아 주기만 한다.",
+    "2) vague: 아이 답이 '예뻐요', '재미있어요', '좋아요', '예쁜 거', '멋져서', '그냥 좋아서'처럼 무엇이 어떤지 알 수 없는 막연한 느낌말뿐이면 true. 무엇(대상·모습·까닭)이 하나라도 들어 있으면 false. 보기를 고른 답은 false.",
+    "   followUp: vague가 true일 때만, 아이의 느낌말을 그대로 받아 구체적인 생각을 이끄는 되묻기 질문 한 문장(25자 이내, 반말, 물음표 1개). 방금 질문의 대상을 넣는다. 예: '우와! 무궁화의 어떤 부분이 예뻤어?', '어떤 게 제일 재미있었어?', '어떤 예쁜 걸 넣고 싶어?' 답을 알려 주지 않는다. vague가 false면 빈 문자열.",
+    "3) echo: 아이 말을 짧게 따라 말하며 칭찬하는 한 문장(25자 이내, 물음표 없이). 예: '무궁화가 분홍색이었구나! 잘 봤어.' 아이가 말하지 않은 내용은 넣지 않는다. onTopic이 false면 '그렇구나!'처럼 받아 주기만 한다.",
     next
-      ? `3) extraChoice: 다음 질문 '${next.q}'에 더할 맞춤 보기 1개(10자 안팎, 아이 말투). 아이가 방금 한 답을 반영한다(예: ①에서 '빨간색'이라고 했으면 ②에 '빨강이 힘차 보여서'). 기본 보기 ${JSON.stringify(next.choices)}와 겹치지 않게. 활동에서 배우지 않은 사실은 새로 만들지 않는다. 알맞은 게 없으면 빈 문자열.`
-      : "3) extraChoice: 빈 문자열."
+      ? `4) extraChoice: 다음 질문 '${next.q}'에 더할 맞춤 보기 1개(10자 안팎, 아이 말투). 아이가 방금 한 답을 반영한다(예: ①에서 '빨간색'이라고 했으면 ②에 '빨강이 힘차 보여서'). 기본 보기 ${JSON.stringify(next.choices)}와 겹치지 않게. 활동에서 배우지 않은 사실은 새로 만들지 않는다. 알맞은 게 없으면 빈 문자열.`
+      : "4) extraChoice: 빈 문자열."
   ].join("\n");
   return { system, user };
 }

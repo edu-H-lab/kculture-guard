@@ -35,12 +35,12 @@ const ANTHEM_IMG = (name) => toWebp(`assets/images/anthem/${name}`);
 const DANCHEONG_IMG = (name) => toWebp(`assets/images/dancheong/${name}`);
 const SND = (name) => `assets/sounds/${name}`;
 const INTRO_VIDEO = "assets/videos/intro/intro2.mp4";
+const HANGUL_ORIGIN_VIDEO = "assets/videos/hangul/hangul-origin.mp4";
 const DDAKJI_VIDEO = (file) => toWebp(`assets/images/ddakji/${encodeURIComponent(file)}`);
 const TREASURE_IMG = (name) => toWebp(`assets/images/treasures/${name}`);
 
 /** 멀티미디어_교육자료_목록.xlsx 비고(출처 등). 확보 사진만 표시하고 개발 자료는 넣지 않음. */
 const PHOTO_SOURCE = {
-  "계상정거도.png": "출처(e뮤지엄)",
   "달밤에 핀 매화(e뮤지엄, 공공누리1유형).jpg": "출처(e뮤지엄)",
   "묵포도도(간송미술문화재단).jpeg": "출처(간송미술문화재단)",
   "초충도병풍-한국민족문화대백과,공공누리1유형.jpg": "출처(한국민족문화대백과)",
@@ -239,7 +239,7 @@ const activityQuestions = {
   stage3_a3: { question: "명절에만 하는 일은 무엇이 있을까?", image: "holiday.png" },
   stage4_a1: { question: "윷놀이는 언제 어떻게 할까?", image: "yut.png" },
   stage4_a2: { question: "딱지접기는 어떻게 할까?", image: "ddakji.png" },
-  stage4_a3: { question: "두 아리랑은 어떻게 다를까?\n장단을 잘 치려면 어떻게 해야 할까?", image: "minyo.png" },
+  stage4_a3: { question: "두 아리랑은 어떻게 다를까?\n지역마다 아리랑이 왜 다를까?", image: "minyo.png" },
   stage4_a4: { question: "탈과 어울리는 동작은 어떤 것이 있을까?", image: "talchum.png" }
 };
 
@@ -848,7 +848,7 @@ function getSavedProgressByAccountId(accountId) {
 /** 디지털연구대회 심사용 가상 학급 — 교사 대시보드와 학생 체험을 바로 볼 수 있게 준비 */
 const REVIEW_DEMO = {
   classCode: "REVIEW",
-  seedVersion: 15,
+  seedVersion: 16,
   playerNumber: 1,
   playerName: "수호",
   onlineNumbers: [1, 2, 3]
@@ -2395,10 +2395,24 @@ function activityNavInfo() {
 
   if (cur === "stage2_a1") {
     if (state.hangulQuiz == null) state.hangulQuiz = 0;
+    if (state.hangulPhase !== "puzzle") state.hangulPhase = "video";
+    const quizLen = HANGUL_QUIZZES.length;
+    const index = state.hangulPhase === "video"
+      ? 0
+      : 1 + Math.max(0, Math.min(state.hangulQuiz, quizLen - 1));
     return {
-      index: Math.max(0, Math.min(state.hangulQuiz, HANGUL_QUIZZES.length - 1)),
-      length: HANGUL_QUIZZES.length,
-      apply(i) { state.hangulQuiz = i; }
+      index,
+      length: 1 + quizLen,
+      apply(i) {
+        stopHangulVideo();
+        if (i <= 0) {
+          state.hangulPhase = "video";
+          state.hangulQuiz = 0;
+          return;
+        }
+        state.hangulPhase = "puzzle";
+        state.hangulQuiz = Math.max(0, Math.min(i - 1, quizLen - 1));
+      }
     };
   }
 
@@ -2927,6 +2941,8 @@ function resetActivityState(route) {
     state.solved.tg = false;
   }
   if (route === "stage2_a1") {
+    stopHangulVideo();
+    state.hangulPhase = "video";
     state.hangulQuiz = 0;
     state.hangulSolved = [];
     state.solved.hangul = false;
@@ -3443,6 +3459,7 @@ function renderScreen() {
   if (state.current !== "stage4_a3") stopRhythmGame();
   if (state.current !== "stage4_a4") stopTalchumGame();
   if (state.current !== "stage1_a3") stopAnthemGame();
+  if (state.current !== "stage2_a1") stopHangulVideo();
   if (state.current !== "stage1_a4" && state.current !== "stage2_a1") stopSpeechVoice();
   if (state.current !== "stage2_a2") {
     if (window.HanokGame) window.HanokGame.stop();
@@ -3690,7 +3707,6 @@ function renderLogin() {
         <div class="login-wrap panel">
           ${loginBody}
         </div>
-        <img class="login-character" src="${CHAR_IMG("HOME-CHARAC.png")}" alt="수호대 친구들" draggable="false" />
         ` : `
         <div class="login-wrap panel">
           ${loginBody}
@@ -4024,7 +4040,7 @@ function renderMain() {
           <p class="home-grade">초등학교 1학년</p>
           ${bookBtn ? `<div class="home-tool-btns">${bookBtn}</div>` : ""}
           <div class="hub-wrap">
-            <img class="home-character" src="${IMG("suho-main.png")}" alt="메인 캐릭터 수호" />
+            <img class="home-character" src="${CHAR_IMG("HOME-CHARAC.png")}" alt="수호대 친구들 화이팅" draggable="false" />
             <button class="stage-node s1" data-go="stage1_menu" aria-label="스테이지 1">
               <img src="${IMG("stage1-icon.png")}" alt="스테이지1" />
               <span class="label">우리나라 상징을 찾아라!</span>
@@ -5321,7 +5337,7 @@ function muguBoardArtHTML(m) {
 const MUGU_PHOTOS = [
   {
     file: "국회회의장(대한민국국회,공공누리open).JPG",
-    hotspots: [{ left: 40, top: 22, w: 10, h: 14 }],
+    hotspots: [{ left: 46, top: 22, w: 10, h: 14 }],
     caption: "국회 회의장 정면 배지 한가운데를 무궁화 꽃잎이 감싸고 있어! 대한민국 국회를 나타내는 국회 배지야."
   },
   {
@@ -6876,8 +6892,7 @@ const MONEY_BILLS = [
       {
         name: "계상정거도",
         box: { l: 8, t: 20, w: 58, h: 65 },
-        line: "이 그림은 화가 '정선'이 도산서원을 그린 &lt;계상정거도&gt;야.",
-        popImage: "계상정거도.png"
+        line: "이 그림은 화가 '정선'이 도산서원을 그린 &lt;계상정거도&gt;야."
       },
       {
         name: "도산서원",
@@ -7116,12 +7131,6 @@ function showMoneyPopImage(title, file) {
   });
 }
 
-function moneySpeakStep(m, key, line) {
-  if (m.lastSpoken === key) return;
-  m.lastSpoken = key;
-  speakTextKorean(line);
-}
-
 function moneySentenceHTML(text) {
   const parts = String(text).trim().split(/(?<=\.)\s+/).filter(Boolean);
   return parts.map((s) => `<span class="money-sentence">${s}</span>`).join("");
@@ -7173,7 +7182,6 @@ function renderMoneyTour(m) {
   const billFile = side === "front" ? bill.front : bill.back;
   const imgSrc = MONEY_IMG(billFile);
   const sideLabel = side === "front" ? "앞면" : "뒷면";
-  const speakKey = `money-${m.billIdx}-${m.stepIdx}`;
   const showPersonPop = step.kind === "person" && side === "front";
   const personBase = `${bill.amount}p`;
   const personPopHTML = showPersonPop
@@ -7217,7 +7225,7 @@ function renderMoneyTour(m) {
     </div>
   `);
   setupNavigationAndHelp("화폐 속 인물과 문화유산 설명을 들어보자!");
-  moneySpeakStep(m, speakKey, step.line);
+  stopSpeechVoice();
   moneyMissionBtn(m);
 
   bindSpeakButton(document.getElementById("moneyReplay"), () => step.line);
@@ -7438,6 +7446,61 @@ function renderStage2Menu() {
 }
 
 /* ───────────── 한글 퍼즐 (자음·모음 낱자 드래그) ───────────── */
+let hangulVideoEl = null;
+
+function stopHangulVideo() {
+  const video = hangulVideoEl || document.getElementById("hangulOriginVideo");
+  hangulVideoEl = null;
+  if (!video) return;
+  try { video.pause(); } catch (_) {}
+  try {
+    video.removeAttribute("src");
+    video.load();
+  } catch (_) {}
+}
+
+function beginHangulPuzzleFromVideo() {
+  stopHangulVideo();
+  playSound("click.mp3");
+  state.hangulPhase = "puzzle";
+  if (state.hangulQuiz == null) state.hangulQuiz = 0;
+  render();
+}
+
+function renderHangulOriginVideo() {
+  stopHangulVideo();
+  app.innerHTML = sceneTemplate("STAGE 2-1 한글은 어떻게 만들어졌을까", `
+    <div class="section-card hangul-video-screen">
+      <p class="hangul-video-lead">한글이 어떻게 만들어졌는지 영상을 보고, 한글 조각 맞추기를 해 보자!</p>
+      <div class="hangul-video-frame">
+        <video
+          id="hangulOriginVideo"
+          class="hangul-origin-video"
+          src="${HANGUL_ORIGIN_VIDEO}"
+          controls
+          playsinline
+          webkit-playsinline
+          preload="metadata"
+        ></video>
+      </div>
+      <button type="button" class="btn primary hangul-video-next" id="hangulVideoNext">한글 조각 맞추기 ▶</button>
+    </div>
+  `);
+  setupNavigationAndHelp("영상을 본 뒤 한글 조각 맞추기를 시작해 보자!");
+  bindMissionCompleteBtn("stage2_a1", !!state.solved.hangul);
+
+  const video = document.getElementById("hangulOriginVideo");
+  hangulVideoEl = video;
+  if (video) {
+    video.playsInline = true;
+    video.setAttribute("playsinline", "");
+    video.setAttribute("webkit-playsinline", "true");
+    video.play().catch(() => {});
+  }
+  const nextBtn = document.getElementById("hangulVideoNext");
+  if (nextBtn) nextBtn.onclick = beginHangulPuzzleFromVideo;
+}
+
 // ▼ 퀴즈는 여기서 자유롭게 수정/추가하세요 (q: 문제, a: 정답 단어). 우리나라 관련 7문제.
 const HANGUL_QUIZZES = [
   { q: "우리나라의 수도는 어디일까요?", a: "서울" },
@@ -7534,7 +7597,7 @@ function hangulPaintProgress() {
   if (char) char.style.setProperty("--quiz-progress", String(pct));
 }
 
-function renderStage2Act1() {
+function renderHangulPuzzle() {
   if (state.hangulQuiz == null || state.hangulQuiz >= HANGUL_QUIZZES.length) state.hangulQuiz = 0;
   if (!Array.isArray(state.hangulSolved)) state.hangulSolved = [];
   hideMoneyQuizToast();
@@ -7667,6 +7730,16 @@ function renderStage2Act1() {
   bindSpeakButton(document.getElementById("hgVoice"), () => HANGUL_QUIZZES[state.hangulQuiz].q);
 
   startQuiz();
+}
+
+function renderStage2Act1() {
+  if (state.hangulPhase !== "puzzle") state.hangulPhase = "video";
+  if (state.hangulPhase === "video") {
+    renderHangulOriginVideo();
+    return;
+  }
+  stopHangulVideo();
+  renderHangulPuzzle();
 }
 
 function renderStage2Act2() {
@@ -11884,6 +11957,7 @@ function stopGimbapVoice() {
 function stopActiveActivityMedia() {
   try { stopTalchumGame(); } catch (_) {}
   try { stopTtakjiVideo(); } catch (_) {}
+  try { stopHangulVideo(); } catch (_) {}
   try { stopRhythmGame(); } catch (_) {}
   try { stopSemachiPractice(); } catch (_) {}
   try { stopAnthemGame(); } catch (_) {}
@@ -12360,7 +12434,11 @@ function renderStage4Act4() {
     const eyeSpan = Math.hypot(toX(leftEye) - toX(rightEye), toY(leftEye) - toY(rightEye));
     const faceW = Math.max(earSpan * 1.55, eyeSpan * 3.1);
     const faceH = faceW * (g.wearImg.naturalHeight / g.wearImg.naturalWidth);
-    const angle = Math.atan2(toY(rightEye) - toY(leftEye), toX(rightEye) - toX(leftEye));
+    // Pose 좌우는 사람 기준이라 전면 카메라 영상에서는 왼쪽 눈이 화면 오른쪽에 있다.
+    // 사람 왼쪽→오른쪽 벡터로 돌리면 약 180°가 되어 탈이 거꾸로 그려진다.
+    let angle = Math.atan2(toY(leftEye) - toY(rightEye), toX(leftEye) - toX(rightEye));
+    if (angle > Math.PI / 2) angle -= Math.PI;
+    else if (angle < -Math.PI / 2) angle += Math.PI;
     const cx = toX(nose);
     const cy = toY(nose) - faceH * 0.08;
 
@@ -14627,7 +14705,7 @@ function startRhythmGameplay(song, level) {
 
 function renderRhythmSongSelect() {
   app.innerHTML = rhythmSceneTemplate("우리민요 얼쑤! — 곡 선택", `
-    <div class="rhythm-menu-card">
+    <div class="rhythm-menu-card rhythm-menu-card--songs">
       <p class="rhythm-menu-desc">연주할 민요를 골라 주세요.</p>
       <div class="rhythm-song-grid">
         <button type="button" class="rhythm-song-btn" data-song="gyeonggi">

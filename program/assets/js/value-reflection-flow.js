@@ -338,8 +338,11 @@
 
   function savedHTML(flow) {
     const shown = resolveFinalAnswer(flow, flow && flow.thinkFriend);
+    // 완성 화면 제목: 처음에 나온 핵심 질문 (없으면 기존 문구)
+    const entry = guidedEntry(flow);
+    const core = entry && entry.core ? String(entry.core).replace(/\s*\n\s*/g, " ") : "";
     return `
-      <h2 class="vrf-title vrf-title--done">가치수호록 완성!</h2>
+      <h2 class="vrf-title vrf-title--done">${core ? escapeHtml(core) : "가치수호록 완성!"}</h2>
       ${shown ? `<p class="tf-summary">${escapeHtml(shown)}</p>` : ""}
       <div class="vrf-actions vrf-actions--pair">
         <button type="button" class="vrf-btn vrf-btn--save" id="vrfBookBtn">내 수호책 보기</button>
@@ -999,7 +1002,9 @@
     // phase: ask
     const step = entry.steps[g.idx];
     let hello = "";
-    if (g.prompt) hello = g.prompt;
+    const reask = !g.showChoices && g.reask ? g.reask : "";
+    if (reask) hello = g.reaskSaid ? `'${g.reaskSaid}'라고 했구나! 조금 더 자세히 말해 줄래?` : "좋아! 조금 더 자세히 말해 줄래?";
+    else if (g.prompt) hello = g.prompt;
     else if (g.echo) hello = g.echo;
     else if (g.idx === 0) hello = `활동 시작할 때 '${entry.core.split("\n")[0]}' 궁금했지? 같이 생각해 보자!`;
     else hello = "좋아, 다음 질문이야!";
@@ -1015,7 +1020,8 @@
     const head = `
       ${friendHeadHTML(hello)}
       <p class="vrf-kicker">${escapeHtml(stepLabel)} <button type="button" class="vrf-g-speak" id="vrfGReadBtn" aria-label="읽어 주기">🔊</button></p>
-      <h2 class="vrf-title">${escapeHtml(step.q)}</h2>
+      <h2 class="vrf-title">${escapeHtml(reask || step.q)}</h2>
+      ${reask ? `<p class="vrf-soft vrf-g-hint">처음 질문: ${escapeHtml(step.q)}</p>` : ""}
     `;
     // 처음에는 자유롭게 대답하고, [🙋 도와줘요]를 누르면 보기가 나온다
     if (!g.showChoices) {
@@ -1081,6 +1087,8 @@
     g.sel = [];
     g.showChoices = false;
     g.prompt = "";
+    g.reask = "";
+    g.reaskSaid = "";
     g.echo = echo || "";
     flow.tfDraft = "";
     flow.tfVoiceDraft = "";
@@ -1109,10 +1117,13 @@
       activityId: entry.id,
       stepIndex: idx,
       picked,
-      text
+      text,
+      vagueAsked: !!a.vagueAsked
     }, 9000).catch(() => localReact(picked, text)).then((r) => {
       r = r || {};
-      const kind = r.kind || "answer";
+      let kind = r.kind || "answer";
+      // 막연한 답을 이미 한 번 되물었다면, 두 번째 답은 그대로 받아들인다
+      if (kind === "bare" && a.vagueAsked) kind = "answer";
       if (kind === "answer") {
         a.picked = picked.slice();
         a.text = text || "";
@@ -1120,7 +1131,22 @@
         guidedAdvance(flow, entry, r.echo || "", r.extraChoice || "");
         return;
       }
-      // 막힘: 몰라 / 한 단어 / 엉뚱한 답
+      // 막연한 느낌말(예뻐요, 재미있어요) → 보기 없이 되묻기 질문으로 구체적인 생각을 이끈다
+      if (kind === "bare") {
+        a.vagueAsked = true;
+        g.phase = "ask";
+        g.sel = [];
+        g.showChoices = false;
+        g.prompt = "";
+        g.reask = r.followUp || "우와! 어떤 부분이 그랬어?";
+        g.reaskSaid = String(text || "").trim().slice(0, 12);
+        flow.tfDraft = "";
+        flow.tfVoiceDraft = "";
+        save();
+        paint();
+        return;
+      }
+      // 막힘: 몰라 / 엉뚱한 답
       a.stuck += 1;
       if (kind === "offtopic") a.offtopicUsed = true;
       if (a.stuck >= 2) {
@@ -1338,7 +1364,7 @@
         </div>
       `;
       if (_ctx && typeof _ctx.sceneTemplate === "function") {
-        _appEl.innerHTML = _ctx.sceneTemplate("가치수호록 만들기", innerG);
+        _appEl.innerHTML = _ctx.sceneTemplate("우리 문화 기록하기", innerG);
       } else {
         _appEl.innerHTML = innerG;
       }
@@ -1353,7 +1379,7 @@
       </div>
     `;
     if (_ctx && typeof _ctx.sceneTemplate === "function") {
-      _appEl.innerHTML = _ctx.sceneTemplate("가치수호록 만들기", inner);
+      _appEl.innerHTML = _ctx.sceneTemplate("우리 문화 기록하기", inner);
     } else {
       _appEl.innerHTML = inner;
     }

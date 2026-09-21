@@ -10,10 +10,9 @@
  * 개인정보: 학생 이름은 서버로 오지 않는다(s1, s2 … 로만 구분).
  * 신뢰성: 학생 id·목표 개념 id는 코드가 검증하고, 근거 문장은 그 학생이 실제로 한 말에 있어야 남긴다.
  */
-const path = require("path");
 const crypto = require("crypto");
-const Q = require(path.join(require("../programDir"), "assets/js/thinking-friend-questions.js"));
-const IDEAS = require(path.join(require("../programDir"), "assets/js/teacher-target-ideas.js"));
+const Q = require("../../../../program/assets/js/thinking-friend-questions.js");
+const IDEAS = require("../../../../program/assets/js/teacher-target-ideas.js");
 const { teacherAnalysisPrompts } = require("./prompts");
 
 const LEVELS = ["관찰", "이유", "비교", "적용"];

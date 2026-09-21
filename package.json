@@ -1,0 +1,10 @@
+{
+  "name": "kculture-guard",
+  "private": true,
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "start": "node source/server/server.js"
+  }
+}

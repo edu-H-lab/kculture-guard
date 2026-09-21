@@ -10,7 +10,7 @@
   --gold: #ffcf54;
   --node-size: clamp(96px, min(16vmin, 18vw), 200px);
   --node-img: clamp(68px, min(12vmin, 13.5vw), 148px);
-  --home-char: clamp(150px, 24vmin, 420px);
+  --home-char: clamp(220px, 36vmin, 560px);
   --login-char: clamp(200px, 42vmin, 560px);
   --picker-img: min(240px, 28vw, 34vh, calc((100dvh - 190px) / 2.25));
   --picker-img-3: min(220px, 22vw, 46vh, calc(100dvh - 190px));
@@ -326,8 +326,8 @@ body.logged-out #globalClassExtBtn { display: none; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+  justify-content: center;
+  gap: 14px;
   padding: 36px 16px 28px;
 }
 .login-hero {
@@ -1072,6 +1072,47 @@ body.logged-out #globalClassExtBtn { display: none; }
 
 /* ?쒓? ?쇱쫹 */
 .hangul-game { display: flex; flex-direction: column; gap: 14px; align-items: center; width: 100%; max-width: min(980px, 96vw); margin: 0 auto; }
+.hangul-video-screen {
+  width: 100%;
+  max-width: min(1080px, 96vw);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.hangul-video-lead {
+  margin: 0;
+  text-align: center;
+  font-weight: 800;
+  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+  color: #2f3a52;
+  line-height: 1.45;
+  word-break: keep-all;
+}
+.hangul-video-frame {
+  width: 100%;
+  max-width: min(960px, 94vw);
+  border-radius: 18px;
+  overflow: hidden;
+  background: #0b1020;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+  line-height: 0;
+}
+.hangul-origin-video {
+  width: 100%;
+  height: auto;
+  max-height: min(62dvh, 620px);
+  display: block;
+  background: #000;
+  object-fit: contain;
+}
+.hangul-video-next {
+  min-width: min(320px, 88vw);
+  min-height: 52px;
+  font-size: clamp(1.1rem, 2.2vw, 1.35rem);
+  padding: 12px 22px;
+}
 .hg-progress { width: 100%; max-width: min(920px, 94vw); }
 .hg-quizbar { display: flex; align-items: center; justify-content: flex-end; gap: 14px; width: 100%; max-width: min(920px, 94vw); }
 .hg-question { font-size: clamp(1.7rem, 3.4vw, 2.2rem); font-weight: 800; color: #2f3a52; text-align: center; margin: 0; line-height: 1.45; }
@@ -1810,6 +1851,8 @@ body.logged-out #globalClassExtBtn { display: none; }
   border: 3px solid #fff;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
   background: #1a1430;
+  /* 거울 모드는 래퍼에 고정. 자식 transform(GPU 최적화)이 덮어쓰지 못하게 한다. */
+  transform: scaleX(-1);
 }
 .tc-pip-wrap.hidden {
   display: none;
@@ -1820,7 +1863,6 @@ body.logged-out #globalClassExtBtn { display: none; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scaleX(-1);
   z-index: 1;
 }
 .tc-pip-mask-canvas {
@@ -1828,7 +1870,6 @@ body.logged-out #globalClassExtBtn { display: none; }
   inset: 0;
   width: 100%;
   height: 100%;
-  transform: scaleX(-1);
   z-index: 2;
   pointer-events: none;
 }
@@ -3675,6 +3716,21 @@ body.logged-out #globalClassExtBtn { display: none; }
   word-break: keep-all;
 }
 .mugu-story-frame { position: relative; }
+.mugu-story-frame .photo-credit {
+  left: 10px;
+  right: auto;
+  bottom: 10px;
+  width: auto;
+  max-width: calc(100% - 20px);
+  padding: 5px 10px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.72);
+  border-radius: 8px;
+  text-shadow: none;
+}
 .money-pop-frame {
   position: relative;
   display: flex;
@@ -5239,9 +5295,11 @@ html:-webkit-full-screen .stage-overlay:has(.anthem-activity) {
 .home-character {
   margin-top: 0;
   width: var(--home-char);
+  max-width: min(72vw, 560px);
   height: auto;
+  object-fit: contain;
   filter: drop-shadow(0 10px 12px rgba(0,0,0,.24));
-  transform: translateY(8%);
+  transform: translateY(24%);
 }
 .home-progress {
   display: inline-block;
@@ -5426,6 +5484,12 @@ button.session-badge {
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
   text-align: center;
 }
+.rhythm-menu-card--songs {
+  width: min(980px, 82vw);
+  padding: clamp(22px, 3.2vh, 36px) clamp(22px, 3vw, 40px);
+  margin-top: auto;
+  margin-bottom: auto;
+}
 .rhythm-menu-desc {
   margin: 0 0 18px;
   font-size: 1.05rem;
@@ -5434,26 +5498,37 @@ button.session-badge {
 }
 .rhythm-song-grid {
   display: grid;
-  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(16px, 3.2vw, 40px);
+  align-items: stretch;
+  width: 100%;
 }
 .rhythm-song-btn {
   border: 3px solid #ffd970;
   border-radius: 20px;
-  padding: 20px 16px;
+  padding: clamp(20px, 3.4vh, 36px) 16px;
   background: linear-gradient(180deg, #fff9e8, #ffeab8);
   cursor: pointer;
-  font-size: 1.15rem;
+  font-size: clamp(1.12rem, 2.1vw, 1.42rem);
   color: #2f3a52;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
   transition: transform 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: clamp(148px, 24vh, 232px);
+  box-sizing: border-box;
 }
 .rhythm-song-btn:hover {
   transform: translateY(-2px) scale(1.02);
 }
 .rhythm-song-icon {
   display: block;
-  font-size: 2rem;
-  margin-bottom: 6px;
+  font-size: clamp(2.1rem, 4vw, 3rem);
+  margin-bottom: 2px;
 }
 .rhythm-level-list {
   display: grid;
@@ -8295,7 +8370,8 @@ html:-webkit-full-screen .anthem-controls { margin-top: auto; }
 
   .home-screen:not(.login-screen) .home-character {
     width: var(--home-char);
-    transform: translateY(6%);
+    max-width: min(78vw, 520px);
+    transform: translateY(22%);
   }
 
   .home-screen:not(.login-screen) .stage-node.s1 { left: 12%; top: 8%; }
@@ -8815,6 +8891,10 @@ html:-webkit-full-screen .anthem-controls { margin-top: auto; }
 
   /* ?? ?쒓? ?쇱쫹 ?? */
   .hangul-game { gap: 8px; }
+  .hangul-video-screen { gap: 10px; }
+  .hangul-video-lead { font-size: clamp(0.98rem, 1.8vw, 1.2rem); }
+  .hangul-origin-video { max-height: min(56dvh, 520px); }
+  .hangul-video-next { min-height: 48px; font-size: 1.12rem; padding: 10px 18px; }
   .hg-question { font-size: clamp(1.55rem, 2.8vw, 2rem); }
   .hg-slot { width: 76px; height: 76px; border-radius: 14px; }
   .hg-tile { width: 64px; height: 64px; font-size: 2rem; }
@@ -9032,6 +9112,13 @@ html:-webkit-full-screen .anthem-controls { margin-top: auto; }
     width: min(560px, calc(100% - 20px));
   }
 
+  .rhythm-stage-overlay > .rhythm-menu-card--songs {
+    flex: 0 0 auto;
+    width: min(980px, calc(100% - 72px));
+    margin: auto;
+    padding: clamp(18px, 3vh, 32px) clamp(18px, 2.6vw, 36px);
+  }
+
   .rhythm-menu-card,
   .rhythm-semachi-card {
     padding: 12px 14px;
@@ -9058,6 +9145,19 @@ html:-webkit-full-screen .anthem-controls { margin-top: auto; }
   .rhythm-menu-desc { margin-bottom: 10px; font-size: 0.92rem; }
   .rhythm-song-btn { padding: 12px 10px; font-size: 0.95rem; }
   .rhythm-song-icon { font-size: 1.5rem; margin-bottom: 4px; }
+  .rhythm-menu-card--songs .rhythm-menu-desc {
+    margin-bottom: clamp(14px, 2.4vh, 22px);
+    font-size: clamp(1rem, 1.8vw, 1.18rem);
+  }
+  .rhythm-menu-card--songs .rhythm-song-btn {
+    padding: clamp(18px, 3.2vh, 34px) 16px;
+    font-size: clamp(1.08rem, 2vw, 1.38rem);
+    min-height: clamp(140px, 22vh, 220px);
+  }
+  .rhythm-menu-card--songs .rhythm-song-icon {
+    font-size: clamp(2rem, 3.8vw, 2.9rem);
+    margin-bottom: 2px;
+  }
   .rhythm-level-btn { padding: 10px 12px; font-size: 0.9rem; }
 
   .rhythm-game {
@@ -9267,7 +9367,7 @@ html.is-desktop body {
   }
   .home-character {
     width: min(420px, 26vw);
-    transform: translateY(10%);
+    transform: translateY(26%);
   }
   .stage-node {
     width: min(200px, 18vmin, 20vw);

@@ -65,3 +65,18 @@ API 키를 설정하지 않고 이 bat 파일을 실행해도 프로그램은 �
 - 학생 이름은 AI로 보내지 않습니다 (s1, s2 … 로만 구분).
 - 개발자의 Gemini API 키가 든 `.env` 파일은 보안을 위해 제출하지 않았습니다.
   AI 기능을 사용해 보려면 위 [방법 A]의 순서대로 심사위원 본인의 무료 키를 발급해 `.env` 에 입력해 주세요.
+
+## 온라인 배포 (GitHub + Vercel)
+
+웹앱 그림·영상은 Vercel CDN으로, 생각친구·교사용 AI는 `/api` 함수로 올라갑니다.
+
+1. GitHub 저장소에 이 폴더를 푸시합니다.
+2. [Vercel](https://vercel.com/new)에서 그 저장소를 Import 합니다.
+3. Project Settings → Environment Variables 에 아래를 넣습니다.
+   ```
+   THINKING_FRIEND_PROVIDER=gemini
+   GEMINI_API_KEY=발급받은_키
+   GEMINI_MODEL=gemini-2.0-flash
+   ```
+4. 배포 주소는 `https://(프로젝트).vercel.app/app.html` 입니다.
+   `program/index.html` 의 `ONLINE_URL` 을 이 주소로 바꿔 두면 USB에서 실행 버튼이 온라인으로 연결됩니다.
