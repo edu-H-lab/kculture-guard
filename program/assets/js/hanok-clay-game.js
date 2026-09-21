@@ -206,7 +206,7 @@
     return _standaloneState;
   }
   function createDefaultState() {
-    return { phase: "game", complete: false, registered: false, houseName: "" };
+    return { phase: "game", complete: false, registered: false, houseName: "", clayPhase: 0 };
   }
 
   function escapeHtml(str) {
@@ -269,7 +269,7 @@
     }
     return _fbReady;
   }
-  function isSharedMode() { return false; }
+  function isSharedMode() { return initFirebase(); }
 
   function myBuilderCode() {
     const code = _ctx && _ctx.getState().code;
@@ -386,7 +386,7 @@
 
   /* ================= 4. 안내 캐릭터 (곰) ================= */
   function goblinSVG() {
-    return `<img src="assets/images/character/bear.webp" alt="곰" draggable="false" />`;
+    return `<img src="assets/images/character/bear.png" alt="곰" draggable="false" />`;
   }
 
   /* ================= 5. 아이소메트릭 한옥 씬 ================= */
@@ -690,13 +690,36 @@
     });
   }
 
-  function startPhase(i) {
+  function syncClayPhase(i) {
     phaseIdx = i;
+    const h = hanokState();
+    if (h) h.clayPhase = i;
+    if (_ctx && _ctx.saveProgress) _ctx.saveProgress();
+  }
+
+  function getPhaseCount() {
+    return PHASES.length;
+  }
+
+  function getPhaseIndex() {
+    const h = hanokState();
+    if (h && typeof h.clayPhase === "number") {
+      return Math.max(0, Math.min(h.clayPhase, PHASES.length - 1));
+    }
+    return Math.max(0, Math.min(phaseIdx, PHASES.length - 1));
+  }
+
+  function startPhase(i) {
+    syncClayPhase(i);
     setChip(i);
     showStory(i, () => PHASES[i].run(() => {
       setChip(i + 1);
-      if (i + 1 < PHASES.length) later(() => startPhase(i + 1), 1400);
-      else later(finale, 1200);
+      if (i + 1 < PHASES.length) {
+        syncClayPhase(i + 1);
+        later(() => startPhase(i + 1), 1400);
+      } else {
+        later(finale, 1200);
+      }
     }));
   }
 
@@ -1490,7 +1513,7 @@
     _appEl.innerHTML = _ctx.sceneTemplate("우리들의 한옥마을", `
       <div class="section-card hanok-game">
         <p class="hanok-msg" id="hanokVillageMsg">마을을 불러오는 중...</p>
-        <p class="hanok-learn">이 기기에서 지은 한옥을 눌러 구경하고 ❤️ 좋아요를 눌러 보세요! ${fbBadge()}</p>
+        <p class="hanok-learn">친구들이 지은 한옥을 눌러 구경하고 ❤️ 좋아요를 눌러 응원해 주세요! ${fbBadge()}</p>
         <div class="hanok-village-grid" id="hanokVillageGrid" style="--village-cols:${VILLAGE_COLS}"></div>
         <div class="hanok-village-actions">
           <button type="button" class="btn" id="hanokRebuildBtn">🔨 다시 짓기</button>
@@ -1498,7 +1521,7 @@
         <div class="hanok-village-detail hidden" id="hanokVillageDetail"></div>
       </div>
     `);
-    if (_ctx.setupNavigationAndHelp) _ctx.setupNavigationAndHelp("이 기기에 저장한 한옥을 구경해 보세요!");
+    if (_ctx.setupNavigationAndHelp) _ctx.setupNavigationAndHelp("우리들의 한옥마을에서 친구들의 집을 구경해 보세요!");
 
     document.getElementById("hanokRebuildBtn").onclick = () => {
       nextPhase("game");
@@ -1600,9 +1623,10 @@
     }
     root = host;
     root.innerHTML = layoutHTML();
-    setChip(0);
+    const startAt = getPhaseIndex();
+    setChip(startAt);
     if (_ctx) bindMission();
-    later(() => startPhase(0), 500);
+    later(() => startPhase(startAt), 500);
   }
 
   window.HanokGame = {
@@ -1616,10 +1640,19 @@
       /* 구버전 상태(phase:"story" 등)와의 호환: 게임 진행형 phase는 모두 game으로 */
       const h = hanokState();
       if (h.phase !== "game") h.phase = "game";
+      if (typeof h.clayPhase !== "number") h.clayPhase = 0;
       routeRender();
     },
     stop: stopAll,
-    createDefaultState
+    createDefaultState,
+    getPhaseCount,
+    getPhaseIndex,
+    setPhaseIndex(i) {
+      const h = hanokState();
+      if (!h) return;
+      h.clayPhase = Math.max(0, Math.min(i, PHASES.length - 1));
+      h.phase = "game";
+    }
   };
 
   /* standalone 실행: app.js 프레임워크가 없으면 스스로 부팅 (hanok-adventure.html) */

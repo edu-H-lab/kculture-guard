@@ -714,18 +714,8 @@
     goBoard();
   }
 
-  function seedReviewDemo(key, specs, seedVersion) {
-    if (!key || !Array.isArray(specs) || !specs.length) return;
-    const version = Number(seedVersion) || 1;
-    const existing = loadLocal();
-    const already = existing.some((item) =>
-      item.classKey === key && item.isReviewSeed && Number(item.seedVersion) === version
-    );
-    if (already) return;
-
-    const now = Date.now();
-    const starters = STARTERS.slice();
-    const catalogs = [
+  function reviewDemoCatalogs() {
+    return [
       {
         activityId: "stage1_a1",
         caption: "태극기를 만들었어요.",
@@ -771,6 +761,59 @@
         ]
       }
     ];
+  }
+
+  function expectedReviewSeedIds(key) {
+    const ids = new Set();
+    reviewDemoCatalogs().forEach((cat) => {
+      cat.files.forEach((_, fileIdx) => {
+        ids.add(`review_${key}_${cat.activityId}_${fileIdx + 1}`);
+      });
+    });
+    return ids;
+  }
+
+  function purgeObsoleteReviewSeeds(key, keepIds) {
+    const keep = keepIds instanceof Set ? keepIds : new Set(keepIds || []);
+    // 예전 형식(사진 없는 초기 3건 등) 명시 삭제
+    ["REVIEW_01", "REVIEW_02", "REVIEW_03"].forEach((suffix) => keep.delete(`review_${key}_${suffix}`));
+    const existing = loadLocal();
+    const orphans = existing.filter((item) =>
+      item && item.classKey === key && item.isReviewSeed && item.id && !keep.has(item.id)
+    );
+    const legacyIds = ["REVIEW_01", "REVIEW_02", "REVIEW_03"].map((suffix) => `review_${key}_${suffix}`);
+    legacyIds.forEach((id) => {
+      if (!orphans.some((item) => item.id === id)) orphans.push({ id, classKey: key, isReviewSeed: true });
+    });
+    if (!orphans.length) return;
+    const orphanIds = new Set(orphans.map((item) => item.id));
+    saveLocal(existing.filter((item) => !orphanIds.has(item.id)));
+    if (_appEl && classKey() === key) {
+      _works = (_works || []).filter((item) => !orphanIds.has(item.id));
+    }
+    const fire = db();
+    if (fire) {
+      orphanIds.forEach((id) => {
+        fire.collection(COLLECTION).doc(id).delete().catch(() => {});
+      });
+    }
+  }
+
+  function seedReviewDemo(key, specs, seedVersion) {
+    if (!key || !Array.isArray(specs) || !specs.length) return;
+    const version = Number(seedVersion) || 1;
+    const keepIds = expectedReviewSeedIds(key);
+    purgeObsoleteReviewSeeds(key, keepIds);
+
+    const existing = loadLocal();
+    const already = existing.some((item) =>
+      item.classKey === key && item.isReviewSeed && Number(item.seedVersion) === version
+    );
+    if (already) return;
+
+    const now = Date.now();
+    const starters = STARTERS.slice();
+    const catalogs = reviewDemoCatalogs();
 
     const roster = specs.slice().sort((a, b) => Number(a.number) - Number(b.number));
     const seeds = [];
@@ -831,7 +874,7 @@
 
     const fire = db();
     if (fire) {
-      // 예전 시드 문서는 조용히 덮어쓰고, 새 시드만 merge
+      // 새 시드만 merge — 예전 시드는 purgeObsoleteReviewSeeds에서 삭제
       seeds.forEach((work) => {
         fire.collection(COLLECTION).doc(work.id).set(work, { merge: true }).catch(() => {});
       });

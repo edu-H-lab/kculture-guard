@@ -10,7 +10,7 @@
 (function () {
   "use strict";
 
-  const HANOK_IMG_VER = "8";
+  const HANOK_IMG_VER = "7";
 
   const HANOK_SCENES = {
     map: "assets/hanok/hanok-03-map.png",
@@ -184,6 +184,23 @@
   const PLACE_IDS = HANOK_HOTSPOTS.map((h) => h.id);
   const DETAIL_IDS = ["maru", "room", "hanjiWindow", "ondol", "hwangtoWall", "giwaRoof", "dwitganInside"];
   const ANCHAE_DETAIL_IDS = ["maru", "room", "hanjiWindow", "ondol", "hwangtoWall", "giwaRoof"];
+
+  /* 「다음」 버튼용 탐방 순서: 지도 → 안채·세부 → 사랑채 → 부엌 → 마당 → 뒷간 */
+  const GUIDE_PATH = [
+    { scene: "map" },
+    { scene: "anchae", placeId: "anchae" },
+    { scene: "maru", detailId: "maru", from: "anchae" },
+    { scene: "room", detailId: "room", from: "anchae" },
+    { scene: "hanjiWindow", detailId: "hanjiWindow", from: "room" },
+    { scene: "ondol", detailId: "ondol", from: "room" },
+    { scene: "hwangtoWall", detailId: "hwangtoWall", from: "anchae" },
+    { scene: "giwaRoof", detailId: "giwaRoof", from: "anchae" },
+    { scene: "sarangchae", placeId: "sarangchae" },
+    { scene: "kitchen", placeId: "kitchen" },
+    { scene: "courtyard", placeId: "courtyard" },
+    { scene: "dwitgan", placeId: "dwitgan" },
+    { scene: "dwitganInside", detailId: "dwitganInside", from: "dwitgan" }
+  ];
   const TRANSITION_MS = 380;
 
   let _ctx = null;
@@ -222,6 +239,7 @@
       scene: "map",
       fromScene: null,
       building: false,
+      guideIndex: 0,
       completePopupShown: false,
       detailCompletePopupShown: false,
       visitedHanokPlaces: {
@@ -249,12 +267,59 @@
       if (typeof t.visitedHanokDetails[id] !== "boolean") t.visitedHanokDetails[id] = false;
     });
     if (!t.scene) t.scene = "map";
+    if (typeof t.guideIndex !== "number" || t.guideIndex < 0) t.guideIndex = 0;
+    if (t.guideIndex >= GUIDE_PATH.length) t.guideIndex = GUIDE_PATH.length - 1;
     return t;
   }
 
+  function getGuideLength() {
+    return GUIDE_PATH.length;
+  }
+
+  function getGuideIndex(tour) {
+    const t = tour || (_ctx ? tourState() : null);
+    if (!t) return 0;
+    if (typeof t.guideIndex === "number" && t.guideIndex >= 0) {
+      return Math.min(t.guideIndex, GUIDE_PATH.length - 1);
+    }
+    const scene = t.scene || "map";
+    const idx = GUIDE_PATH.findIndex((s) => s.scene === scene);
+    return idx < 0 ? 0 : idx;
+  }
+
+  function applyGuideStep(i, tour) {
+    const t = tour || (_ctx ? tourState() : null);
+    if (!t) return;
+    const next = Math.max(0, Math.min(i, GUIDE_PATH.length - 1));
+    const step = GUIDE_PATH[next];
+    if (!step) return;
+    t.building = false;
+    t.guideIndex = next;
+    t.scene = step.scene;
+    t.fromScene = step.from || null;
+
+    if (!t.visitedHanokPlaces) {
+      t.visitedHanokPlaces = {
+        anchae: false, sarangchae: false, kitchen: false, dwitgan: false, courtyard: false
+      };
+    }
+    if (!t.visitedHanokDetails) t.visitedHanokDetails = emptyDetails();
+
+    const markPlace = (id) => {
+      if (PLACE_IDS.includes(id)) t.visitedHanokPlaces[id] = true;
+    };
+    const markDet = (id) => {
+      if (DETAIL_IDS.includes(id)) t.visitedHanokDetails[id] = true;
+    };
+
+    if (step.placeId) markPlace(step.placeId);
+    if (step.detailId) markDet(step.detailId);
+    if (ANCHAE_DETAIL_IDS.includes(step.scene) || step.scene === "anchae") markPlace("anchae");
+    if (step.scene === "dwitgan" || step.scene === "dwitganInside") markPlace("dwitgan");
+  }
+
   function withVer(src) {
-    const path = String(src || "").replace(/\.(png|jpe?g)(\?[^#]*)?$/i, ".webp$2");
-    return `${path}?v=${HANOK_IMG_VER}`;
+    return `${src}?v=${HANOK_IMG_VER}`;
   }
 
   function sceneSrc(key) {
@@ -879,6 +944,11 @@
       if (opts.from) t.fromScene = opts.from;
       if (opts.placeId) markVisited(opts.placeId);
       if (opts.detailId) markDetail(opts.detailId);
+      // 지도로 돌아올 때는 가이드 인덱스를 초기화하지 않음
+      if (nextScene !== "map") {
+        const gi = GUIDE_PATH.findIndex((s) => s.scene === nextScene);
+        if (gi >= 0) t.guideIndex = gi;
+      }
       paint({ entering: true });
     };
     if (!scene) {
@@ -920,6 +990,10 @@
     },
     stop: stopAll,
     createDefaultState,
+    getGuideLength,
+    getGuideIndex,
+    applyGuideStep,
+    GUIDE_PATH,
     HANOK_SCENES,
     HANOK_HOTSPOTS,
     HANOK_DETAIL_SCENES,

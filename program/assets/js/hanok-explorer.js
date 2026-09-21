@@ -512,7 +512,7 @@
       playClick();
       setPhase("reflect");
       if (_ctx && typeof _ctx.beginValueReflection === "function") {
-        _ctx.beginValueReflection("stage2_a2");
+        _ctx.beginValueReflection("stage2_a2", { fromNext: true });
         return;
       }
       goPhase("reflect");

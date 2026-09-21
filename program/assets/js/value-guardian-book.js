@@ -13,12 +13,12 @@
   "use strict";
 
   const TRANSITION_MS = 420;
-  const HANOK_DEFAULT_IMAGE = "assets/hanok/hanok-01-exterior.webp";
-  const BOOK_IMG_VER = "2";
+  const HANOK_DEFAULT_IMAGE = "assets/hanok/hanok-01-exterior.png";
+  const BOOK_IMG_VER = "1";
   const BOOK_IMG = {
-    cover: `assets/value-book/value-book-cover.webp?v=${BOOK_IMG_VER}`,
-    page: `assets/value-book/value-book-page.webp?v=${BOOK_IMG_VER}`,
-    bookmark: `assets/value-book/value-book-bookmark.webp?v=${BOOK_IMG_VER}`
+    cover: `assets/value-book/value-book-cover.png?v=${BOOK_IMG_VER}`,
+    page: `assets/value-book/value-book-page.png?v=${BOOK_IMG_VER}`,
+    bookmark: `assets/value-book/value-book-bookmark.png?v=${BOOK_IMG_VER}`
   };
 
   const ACCENT_BY_ACTIVITY = {
@@ -79,31 +79,31 @@
       selectedElement: "ondol",
       selectedElementLabel: "온돌",
       valueLabel: "따뜻하게 지내는 지혜",
-      representativeImage: "assets/hanok/hanok-11-ondol.webp"
+      representativeImage: "assets/hanok/hanok-11-ondol.png"
     },
     maru: {
       selectedElement: "maru",
       selectedElementLabel: "마루",
       valueLabel: "자연과 어울리는 생활의 지혜",
-      representativeImage: "assets/hanok/hanok-08-maru.webp"
+      representativeImage: "assets/hanok/hanok-08-maru.png"
     },
     hanji: {
       selectedElement: "hanji",
       selectedElementLabel: "창호지",
       valueLabel: "빛을 부드럽게 담는 마음",
-      representativeImage: "assets/hanok/hanok-10-hanji-window.webp"
+      representativeImage: "assets/hanok/hanok-10-hanji-window.png"
     },
     nature: {
       selectedElement: "nature",
       selectedElementLabel: "나무·흙·돌",
       valueLabel: "자연과 어울리는 생활의 지혜",
-      representativeImage: "assets/hanok/hanok-12-hwangto-wall.webp"
+      representativeImage: "assets/hanok/hanok-12-hwangto-wall.png"
     },
     giwa: {
       selectedElement: "giwa",
       selectedElementLabel: "기와지붕",
       valueLabel: "아름다움을 지키는 마음",
-      representativeImage: "assets/hanok/hanok-13-giwa-roof.webp"
+      representativeImage: "assets/hanok/hanok-13-giwa-roof.png"
     }
   };
 
@@ -241,7 +241,8 @@
       summaryText: raw.summaryText || "",
       thinkFriend: raw.thinkFriend && typeof raw.thinkFriend === "object" ? raw.thinkFriend : null,
       status: raw.status || "",
-      createdAt: raw.createdAt || null
+      createdAt: raw.createdAt || null,
+      answerHistory: Array.isArray(raw.answerHistory) ? raw.answerHistory : []
     };
   }
 
@@ -300,8 +301,39 @@
     if (!next) return;
     const list = ensureRecords(st);
     const idx = list.findIndex((item) => item.activity === next.activity);
+    const stamp = next.createdAt || new Date().toISOString();
+    const entry = {
+      reflectionText: next.reflectionText || next.finalAnswer || "",
+      finalAnswer: next.finalAnswer || next.reflectionText || "",
+      finalSummary: next.finalSummary || "",
+      initialAnswer: next.initialAnswer || "",
+      valueLabel: next.valueLabel || "",
+      selectedElement: next.selectedElement || "",
+      selectedElementLabel: next.selectedElementLabel || "",
+      audioUrl: next.audioUrl || null,
+      createdAt: stamp
+    };
     if (idx >= 0) {
       const prev = list[idx];
+      let history = Array.isArray(prev.answerHistory) ? prev.answerHistory.slice() : [];
+      if (!history.length) {
+        const prevText = String(prev.finalAnswer || prev.reflectionText || "").trim();
+        if (prevText) {
+          history.push({
+            reflectionText: prev.reflectionText || prev.finalAnswer || "",
+            finalAnswer: prev.finalAnswer || prev.reflectionText || "",
+            finalSummary: prev.finalSummary || "",
+            initialAnswer: prev.initialAnswer || "",
+            valueLabel: prev.valueLabel || "",
+            selectedElement: prev.selectedElement || "",
+            selectedElementLabel: prev.selectedElementLabel || "",
+            audioUrl: prev.audioUrl || null,
+            createdAt: prev.createdAt || stamp
+          });
+        }
+      }
+      const newText = String(entry.finalAnswer || entry.reflectionText || "").trim();
+      if (newText) history.push(entry);
       list[idx] = {
         ...prev,
         ...next,
@@ -309,8 +341,8 @@
         photoUrl: null,
         responseType: next.responseType || prev.responseType || "",
         inputMode: next.inputMode || prev.inputMode || "",
-        reflectionText: next.reflectionText || prev.reflectionText || "",
-        finalAnswer: next.finalAnswer || prev.finalAnswer || "",
+        reflectionText: next.reflectionText || next.finalAnswer || prev.reflectionText || "",
+        finalAnswer: next.finalAnswer || next.reflectionText || prev.finalAnswer || "",
         finalSummary: next.finalSummary || prev.finalSummary || "",
         initialAnswer: next.initialAnswer || prev.initialAnswer || "",
         thinkingFriendTurns: (Array.isArray(next.thinkingFriendTurns) && next.thinkingFriendTurns.length)
@@ -323,9 +355,14 @@
         status: next.status || prev.status || "",
         valueLabel: next.valueLabel || prev.valueLabel || "",
         selectedElement: next.selectedElement || prev.selectedElement || "",
-        selectedElementLabel: next.selectedElementLabel || prev.selectedElementLabel || ""
+        selectedElementLabel: next.selectedElementLabel || prev.selectedElementLabel || "",
+        createdAt: stamp,
+        answerHistory: history
       };
-    } else list.push(next);
+    } else {
+      next.answerHistory = (entry.finalAnswer || entry.reflectionText) ? [entry] : [];
+      list.push(next);
+    }
   }
 
   function recordFromHanokExplorer(explorer) {
@@ -396,7 +433,7 @@
 
   function treasureSrc(file) {
     if (_ctx && typeof _ctx.treasureSrc === "function") return _ctx.treasureSrc(file);
-    return file ? String(`assets/images/treasures/${file}`).replace(/\.(png|jpe?g)(\?[^#]*)?$/i, ".webp$2") : "";
+    return file ? `assets/images/treasures/${file}` : "";
   }
 
   function treasureForRoute(route) {
@@ -720,12 +757,27 @@
     let right;
     if (complete) {
       const thought = displayAnswer(rec);
+      const history = Array.isArray(rec.answerHistory) ? rec.answerHistory : [];
+      const older = history.length > 1
+        ? history.slice(0, -1).map((h, i) => {
+          const text = String(h.finalAnswer || h.reflectionText || "").trim();
+          if (!text) return "";
+          return `<p class="vb-prose-line vb-answer-past sent-lines"><span class="vb-answer-past-tag">${i + 1}번째 기록</span>${escapeHtml(text)}</p>`;
+        }).filter(Boolean).join("")
+        : "";
+      const rerecord = isViewOnly()
+        ? ""
+        : `<div class="vb-page-actions"><button type="button" class="vb-mini-btn" id="vbRecordBtn">다시 기록하기</button></div>`;
       right = `
         ${questionBox}
         <div class="vb-answer">
           ${thought
             ? `<p class="vb-prose-line sent-lines">${escapeHtml(thought)}</p>`
             : `<p class="vb-empty-line">아직 쓴 생각이 없어요.</p>`}
+          ${older
+            ? `<div class="vb-answer-history"><p class="vb-answer-history-label">이전 기록</p>${older}</div>`
+            : ""}
+          ${rerecord}
         </div>
       `;
     } else {

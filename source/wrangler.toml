@@ -1,3 +1,0 @@
-# 프로젝트 전체를 배포할 때 실제 웹앱은 program/ 입니다.
-name = "kculture-guard"
-pages_build_output_dir = "program"

@@ -1,9 +1,6 @@
-function toWebp(path) {
-  return String(path || "").replace(/\.(png|jpe?g)(\?[^#]*)?$/i, ".webp$2");
-}
-const IMG = (name) => toWebp(`assets/images/${name}`);
-const BIBIMBAP_IMG = (name) => toWebp(`assets/images/bibimbap/${name}`);
-const HOLIDAY_IMG = (name) => toWebp(`assets/images/holiday/${name}?v=2`);
+  const IMG = (name) => `assets/images/${name}`;
+const BIBIMBAP_IMG = (name) => `assets/images/bibimbap/${name}`;
+const HOLIDAY_IMG = (name) => `assets/images/holiday/${name}?v=2`;
 
 /** 돌솥 위 레이어 쌓임 순서 (아래 → 위). 밥이 가장 아래, 고추장이 가장 위 */
 const BIBIMBAP_LAYER_ORDER = [
@@ -22,22 +19,22 @@ const BIBIMBAP_LAYER_FILES = {
   "sesame-oil": "layer-sesame.png",
   gochujang: "layer-gochujang.png"
 };
-const HANBOK_IMG = (name) => toWebp(`assets/images/hanbok/${name}`);
-const STAGE_IMG = (stageNum, file) => toWebp(`assets/images/stage${stageNum}/${file}?v=rev316`);
-const YUT_IMG = (name) => toWebp(`assets/images/yut/${name}`);
-const TG_IMG = (name) => toWebp(`assets/images/taegukgi/${name}`);
-const MONEY_IMG = (name) => toWebp(`assets/images/money/화폐/${name}`);
-const MONEY_POP_IMG = (name) => toWebp(`assets/images/money/${encodeURIComponent(name)}`);
-const MUGU_IMG = (name) => toWebp(`assets/images/mugunghwa/${encodeURIComponent(name)}`);
-const MUGU_PART_IMG = (name) => toWebp(`assets/images/mugunghwa/parts/${encodeURIComponent(name)}`);
-const CHAR_IMG = (name) => toWebp(`assets/images/character/${name}`);
-const ANTHEM_IMG = (name) => toWebp(`assets/images/anthem/${name}`);
-const DANCHEONG_IMG = (name) => toWebp(`assets/images/dancheong/${name}`);
+const HANBOK_IMG = (name) => `assets/images/hanbok/${name}`;
+const STAGE_IMG = (stageNum, file) => `assets/images/stage${stageNum}/${file}?v=rev316`;
+const YUT_IMG = (name) => `assets/images/yut/${name}`;
+const TG_IMG = (name) => `assets/images/taegukgi/${name}`;
+const MONEY_IMG = (name) => `assets/images/money/화폐/${name}`;
+const MONEY_POP_IMG = (name) => `assets/images/money/${encodeURIComponent(name)}`;
+const MUGU_IMG = (name) => `assets/images/mugunghwa/${encodeURIComponent(name)}`;
+const MUGU_PART_IMG = (name) => `assets/images/mugunghwa/parts/${encodeURIComponent(name)}`;
+const CHAR_IMG = (name) => `assets/images/character/${name}`;
+const ANTHEM_IMG = (name) => `assets/images/anthem/${name}`;
+const DANCHEONG_IMG = (name) => `assets/images/dancheong/${name}`;
 const SND = (name) => `assets/sounds/${name}`;
 const INTRO_VIDEO = "assets/videos/intro/intro2.mp4";
 const HANGUL_ORIGIN_VIDEO = "assets/videos/hangul/hangul-origin.mp4";
-const DDAKJI_VIDEO = (file) => toWebp(`assets/images/ddakji/${encodeURIComponent(file)}`);
-const TREASURE_IMG = (name) => toWebp(`assets/images/treasures/${name}`);
+const DDAKJI_VIDEO = (file) => `assets/images/ddakji/${encodeURIComponent(file)}`;
+const TREASURE_IMG = (name) => `assets/images/treasures/${name}`;
 
 /** 멀티미디어_교육자료_목록.xlsx 비고(출처 등). 확보 사진만 표시하고 개발 자료는 넣지 않음. */
 const PHOTO_SOURCE = {
@@ -223,7 +220,7 @@ const STAGE_MENUS = {
   }
 };
 
-const QUESTION_IMG = (name) => toWebp(`assets/images/question/${name}?v=1`);
+const QUESTION_IMG = (name) => `assets/images/question/${name}?v=1`;
 
 /** 활동 시작 직전 탐구 질문 (정답 입력 없음 — 활동 속에서 스스로 발견) */
 const activityQuestions = {
@@ -848,7 +845,7 @@ function getSavedProgressByAccountId(accountId) {
 /** 디지털연구대회 심사용 가상 학급 — 교사 대시보드와 학생 체험을 바로 볼 수 있게 준비 */
 const REVIEW_DEMO = {
   classCode: "REVIEW",
-  seedVersion: 16,
+  seedVersion: 15,
   playerNumber: 1,
   playerName: "수호",
   onlineNumbers: [1, 2, 3]
@@ -1382,7 +1379,7 @@ function activityAccessHTML(classroom) {
       const on = access ? !!access[act.route] : true;
       return `
         <li class="access-row${on ? " is-on" : ""}">
-          <img src="${STAGE_IMG(Number(stageKey), act.image)}" alt="" loading="lazy" decoding="async" />
+          <img src="${STAGE_IMG(Number(stageKey), act.image)}" alt="" />
           <span class="access-label">${act.label}</span>
           <button type="button" class="access-toggle" data-access-route="${act.route}" aria-pressed="${on}" aria-label="${act.label} ${on ? "닫기" : "열기"}">
             <span class="access-knob"></span><span class="access-text">${on ? "열림" : "닫힘"}</span>
@@ -2212,7 +2209,7 @@ function renderActivityQuestion(route) {
   const bg = stageNum ? IMG(`stage${stageNum}-bg.png`) : IMG("stage1-bg.png");
   const card = data.image
     ? `<div class="inquiry-card inquiry-card--image">
-         <img class="inquiry-card-img" src="${QUESTION_IMG(data.image)}" alt="${question.replace(/<br>/g, " ")}" loading="lazy" decoding="async" />
+         <img class="inquiry-card-img" src="${QUESTION_IMG(data.image)}" alt="${question.replace(/<br>/g, " ")}" />
        </div>`
     : `<div class="inquiry-card">
          <p class="inquiry-kicker">오늘의 탐구 질문</p>
@@ -2417,59 +2414,142 @@ function activityNavInfo() {
   }
 
   if (cur === "stage2_a2") {
+    // 인트로 → 탐방(장소 순서) → 만들기(과정 순서) → 이후(비교 등)
+    const tourLen = (window.HanokTour && typeof window.HanokTour.getGuideLength === "function")
+      ? window.HanokTour.getGuideLength()
+      : 13;
+    const buildLen = (window.HanokGame && typeof window.HanokGame.getPhaseCount === "function")
+      ? window.HanokGame.getPhaseCount()
+      : 6;
+    const stepsLen = 2 + tourLen + buildLen + 1; // exterior, gate, tour..., build..., after
+    const e = state.hanokExplorer || {};
+    const phase = e.phase || "exterior";
+    let index = 0;
+    if (phase === "exterior") index = 0;
+    else if (phase === "gate") index = 1;
+    else if (phase === "exploring") {
+      const gi = (window.HanokTour && typeof window.HanokTour.getGuideIndex === "function")
+        ? window.HanokTour.getGuideIndex(state.hanokTour)
+        : (state.hanokTour?.guideIndex || 0);
+      index = 2 + Math.max(0, Math.min(gi, tourLen - 1));
+    } else if (phase === "building") {
+      const bi = state.hanok?.clayPhase ?? (
+        (window.HanokGame && typeof window.HanokGame.getPhaseIndex === "function")
+          ? window.HanokGame.getPhaseIndex()
+          : 0
+      );
+      index = 2 + tourLen + Math.max(0, Math.min(bi, buildLen - 1));
+    } else {
+      index = stepsLen - 1; // bridge·compare·choose·reflect·journal·done
+    }
     return {
-      index: 0,
-      length: 1,
-      apply() {}
+      index,
+      length: stepsLen,
+      apply(i) {
+        const nextIdx = Math.max(0, Math.min(i, stepsLen - 1));
+        if (!state.hanokExplorer && window.HanokExplorer) {
+          state.hanokExplorer = window.HanokExplorer.createDefaultState();
+        }
+        if (!state.hanokTour && window.HanokTour) {
+          state.hanokTour = window.HanokTour.createDefaultState();
+        }
+        if (!state.hanok && window.HanokGame) {
+          state.hanok = window.HanokGame.createDefaultState();
+        }
+        if (!state.hanokExplorer) return;
+
+        if (nextIdx === 0) {
+          state.hanokExplorer.phase = "exterior";
+          if (state.hanokTour) state.hanokTour.building = false;
+          return;
+        }
+        if (nextIdx === 1) {
+          state.hanokExplorer.phase = "gate";
+          if (state.hanokTour) state.hanokTour.building = false;
+          return;
+        }
+        if (nextIdx < 2 + tourLen) {
+          const guideIdx = nextIdx - 2;
+          state.hanokExplorer.phase = "exploring";
+          if (state.hanokTour) state.hanokTour.building = false;
+          if (window.HanokTour && typeof window.HanokTour.applyGuideStep === "function") {
+            window.HanokTour.applyGuideStep(guideIdx, state.hanokTour);
+          } else if (state.hanokTour) {
+            state.hanokTour.guideIndex = guideIdx;
+          }
+          return;
+        }
+        if (nextIdx < 2 + tourLen + buildLen) {
+          const buildIdx = nextIdx - 2 - tourLen;
+          state.hanokExplorer.phase = "building";
+          if (state.hanokTour) {
+            state.hanokTour.building = true;
+            state.hanokTour.guideIndex = tourLen - 1;
+          }
+          if (!state.hanok && window.HanokGame) {
+            state.hanok = window.HanokGame.createDefaultState();
+          }
+          if (state.hanok) {
+            state.hanok.clayPhase = buildIdx;
+            state.hanok.phase = "game";
+          }
+          return;
+        }
+        // after: 만들기 다음 — 비교(bridge)로
+        if (state.hanokTour) state.hanokTour.building = true;
+        state.hanokExplorer.phase = "bridge";
+      }
     };
   }
 
   if (cur === "stage2_a3") {
+    // 완료 여부와 상관없이 pick → 문양1 → 문양2 → 자랑 → 갤러리 이동 가능
     const dc = state.dancheong || createDefaultDancheongState();
-    const allColored = (dc.completed || []).length >= DANCHEONG_PATTERNS.length;
+    const patternCount = DANCHEONG_PATTERNS.length;
+    const length = 1 + patternCount + 2; // pick + patterns + share + gallery
     let index = 0;
     if (dc.phase === "color") {
       const p = DANCHEONG_PATTERNS.findIndex((x) => x.id === dc.currentPattern);
       index = 1 + Math.max(0, p);
-    } else if (allColored && dc.phase === "share") index = 3;
-    else if (allColored && dc.phase === "gallery") index = 4;
-    else if (dc.phase === "share" || dc.phase === "gallery") index = 0;
+    } else if (dc.phase === "share") index = 1 + patternCount;
+    else if (dc.phase === "gallery") index = 1 + patternCount + 1;
+    else index = 0;
     return {
       index,
-      length: allColored ? 5 : 3,
+      length,
       apply(i) {
         if (!state.dancheong) state.dancheong = createDefaultDancheongState();
-        const done = (state.dancheong.completed || []).length >= DANCHEONG_PATTERNS.length;
-        if (i <= 0 || ((i === 3 || i >= 4) && !done)) {
+        const nextIdx = Math.max(0, Math.min(i, length - 1));
+        if (nextIdx <= 0) {
           state.dancheong.phase = "pick";
           state.dancheong.currentPattern = null;
           return;
         }
-        if (i === 3) {
+        if (nextIdx <= patternCount) {
+          state.dancheong.phase = "color";
+          state.dancheong.currentPattern = DANCHEONG_PATTERNS[nextIdx - 1].id;
+          return;
+        }
+        if (nextIdx === 1 + patternCount) {
           state.dancheong.phase = "share";
           return;
         }
-        if (i >= 4) {
-          state.dancheong.phase = done && state.dancheong.registered ? "gallery" : "share";
-          return;
-        }
-        state.dancheong.phase = "color";
-        state.dancheong.currentPattern = DANCHEONG_PATTERNS[i - 1].id;
+        state.dancheong.phase = "gallery";
       }
     };
   }
 
   if (cur === "stage3_a1") {
+    // 옷입히기 → 자랑 → 갤러리 (완료·등록 여부와 상관없이 이동)
     const hb = ensureHanbokState();
-    const dressed = hanbokOutfitsComplete(hb.outfits);
     let index = 0;
     if (hb.phase === "share") index = 1;
     else if (hb.phase === "gallery") index = 2;
     return {
       index,
-      length: hb.phase === "dress" ? 1 : (hb.registered && dressed ? 3 : 2),
+      length: 3,
       apply(i) {
-        if (i <= 0 || !hanbokOutfitsComplete(hb.outfits)) {
+        if (i <= 0) {
           hb.phase = "dress";
           return;
         }
@@ -2477,7 +2557,19 @@ function activityNavInfo() {
           hb.phase = "share";
           return;
         }
-        hb.phase = hb.registered ? "gallery" : "share";
+        hb.phase = "gallery";
+      }
+    };
+  }
+
+  if (cur === "stage3_a2") {
+    // 비빔밥: 요리 화면 한 단계 (다음 → 수호책)
+    return {
+      index: 0,
+      length: 1,
+      apply() {
+        ensureFoodState();
+        state.food.screen = "cook";
       }
     };
   }
@@ -2650,18 +2742,7 @@ function activityGoNav(dir) {
   const next = info.index + dir;
   if (next < 0) return false;
   if (next >= info.length) {
-    if (dir === 1 && tryCompleteCurrentActivityMission()) {
-      updateGlobalNextButton();
-      return true;
-    }
-    if (state.current === "stage4_a4" && dir === 1) {
-      if (!isMissionRouteCompleted("stage4_a4")) {
-        completeTalchumMission();
-        updateGlobalNextButton();
-        return true;
-      }
-      return false;
-    }
+    // 끝에서는 goToNextScreen이 수호책·다음 활동을 처리한다. 여기서 미션완료로 가로채지 않는다.
     return false;
   }
   // 탈춤 따라하기 중에는 동작만 바꾸고 카메라/인식은 유지
@@ -2777,7 +2858,15 @@ function updateGlobalNextButton() {
   const btn = document.getElementById("globalNextBtn");
   if (!btn) return;
   const loggedIn = !!state.loggedIn;
-  if (state.current === "value_book" || state.current === "teacher_student_book" || state.current === "classroom_extension" || state.valueReflection?.active || state.valueReflection?.pending) {
+  // 활동 「다음」으로 펼친 내 수호책에서는 「다음」으로 다음 활동까지 이어 간다
+  const bookFromActivity = state.current === "value_book" && !!state.valueBookFromRoute;
+  if (!bookFromActivity
+    && (state.current === "value_book" || state.current === "teacher_student_book" || state.current === "classroom_extension")) {
+    btn.hidden = true;
+    return;
+  }
+  // 수호책 질문 중에도 「다음」표시 (이미 기록이 있거나 건너뛸 때 사용)
+  if (state.valueReflection?.pending && !state.valueReflection?.active) {
     btn.hidden = true;
     return;
   }
@@ -2850,48 +2939,92 @@ function getNextActivityRoute() {
 function canGoNext() {
   if (!state.loggedIn) return false;
   if (isActivityIntroVisible()) return false;
+  // 수호책 질문 화면에서도 「다음」표시·이동 가능
+  if (state.valueReflection?.active) {
+    return true;
+  }
   const info = activityNavInfo();
   if (info) {
-    // 모든 활동은 끝까지 풀지 않아도(정답을 못 맞춰도) 「다음」으로 자유롭게 넘어갈 수 있다.
+    // 완료·기록 여부와 상관없이 내부 단계 또는 다음 활동으로 이동 가능
     if (info.index < info.length - 1) return true;
-    const route = normalizeMissionRoute(state.current);
-    if (!isMissionRouteCompleted(route)) return true;
     if (getNextActivityRoute() != null) return true;
+    // 마지막 활동이어도 수호책 질문을 열 수 있음
+    if (isActivityScreen()) return true;
     return false;
   }
   return getNextActivityRoute() != null;
+}
+
+/* 이미 기록이 있는 활동: 내가 쓴 수호책 페이지를 펼쳐 준다.
+ * 수호책에서 「다음」을 누르면 다음 활동으로 이어진다. */
+function openValueBookForActivity(route) {
+  const r = normalizeMissionRoute(route || state.current);
+  const activity = activityKeyForRoute(r);
+  if (!activity || !window.ValueGuardianBook || typeof window.ValueGuardianBook.openActivityPage !== "function") {
+    return false;
+  }
+  stopActiveActivityMedia();
+  pauseValueReflection();
+  window.ValueGuardianBook.openActivityPage(state, activity, STAGE_MENUS);
+  state.valueBookFromRoute = r;
+  state.current = "value_book";
+  render();
+  return true;
+}
+
+function leaveValueReflectionToNext() {
+  const savedRoute = normalizeMissionRoute(state.valueReflection?.route || state.current);
+  if (window.ValueReflectionFlow) window.ValueReflectionFlow.stop();
+  pauseValueReflection();
+  stopActiveActivityMedia();
+  const next = getNextActivityRouteFrom(savedRoute) || "main";
+  if (/^stage\d+_a\d+$/.test(next)) resetActivityState(next);
+  state.current = next;
+  render();
 }
 
 function goToNextScreen() {
   if (!canGoNext()) return;
   playSound("click.mp3");
 
-  if (state.valueReflection?.active) return;
-
-  const info = activityNavInfo();
-  const atActivityEnd = !info || info.index >= info.length - 1;
-  const currentRoute = normalizeMissionRoute(state.current);
-  // 활동 중간 단계에서는 가치수호록을 열지 않고, 내부 「다음」만 진행한다.
-  // 한복은 옷입히기를 안 해도 「다음」으로 수호록(가치수호록)을 연다.
-  if (atActivityEnd && isActivityScreen()) {
-    const openHanbokBook = currentRoute === "stage3_a1" && !hasCompleteValueRecord(currentRoute);
-    if (needsValueReflection(currentRoute) || openHanbokBook) {
-      beginValueReflection(currentRoute, { fromNext: true });
-      return;
-    }
-  }
-
-  if (info && info.index >= info.length - 1 && tryCompleteCurrentActivityMission()) {
-    updateGlobalNextButton();
+  // 수호책 질문 중 「다음」→ 다음 활동 (저장 전후 모두)
+  if (state.valueReflection?.active) {
+    leaveValueReflectionToNext();
     return;
   }
 
-  if (tryInternalNext()) return;
+  // 활동 「다음」으로 펼친 내 수호책 → 다음 활동
+  if (state.current === "value_book" && state.valueBookFromRoute) {
+    const from = state.valueBookFromRoute;
+    state.valueBookFromRoute = null;
+    stopActiveActivityMedia();
+    const nextFromBook = getNextActivityRouteFrom(from) || "main";
+    if (/^stage\d+_a\d+$/.test(nextFromBook)) resetActivityState(nextFromBook);
+    state.current = nextFromBook;
+    render();
+    return;
+  }
 
+  const info = activityNavInfo();
+  const currentRoute = normalizeMissionRoute(state.current);
+
+  // 1) 활동 내부 단계가 남아 있으면 무조건 한 단계만 전진 (완료·기록 무시)
+  if (info && info.index < info.length - 1) {
+    if (tryInternalNext()) return;
+  }
+
+  // 2) 활동 마지막: 기록이 있으면 내가 쓴 수호책 페이지를, 없으면 수호책 질문을 연다
+  if (isActivityScreen() && (!info || info.index >= info.length - 1)) {
+    if (hasCompleteValueRecord(currentRoute)) {
+      if (openValueBookForActivity(currentRoute)) return;
+    }
+    if (beginValueReflection(currentRoute, { fromNext: true, force: true })) return;
+  }
+
+  // 3) 수호책을 열 수 없으면 다음 활동으로
   stopActiveActivityMedia();
   const next = getNextActivityRoute();
   if (!next) return;
-  // 다음 활동으로 넘어갈 때도 항상 그 활동의 처음부터 시작한다.
   if (/^stage\d+_a\d+$/.test(next)) resetActivityState(next);
   state.current = next;
   render();
@@ -3147,18 +3280,6 @@ function isActivityMissionReady(route) {
   return false;
 }
 
-function tryCompleteCurrentActivityMission() {
-  if (!state.loggedIn || !isActivityScreen()) return false;
-  if (state.valueReflection?.active) return false;
-  if (document.getElementById("missionClearOverlay")) return false;
-  const route = normalizeMissionRoute(state.current);
-  if (!MISSION_TREASURES[route]) return false;
-  if (isMissionRouteCompleted(route)) return false;
-  // 활동을 끝까지 풀지 않았어도, 수호책 기록을 마치면 보물을 받을 수 있다.
-  requestMissionComplete(route);
-  return true;
-}
-
 function bindMissionCompleteBtn(route, activityReady, _notReadyMsg, onFirstComplete) {
   if (!activityReady) return;
   const missionRoute = normalizeMissionRoute(route);
@@ -3170,12 +3291,9 @@ function requestMissionComplete(route, onFirstComplete) {
   const missionRoute = normalizeMissionRoute(route);
   if (isMissionRouteCompleted(missionRoute)) return false;
   if (onFirstComplete) onFirstComplete();
-  if (window.ValueReflectionFlow && !hasCompleteValueRecord(missionRoute)) {
-    beginValueReflection(missionRoute, { render: false });
-    if (_renderLock === 0) render();
-    return true;
-  }
-  return completeMission(missionRoute);
+  // 모든 활동 공통: 활동을 마쳐도 여기서 화면을 가로채거나 보물을 주지 않는다.
+  // 「다음」 → 수호책 질문 → 저장(onReflectionSaved)에서 보물을 준다.
+  return false;
 }
 
 function completeMission(missionKey) {
@@ -3215,12 +3333,15 @@ function needsValueReflection(route) {
   const r = normalizeMissionRoute(route);
   if (!r) return false;
   if (state.valueReflection && state.valueReflection.step === "saved") return false;
-  if (hasCompleteValueRecord(r)) return false;
+  // 기록 완료 여부와 상관없이 「다음」에서 다시 답할 수 있다.
   if (r === "stage2_a2") {
-    const e = state.hanokExplorer;
-    if (e && !e.journalSaved && (e.phase === "reflect" || e.phase === "journal")) return true;
+    const phase = state.hanokExplorer?.phase || "exterior";
+    // 탐방·만들기 중에는 수호책을 열지 않는다. 만들기 이후(비교·선택 등) 「다음」에서 연다.
+    if (phase === "exterior" || phase === "gate" || phase === "exploring" || phase === "building") {
+      return false;
+    }
+    return true;
   }
-  // 활동을 끝까지 풀었는지와 상관없이, 마지막 장면에 도달하면 수호책 질문을 연다.
   return true;
 }
 
@@ -3240,13 +3361,21 @@ function beginValueReflection(route, opts) {
   const r = normalizeMissionRoute(route || state.current);
   const activity = activityKeyForRoute(r);
   if (!activity) return false;
-  if (hasCompleteValueRecord(r) && !(state.valueReflection && state.valueReflection.step === "saved") && !opts.force) return false;
+  // 「다음」으로 열 때(fromNext/force)는 이미 기록이 있어도 새 답변을 받는다.
+  const allowAgain = !!(opts.force || opts.fromNext === true);
+  if (hasCompleteValueRecord(r) && !(state.valueReflection && state.valueReflection.step === "saved") && !allowAgain) {
+    return false;
+  }
   // 「이전」으로 활동을 다시 본 뒤에는, 「다음」으로 명시적으로 열 때만 수호록을 재개한다.
   if (state.valueReflection?.dismissedByBack && !opts.force && opts.fromNext !== true) {
     return false;
   }
   const existing = state.valueReflection;
-  const sameDraft = existing && existing.activity === activity && existing.status !== "complete" && existing.step !== "saved";
+  const sameDraft = existing
+    && existing.activity === activity
+    && existing.status !== "complete"
+    && existing.step !== "saved"
+    && !allowAgain;
   if (sameDraft) {
     existing.active = true;
     existing.pending = false;
@@ -3315,10 +3444,12 @@ function renderValueReflectionFlow() {
       } catch (_) {}
     },
     openValueBook: (activity) => {
+      const fromRoute = normalizeMissionRoute(state.valueReflection?.route || state.current);
       pauseValueReflection();
       if (window.ValueGuardianBook && typeof window.ValueGuardianBook.openActivityPage === "function") {
         window.ValueGuardianBook.openActivityPage(state, activity, STAGE_MENUS);
       }
+      if (fromRoute && MISSION_TREASURES[fromRoute]) state.valueBookFromRoute = fromRoute;
       state.current = "value_book";
       render();
     },
@@ -3469,6 +3600,7 @@ function renderScreen() {
   if (state.current !== "stage2_a3") stopDancheongGallerySync();
   if (state.current !== "stage3_a1") stopHanbokGallerySync();
   if (state.current !== "value_book" && state.current !== "teacher_student_book" && window.ValueGuardianBook) window.ValueGuardianBook.stop();
+  if (state.current !== "value_book") state.valueBookFromRoute = null;
   if (state.current !== "classroom_extension" && window.ClassroomExtension) window.ClassroomExtension.stop();
   syncActivityIntroGate();
   if (state.valueReflection?.active) {
@@ -4221,7 +4353,7 @@ function renderValueBook() {
       skipActivityIntro = true;
       lastActivityIntroKey = activityBaseRoute(route);
       state.current = route;
-      beginValueReflection(route);
+      beginValueReflection(route, { force: true, fromNext: true });
     }
   });
 }
@@ -4261,7 +4393,7 @@ function renderTreasureAlbum() {
       return `
         <button type="button" class="treasure-card treasure-card--owned" data-route="${entry.route}" data-treasure-key="${entry.key}" aria-label="${entry.name} — ${entry.missionLabel} 미션">
           <div class="treasure-card-frame">
-            <img src="${TREASURE_IMG(entry.image)}" alt="${entry.name}" loading="lazy" decoding="async" />
+            <img src="${TREASURE_IMG(entry.image)}" alt="${entry.name}" loading="lazy" />
             <span class="treasure-card-badge">✨</span>
           </div>
           <span class="treasure-card-name">${entry.name}</span>
@@ -4272,7 +4404,7 @@ function renderTreasureAlbum() {
     return `
       <button type="button" class="treasure-card treasure-card--locked" data-route="${entry.route}" aria-label="${entry.missionLabel} 미션으로 가서 되찾기">
         <div class="treasure-card-frame">
-          <img class="treasure-card-silhouette" src="${TREASURE_IMG(entry.image)}" alt="" loading="lazy" decoding="async" />
+          <img class="treasure-card-silhouette" src="${TREASURE_IMG(entry.image)}" alt="" loading="lazy" />
         </div>
         <span class="treasure-card-name">${entry.missionLabel}</span>
         <span class="treasure-card-mission">눌러서 미션 하러 가기</span>
@@ -4358,7 +4490,7 @@ function renderStageActivityMenu(stageNum) {
     const locked = !isActivityOpenForStudent(act.route);
     return `
     <button type="button" class="activity-picker${locked ? " is-locked" : ""}" data-go="${act.route}"${locked ? ` aria-label="${act.label} (아직 열리지 않았어요)"` : ""}>
-      <img class="activity-picker-img" src="${STAGE_IMG(stageNum, act.image)}" alt="${act.label}" loading="lazy" decoding="async" />
+      <img class="activity-picker-img" src="${STAGE_IMG(stageNum, act.image)}" alt="${act.label}" />
       <span class="activity-picker-label">${act.label}</span>
       ${locked ? `<span class="activity-picker-lock" aria-hidden="true">🔒</span>` : ""}
     </button>
@@ -7001,10 +7133,7 @@ function moneyApplyNavStep(m, index) {
     return;
   }
   // 퀴즈 화면으로만 이동. 보물/완료는 moneyQuizComplete에서만 처리한다.
-  if (state.solved?.money) {
-    m.phase = "done";
-    return;
-  }
+  // (이미 풀었더라도 「다음」으로 퀴즈 화면에 다시 들어갈 수 있다)
   m.phase = "quiz";
   if (!Array.isArray(m.quizQueue) || !m.quizQueue.length) {
     m.quizQueue = MONEY_QUIZZES.map((_, q) => q);
@@ -7526,7 +7655,7 @@ const HANGUL_ASSET_SET = new Set([
   "ㄱ", "ㄴ", "ㄹ", "ㅁ", "ㅂ", "ㅅ", "ㅇ", "ㅊ", "ㅌ", "ㅎ",
   "ㅏ", "ㅐ", "ㅓ", "ㅗ", "ㅘ", "ㅜ", "ㅠ", "ㅡ", "ㅣ"
 ]);
-const HANGUL_IMG = (name) => toWebp(`assets/images/hangul/${name}`);
+const HANGUL_IMG = (name) => `assets/images/hangul/${name}`;
 const HG_VOWELS = new Set(["ㅏ", "ㅐ", "ㅑ", "ㅒ", "ㅓ", "ㅔ", "ㅕ", "ㅖ", "ㅗ", "ㅘ", "ㅙ", "ㅚ", "ㅛ", "ㅜ", "ㅝ", "ㅞ", "ㅟ", "ㅠ", "ㅡ", "ㅢ", "ㅣ"]);
 /** 초성 오른쪽(옆)에 오는 모음 — ㅏ·ㅓ 계열·ㅣ. 나머지(ㅗ·ㅜ·ㅡ 계열)는 초성 아래 */
 const HG_JUNG_BESIDE = new Set(["ㅏ", "ㅐ", "ㅑ", "ㅒ", "ㅓ", "ㅔ", "ㅕ", "ㅖ", "ㅣ"]);
@@ -7754,14 +7883,19 @@ function renderStage2Act2() {
     sceneTemplate,
     setupNavigationAndHelp,
     bindMissionCompleteBtn: (route, activityReady, msg, onFirstComplete) => {
-      if (activityReady && window.HanokExplorer && !state.hanokExplorer?.journalSaved) {
-        const phase = state.hanokExplorer.phase || "exterior";
-        if (phase === "building" || phase === "exploring") {
-          state.hanokExplorer.phase = "bridge";
-          if (state.hanokTour) state.hanokTour.building = true;
-          saveProgress();
-          render();
-        }
+      // 이번 세션에서 한옥 만들기를 끝냈을 때만 비교 단계로 넘어간다.
+      // (심사용처럼 미션이 이미 완료된 계정에서 만들기 화면을 건너뛰지 않도록)
+      if (
+        activityReady
+        && window.HanokExplorer
+        && !state.hanokExplorer?.journalSaved
+        && state.hanokExplorer?.phase === "building"
+        && state.hanok?.complete
+      ) {
+        state.hanokExplorer.phase = "bridge";
+        if (state.hanokTour) state.hanokTour.building = true;
+        saveProgress();
+        render();
         return;
       }
       bindMissionCompleteBtn(route, activityReady, msg, onFirstComplete);
@@ -7792,9 +7926,8 @@ function renderStage2Act2() {
 
   if (window.HanokExplorer && ["reflect", "journal"].includes(state.hanokExplorer?.phase)
       && !state.hanokExplorer?.journalSaved
-      && !hasCompleteValueRecord("stage2_a2")
       && window.ValueReflectionFlow) {
-    beginValueReflection("stage2_a2", { render: false });
+    beginValueReflection("stage2_a2", { render: false, fromNext: true, force: true });
     renderValueReflectionFlow();
     return;
   }
@@ -8686,7 +8819,7 @@ function hanbokTrayItemHTML(c) {
       data-id="${c.id}" data-doll="${c.doll}" data-slot="${c.slot}"
       data-layer="${c.layer}" data-name="${c.name}"
       aria-label="${c.name}">
-      <img src="${HANBOK_IMG(c.icon)}" alt="${c.name}" loading="lazy" decoding="async" />
+      <img src="${HANBOK_IMG(c.icon)}" alt="${c.name}" />
     </div>
   `;
 }
@@ -9457,14 +9590,14 @@ function renderBibimbapCook() {
     <div class="ingredient-item" draggable="true"
       data-key="${ing.key}" data-name="${ing.name}" data-msg="${ing.msg}"
       data-img="${ing.img}">
-      <img src="${BIBIMBAP_IMG(ing.img)}" alt="${ing.name}" loading="lazy" decoding="async" />
+      <img src="${BIBIMBAP_IMG(ing.img)}" alt="${ing.name}" />
     </div>
   `).join("");
   const trayRow2 = ingredients.slice(5).map((ing) => `
     <div class="ingredient-item" draggable="true"
       data-key="${ing.key}" data-name="${ing.name}" data-msg="${ing.msg}"
       data-img="${ing.img}">
-      <img src="${BIBIMBAP_IMG(ing.img)}" alt="${ing.name}" loading="lazy" decoding="async" />
+      <img src="${BIBIMBAP_IMG(ing.img)}" alt="${ing.name}" />
     </div>
   `).join("");
 
@@ -10994,7 +11127,7 @@ function renderStage4Act1() {
         const taken = usedTokens.has(id);
         const t = YUT_TOKENS[id];
         return `<button type="button" class="yut-token-opt yutOnlinePickBtn" data-token="${id}" ${(!myPickTurn || taken) ? "disabled" : ""}>
-          <img src="${YUT_IMG(t.file)}" alt="${t.name} 말" loading="lazy" decoding="async">
+          <img src="${YUT_IMG(t.file)}" alt="${t.name} 말">
           <span>${t.name}${taken ? " 선택됨" : ""}</span>
         </button>`;
       }).join("")
@@ -11874,7 +12007,7 @@ const TALCHUM_MOVES = [
   { key: "hwangso", name: "황소걸음", desc: "한 발을 반대쪽 무릎에 붙이기", detect: tcDetectHwangso },
   { key: "oesawi", name: "외사위", desc: "한 다리 들고 한 팔 머리 위로", detect: tcDetectOesawi }
 ];
-const TC_VIDEO = (name) => toWebp(`assets/images/talchum/${name}`);
+const TC_VIDEO = (name) => `assets/images/talchum/${name}`;
 const TC_MOVE_VIDEOS = {
   bulleum: "bulim.mp4",
   gogaejabi: "gogaejabi.mp4",
@@ -12061,7 +12194,7 @@ function talchumWearMaskId() {
 function promptTalchumWearSelect() {
   const picks = TALCHUM_MASKS.map((mask) => `
     <button type="button" class="tc-wear-pick-btn" data-wear-id="${mask.id}">
-      <img src="${TC_VIDEO(mask.file)}" alt="${mask.name}" draggable="false" loading="lazy" decoding="async" />
+      <img src="${TC_VIDEO(mask.file)}" alt="${mask.name}" draggable="false" />
       <span>${mask.name}</span>
     </button>
   `).join("");
@@ -14846,18 +14979,19 @@ function renderRhythmEnding() {
         <p><strong>이름: 용감한 수호대원</strong></p>
       </div>
       <p class="rhythm-ending-msg">축제 마당이 다시 환하게 빛났어요! 수호대원, 정말 멋졌어요!</p>
-      <button type="button" class="btn primary" id="rhythmEndingHome">🏠 활동 선택으로</button>
+      <p class="rhythm-ending-hint">「다음」을 눌러 수호책 질문에 답해 보자!</p>
+      <button type="button" class="btn primary" id="rhythmEndingNext">수호책 질문으로 ▶</button>
     </div>
   `);
-  setupNavigationAndHelp("모든 단계를 클리어했어요!");
+  setupNavigationAndHelp("「다음」을 눌러 수호책 질문에 답해 보자!");
   playSound("correct.mp3");
   bindMissionCompleteBtn("stage4_a3", true);
-  document.getElementById("rhythmEndingHome").onclick = () => {
-    state.rhythm.screen = "levels";
-    state.current = "stage4_menu";
+  const goBook = () => {
     playSound("click.mp3");
-    render();
+    beginValueReflection("stage4_a3", { fromNext: true, force: true });
   };
+  const nextBtn = document.getElementById("rhythmEndingNext");
+  if (nextBtn) nextBtn.onclick = goBook;
 }
 
 app.addEventListener("click", (e) => {
