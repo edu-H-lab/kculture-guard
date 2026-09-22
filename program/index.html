@@ -3,15 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>우리 문화 수호대</title>
+  <title>?�리 문화 ?�호?�</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Round:wght@700;800&display=swap" rel="stylesheet" />
   <style>
-    /* ───────── 시작 화면(런처) ─────────
-       「프로그램 실행하기」 → 앱 본체(app.html)
-       배포 후: 맨 아래 ONLINE_URL 에 배포 주소를 넣으면, USB에서 파일로 열었을 때
-       버튼이 온라인 주소로 연결됩니다(웹 주소·로컬 서버로 열면 그대로 app.html). */
+    /* ?�?�?�?�?�?�?�?�?� ?�작 ?�면(?�처) ?�?�?�?�?�?�?�?�?�
+       ?�프로그???�행?�기??????본체(app.html)
+       배포 ?? �??�래 ONLINE_URL ??배포 주소�??�으�? USB?�서 ?�일�??�었????       버튼???�라??주소�??�결?�니????주소·로컬 ?�버�??�면 그�?�?app.html). */
     :root {
       --ink: #33394a;
       --ink-soft: #6a7184;
@@ -29,7 +28,7 @@
       background: #cfe9f4 url("assets/images/home-bg.webp") center bottom / cover no-repeat;
       overflow-x: hidden;
     }
-    /* 배경을 한 톤 밝게 눌러 글이 잘 보이도록 */
+    /* 배경??????밝게 ?�러 글????보이?�록 */
     body::before {
       content: "";
       position: fixed;
@@ -138,33 +137,33 @@
 <body>
   <main class="launcher">
     <h1 style="margin:0">
-      <img class="logo" src="assets/images/logo-start.webp" alt="우리 문화 수호대" />
+      <img class="logo" src="assets/images/logo-start.webp" alt="?�리 문화 ?�호?�" />
     </h1>
 
-    <p class="tagline">우리 문화를 <em>디지털로 체험</em>하고 문화의 가치를 <em>현재의 나와 연결</em>하는 수업 도우미입니다.</p>
+    <p class="tagline">?�리 문화�?<em>?��??�로 체험</em>?�고 문화??가치�? <em>?�재???��? ?�결</em>?�는 ?�업 ?�우미입?�다.</p>
 
-    <section class="panel" aria-label="작품 정보">
+    <section class="panel" aria-label="?�품 ?�보">
       <div class="row">
-        <span class="label">연구보고서</span>
-        <span class="value">디지털로 넓히는 교실, 체험에서 사고로 확장되는 우리 문화 교육 <span class="app-name">「우리 문화 수호대」</span></span>
+        <span class="label">?�구보고??/span>
+        <span class="value">?��??�로 ?�히??교실, 체험?�서 ?�고�??�장?�는 ?�리 문화 교육 <span class="app-name">?�우�?문화 ?�호?�??/span></span>
       </div>
       <div class="row">
-        <span class="label">대상 학년</span>
-        <span class="value">초등학교 1학년</span>
+        <span class="label">?�???�년</span>
+        <span class="value">초등?�교 1?�년</span>
       </div>
       <div class="row">
-        <span class="label">관련 교과</span>
-        <span class="value">통합 <small>(즐거운 생활 · 슬기로운 생활 · 바른 생활)</small></span>
+        <span class="label">관??교과</span>
+        <span class="value">?�합 <small>(즐거???�활 · ?�기로운 ?�활 · 바른 ?�활)</small></span>
       </div>
     </section>
 
-    <a class="btn-run" id="runBtn" href="app.html">프로그램 실행하기</a>
-    <a class="btn-local" id="localBtn" href="app.html" hidden>이 컴퓨터에서 실행하기(오프라인 시연)</a>
+    <a class="btn-run" id="runBtn" href="app.html">?�로그램 ?�행?�기</a>
+    <a class="btn-local" id="localBtn" href="app.html" hidden>??컴퓨?�에???�행?�기(?�프?�인 ?�연)</a>
   </main>
 
   <script>
-    var ONLINE_URL = "https://kculture-guard-mu.vercel.app/app.html";
-    // USB에서 파일로 연 경우에만 온라인 주소로 보내고, 오프라인 시연 링크를 함께 보여 줍니다.
+    var ONLINE_URL = "https://kculture-guard2.vercel.app/app.html";
+    // USB?�서 ?�일�???경우?�만 ?�라??주소�?보내�? ?�프?�인 ?�연 링크�??�께 보여 줍니??
     if (ONLINE_URL && location.protocol === "file:") {
       document.getElementById("runBtn").href = ONLINE_URL;
       document.getElementById("localBtn").hidden = false;
