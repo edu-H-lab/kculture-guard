@@ -13,7 +13,9 @@
   "use strict";
 
   const TRANSITION_MS = 420;
-  const toWebp = (path) => String(path || "").replace(/\.(png|jpe?g)(\?[^#]*)?$/i, ".webp$2");
+  const toWebp = (path) => (typeof assetUrl === "function"
+    ? assetUrl(path)
+    : String(path || "").replace(/\.(png|jpe?g)(\?[^#]*)?$/i, ".webp$2"));
   const HANOK_DEFAULT_IMAGE = toWebp("assets/hanok/hanok-01-exterior.png");
   const BOOK_IMG_VER = "1";
   const BOOK_IMG = {
@@ -724,21 +726,14 @@
       status: pageStatus(st, item.activity),
       page: idx
     })).join("");
-    const done = catalog.filter((item) => pageStatus(st, item.activity) === "complete").length;
-    const summaryMark = done >= 1
-      ? bookmarkHTML({
-          kind: "toc",
-          title: "가치",
-          status: "complete",
-          finale: true,
-          id: "vbSummaryCard"
-        })
-      : "";
     return pageStageHTML(`
       <div class="vb-toc">
         <h2 class="vb-page-title">나의 우리문화 기록</h2>
-        <p class="vb-lead">책갈피를 눌러 내가 담은 페이지를 펼쳐 보세요.</p>
-        <div class="vb-toc-rail">${marks}${summaryMark}</div>
+        <div class="vb-toc-lead-row">
+          <p class="vb-lead">책갈피를 눌러 내가 담은 페이지를 펼쳐 보세요.</p>
+          <button type="button" class="vb-mini-btn vb-collect-btn" id="vbCollectBtn">모아보기</button>
+        </div>
+        <div class="vb-toc-rail">${marks}</div>
       </div>
       ${pageNavHTML({ prevLabel: "표지로", nextLabel: "첫 페이지", extra: "" })}
     `, { toc: true });
@@ -857,12 +852,17 @@
   function summaryHTML(st, catalog) {
     const records = completeRecords(st, catalog);
     const selected = (st.finalCultureReflection && st.finalCultureReflection.selectedActivity) || "";
-    const tags = records.map((rec) => `
+    const tags = records.map((rec) => {
+      const val = String(
+        rec.valueLabel || rec.selectedElementLabel || displayAnswer(rec) || ""
+      ).trim();
+      const shortVal = val.length > 36 ? `${val.slice(0, 34)}…` : val;
+      return `
       <button type="button" class="vb-tag vb-tag--${accentOf(rec.activity)}${selected === rec.activity ? " is-on" : ""}" data-activity="${escapeAttr(rec.activity)}">
         <span class="vb-tag-act">${escapeHtml(rec.activityTitle || "")}</span>
-        <span class="vb-tag-val">${escapeHtml(rec.valueLabel || rec.selectedElementLabel || "")}</span>
-      </button>
-    `).join("");
+        <span class="vb-tag-val">${escapeHtml(shortVal || "나의 생각")}</span>
+      </button>`;
+    }).join("");
     const empty = records.length
       ? ""
       : `<p class="vb-empty-line">아직 기록이 없어요.</p>`;
@@ -1065,11 +1065,13 @@
         goView("page", Number(btn.getAttribute("data-page")) || 0, "next");
       };
     });
-    const summary = $("#vbSummaryCard");
-    if (summary) summary.onclick = () => {
-      playClick();
-      goView("summary", 0, "next");
-    };
+    const collect = $("#vbCollectBtn");
+    if (collect) {
+      collect.onclick = () => {
+        playClick();
+        goView("summary", 0, "next");
+      };
+    }
     const prev = $("#vbPrevBtn");
     if (prev) prev.onclick = () => {
       playClick();

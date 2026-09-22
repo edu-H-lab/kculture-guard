@@ -78,7 +78,7 @@ const REACT_SCHEMA = {
   required: ["onTopic", "vague", "followUp", "echo", "extraChoice"]
 };
 
-const { guidedReactPrompts: reactPrompts, guidedSummaryPrompts } = require("./prompts");
+const { guidedReactPrompts: reactPrompts, guidedSummaryPrompts, guidedStepSentencePrompts } = require("./prompts");
 
 /**
  * body: { activityId, stepIndex, picked:[], text:"" }
@@ -174,39 +174,135 @@ function sentenceCount(t) {
  * body: { activityId, answers:[{picked, text, skipped}] }
  * return: { summary, summarySource }
  */
+// ---------------------------------------------------------------------
+// 정리 규칙 (설계안 5장)
+//  - 단계마다 한 문장: 1문장 ① 본 것·한 것 / 2문장 ② 까닭('~라고 생각해요') / 3문장 ③ 내 생활
+//  - 건너뛴 단계는 뺀다. 아이 말과 고른 보기만 쓴다. 짧고 쉬운 '~요' 문장.
+// 보기만 고른 단계는 설계안 문장 틀로 바로 만들고(정확),
+// 아이가 직접 쓴 말이 있는 단계만 AI가 그 단계의 문장 틀에 맞춰 한 문장으로 다듬는다.
+// ---------------------------------------------------------------------
+const STEP_SCHEMA = {
+  type: "OBJECT",
+  properties: {
+    sentences: {
+      type: "ARRAY",
+      items: {
+        type: "OBJECT",
+        properties: { step: { type: "INTEGER" }, sentence: { type: "STRING" } },
+        required: ["step", "sentence"]
+      }
+    }
+  },
+  required: ["sentences"]
+};
+
+const VERB_END_RE = /(서|고|려고|라고|라서|니까|해|어|아|요|다|게|지)$/;
+
+function tidyChild(text) {
+  return String(text || "").replace(/[.!?~]+$/g, "").replace(/\s+/g, " ").trim()
+    .replace(/(이에요|예요|이요|요)$/, "")
+    .replace(/조케/g, "좋게").replace(/조아/g, "좋아").replace(/이뻐/g, "예뻐")
+    .replace(/바게잇/g, "밖에 있").replace(/이스면/g, "있으면").replace(/업어/g, "없어")
+    .trim();
+}
+
+/** AI를 쓸 수 없을 때: 아이 말이 보기와 같은 모양이면 문장 틀에 넣고, 아니면 아이 말을 다듬어 쓴다 */
+function fallbackSentence(step, a) {
+  const t = tidyChild(a.text);
+  const picked = (a.picked || []).filter(Boolean);
+  const choices = step.choices || [];
+  const choicesAreNouns = choices.filter((c) => !VERB_END_RE.test(c)).length >= Math.ceil(choices.length / 2);
+  const textIsNoun = t.length <= 14 && !VERB_END_RE.test(t);
+  const sameEnding = choices.some((c) => { const m = c.match(/(서|고|려고|라서|니까)$/); return m && t.endsWith(m[1]); });
+  if (t && ((choicesAreNouns && textIsNoun) || (!choicesAreNouns && sameEnding))) {
+    return Q.stepSentence(step, { picked: picked.concat([t]) });
+  }
+  const base = picked.length ? Q.stepSentence(step, { picked }) : "";
+  const own = Q.stepSentence(step, { picked: [], text: tidyChild(a.text) || a.text });
+  return base ? base : own;
+}
+
+function frameOf(step) {
+  // 문장 틀을 보여 주기: {a…} 자리를 ○○ 로
+  return String(step.say || "").replace(/\{a(:[^}]*)?\.?\}/g, "○○");
+}
+
+function exampleOf(step) {
+  const first = (step.choices || [])[0];
+  return first ? Q.stepSentence(step, { picked: [first] }) : "";
+}
+
+function sentenceOk(sentence, step, a, entry) {
+  const t = String(sentence || "").replace(/\s+/g, " ").trim();
+  if (!t) return false;
+  if (sentenceCount(t) !== 1) return false;
+  if (!/요\.$/.test(t)) return false;
+  if (step.type === "concept" && !/생각해요\.$/.test(t)) return false;
+  if (hasBanned(t)) return false;
+  const gin = {
+    pack: { title: entry.title, choicePool: [] },
+    valueQuestion: entry.core,
+    initialAnswer: "",
+    thinkingFriendTurns: [
+      { answer: answerText(a) },
+      { answer: step.q },
+      { answer: frameOf(step) },
+      { answer: exampleOf(step) },
+      { answer: "그런 거라고 생각해요 것 같아요 뜻이라고 우리 집에도" }
+    ]
+  };
+  return grounding.unsupportedWords(t, gin).length === 0;
+}
+
+/**
+ * body: { activityId, answers:[{picked, text, skipped}] }
+ * return: { summary, summarySource }
+ */
 async function summary(body, provider) {
   const entry = Q.get(body && body.activityId);
   const answers = Array.isArray(body && body.answers) ? body.answers : [];
   if (!entry) return { summary: "아직 잘 모르겠어요.", summarySource: "local_fallback" };
   const usable = answers.filter((a) => a && !a.skipped && answerText(a));
-  const draft = Q.composeSummary(entry, answers);
   if (!usable.length) return { summary: "아직 잘 모르겠어요.", summarySource: "local_fallback" };
-  if (!provider || typeof provider.generateRaw !== "function") return { summary: draft, summarySource: "template" };
 
-  const gin = groundingInput(entry, answers, draft);
-  const maxSentences = Math.max(1, usable.length) + 1;
-  const tryOnce = async (forbidden) => {
-    const { system, user } = summaryPrompts(entry, answers, draft, forbidden);
-    const r = await provider.generateRaw({ system, user, schema: SUMMARY_SCHEMA, purpose: "guided-summary", timeoutMs: 12000, retries: 1 });
-    const s = String((r && r.summary) || "").replace(/\s+/g, " ").trim();
-    return s;
-  };
-  try {
-    let s = await tryOnce(null);
-    let flagged = s ? grounding.unsupportedWords(s, gin) : ["(빈 답)"];
-    if (s && hasBanned(s)) flagged.push("(쓰지 않을 말)");
-    if (flagged.length) {
-      console.log("[ThinkFriend:guided] 정리에 아이가 하지 않은 말:", JSON.stringify(flagged), "->", s);
-      s = await tryOnce(flagged.filter((w) => !/^\(/.test(w)));
-      flagged = s ? grounding.unsupportedWords(s, gin) : ["(빈 답)"];
-      if (s && hasBanned(s)) flagged.push("(쓰지 않을 말)");
+  // 1) 단계별 기본 문장 (보기 → 문장 틀, 직접 쓴 말 → 기본 다듬기)
+  const lines = entry.steps.map((step, i) => {
+    const a = answers[i];
+    if (!a || a.skipped || !answerText(a)) return null;
+    const hasText = !!String(a.text || "").trim();
+    return { i, step, a, hasText, sentence: hasText ? fallbackSentence(step, a) : Q.stepSentence(step, a) };
+  }).filter(Boolean);
+
+  // 2) 직접 쓴 말이 있는 단계만 AI가 문장 틀에 맞춰 한 문장으로
+  const need = lines.filter((l) => l.hasText);
+  let source = "template";
+  if (need.length && provider && typeof provider.generateRaw === "function") {
+    try {
+      const { system, user } = guidedStepSentencePrompts(entry, need.map((l) => ({
+        index: l.i,
+        type: l.step.type,
+        question: l.step.q,
+        frame: frameOf(l.step),
+        example: exampleOf(l.step),
+        picked: (l.a.picked || []).filter(Boolean),
+        text: String(l.a.text || "").trim()
+      })));
+      const r = await provider.generateRaw({ system, user, schema: STEP_SCHEMA, purpose: "guided-summary", timeoutMs: 12000, retries: 1 });
+      const got = {};
+      ((r && r.sentences) || []).forEach((x) => { if (x && Number.isFinite(Number(x.step))) got[Number(x.step)] = String(x.sentence || "").replace(/\s+/g, " ").trim(); });
+      let used = 0;
+      need.forEach((l) => {
+        const cand = got[l.i];
+        if (cand && sentenceOk(cand, l.step, l.a, entry)) { l.sentence = cand; used += 1; }
+        else console.log("[ThinkFriend:guided] 문장 틀에 안 맞아 기본 문장 사용:", l.i, JSON.stringify(cand || ""));
+      });
+      if (used) source = used === need.length ? "gemini" : "gemini_partial";
+    } catch (err) {
+      console.warn("[ThinkFriend:guided] summary 실패 -> 기본 문장 사용:", err && err.message);
     }
-    if (s && !flagged.length && sentenceCount(s) <= maxSentences) return { summary: s, summarySource: "gemini" };
-    console.log("[ThinkFriend:guided] 초안 사용:", JSON.stringify(flagged));
-  } catch (err) {
-    console.warn("[ThinkFriend:guided] summary 실패 -> 초안 사용:", err && err.message);
   }
-  return { summary: draft, summarySource: "template" };
+  const text = lines.map((l) => l.sentence).filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
+  return { summary: text || "아직 잘 모르겠어요.", summarySource: source };
 }
 
 module.exports = { react, summary, localKind };

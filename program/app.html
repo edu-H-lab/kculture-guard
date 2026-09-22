@@ -16,15 +16,20 @@
           );
         }
         function syncDeviceClass() {
-          var touch = (navigator.maxTouchPoints || 0) > 1 || "ontouchstart" in window;
-          var coarse = false;
-          try { coarse = window.matchMedia("(any-pointer: coarse)").matches; } catch (e) {}
-          var shortSide = Math.min(screen.width, screen.height);
-          var isTablet = (touch || coarse) && shortSide >= 600;
-          var isPhone = (touch || coarse) && shortSide < 600;
+          // 마우스 있는 PC(터치스크린 포함)는 데스크탑. 진짜 태블릿/폰만 is-tablet/is-phone.
+          var hoverNone = false;
+          var pointerCoarse = false;
+          try {
+            hoverNone = window.matchMedia("(hover: none)").matches;
+            pointerCoarse = window.matchMedia("(pointer: coarse)").matches;
+          } catch (e) {}
+          var shortSide = Math.min(screen.width || 0, screen.height || 0);
+          var isTablet = hoverNone && pointerCoarse && shortSide >= 600;
+          var isPhone = hoverNone && pointerCoarse && shortSide < 600;
+          var touchish = (navigator.maxTouchPoints || 0) > 0 || "ontouchstart" in window;
           root.classList.toggle("is-tablet", isTablet);
           root.classList.toggle("is-phone", isPhone);
-          root.classList.toggle("is-touch", !!(touch || coarse));
+          root.classList.toggle("is-touch", !!touchish);
           root.classList.toggle("is-desktop", !isTablet && !isPhone);
         }
         syncDeviceClass();
@@ -41,9 +46,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Round:wght@700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./style.css?v=rev285" />
+    <link rel="stylesheet" href="./style.css?v=rev293" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="./assets/js/asset-url.js?v=1" defer></script>
+    <script src="./assets/js/asset-url.js?v=2" defer></script>
     <script src="./assets/js/dancheong-patterns.js?v=10" defer></script>
     <!-- 한옥마을 실시간 공유용 (Firebase 설정 시에만 사용, 없어도 게임은 정상 동작) -->
     <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js" defer></script>
@@ -56,10 +61,10 @@
     <script src="./assets/js/thinking-friend-activities.js?v=6" defer></script>
     <script src="./assets/js/thinking-friend-questions.js?v=4" defer></script>
     <script src="./assets/js/thinking-friend-engine.js?v=20" defer></script>
-    <script src="./assets/js/thinking-friend-panel.js?v=7" defer></script>
+    <script src="./assets/js/thinking-friend-panel.js?v=9" defer></script>
     <script src="./assets/js/sentence-wrap.js?v=1" defer></script>
     <script src="./assets/js/value-guardian-book.js?v=34" defer></script>
-    <script src="./assets/js/value-reflection-flow.js?v=28" defer></script>
+    <script src="./assets/js/value-reflection-flow.js?v=32" defer></script>
     <script src="./assets/js/classroom-extension.js?v=11" defer></script>
     <script src="./assets/js/teacher-target-ideas.js?v=4" defer></script>
     <script src="./assets/js/teacher-lesson-questions.js?v=3" defer></script>
@@ -91,6 +96,6 @@
     <button type="button" id="globalBackBtn" class="global-back-btn" aria-label="이전 화면으로">◀ 이전</button>
     <button type="button" id="globalNextBtn" class="global-next-btn" aria-label="다음 화면으로">다음 ▶</button>
     <div id="app"></div>
-    <script src="./app.js?v=rev408" defer></script>
+    <script src="./app.js?v=rev412" defer></script>
   </body>
 </html>

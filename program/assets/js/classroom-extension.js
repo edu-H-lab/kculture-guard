@@ -39,7 +39,9 @@
   }
 
   function photoSrc(url) {
-    return String(url || "").replace(/\.(png|jpe?g)(\?[^#]*)?$/i, ".webp$2");
+    return typeof assetUrl === "function"
+      ? assetUrl(url)
+      : String(url || "").replace(/\.(png|jpe?g)(\?[^#]*)?$/i, ".webp$2");
   }
 
   function playClick() {
@@ -856,7 +858,9 @@
           number: Number(student.number) || 0,
           activityId: cat.activityId,
           caption: cat.caption,
-          photoUrl: String(`assets/review-demo/works/${file}`).replace(/\.(png|jpe?g)(\?[^#]*)?$/i, ".webp$2"),
+          photoUrl: (typeof assetUrl === "function"
+            ? assetUrl(`assets/review-demo/works/${file}`)
+            : String(`assets/review-demo/works/${file}`).replace(/\.(png|jpe?g)(\?[^#]*)?$/i, ".webp$2")),
           likes: likedBy.length,
           likedBy,
           comments,

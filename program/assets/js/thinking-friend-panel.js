@@ -104,11 +104,11 @@
       <section class="tf-panel" id="thinkFriendPanel">
         ${said ? `<p class="tf-said">내가 말한 것: “${escapeHtml(said)}”</p>` : ""}
         <header class="tf-friend">
-          <span class="tf-face" aria-hidden="true">🐻</span>
-          <div>
+          <div class="tf-avatar">
+            <span class="tf-face tf-face--ai" aria-hidden="true">🤖</span>
             <p class="tf-name">생각 친구</p>
-            <p class="tf-hello">${escapeHtml(data.friendLine || "네 이야기를 잘 들었어!")}</p>
           </div>
+          <p class="tf-hello">${escapeHtml(data.friendLine || "네 이야기를 잘 들었어!")}</p>
         </header>
         ${body}
       </section>

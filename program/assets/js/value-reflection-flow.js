@@ -957,11 +957,11 @@
   function friendHeadHTML(line) {
     return `
       <header class="tf-friend">
-        <span class="tf-face" aria-hidden="true">🐻</span>
-        <div>
+        <div class="tf-avatar">
+          <span class="tf-face tf-face--ai" aria-hidden="true">🤖</span>
           <p class="tf-name">생각 친구</p>
-          <p class="tf-hello">${escapeHtml(line)}</p>
         </div>
+        <p class="tf-hello">${escapeHtml(line)}</p>
       </header>
     `;
   }
@@ -1164,22 +1164,56 @@
       flow.tfVoiceDraft = "";
       save();
       paint();
+    }).catch(() => {
+      // 로딩 화면에 남지 않도록 로컬 판단으로 이어 간다
+      try {
+        const r = localReact(picked, text);
+        a.picked = picked.slice();
+        a.text = text || "";
+        a.skipped = false;
+        guidedAdvance(flow, entry, (r && r.echo) || "좋은 생각이야!", "");
+      } catch (_) {
+        g.phase = "ask";
+        save();
+        paint();
+      }
     });
   }
 
   function guidedSummarize(flow, entry) {
     const g = flow.guided;
     const GQ = window.ThinkFriendQuestions;
+    const answers = g.answers.map((a) => ({ picked: a.picked, text: a.text, skipped: a.skipped }));
+    const fallback = () => {
+      try {
+        return (GQ && typeof GQ.composeSummary === "function" && String(GQ.composeSummary(entry, answers) || "").trim())
+          || "아직 잘 모르겠어요.";
+      } catch (_) {
+        return "아직 잘 모르겠어요.";
+      }
+    };
+    const token = (g._sumToken = (Number(g._sumToken) || 0) + 1);
     g.phase = "summarizing";
     save();
     paint();
-    const answers = g.answers.map((a) => ({ picked: a.picked, text: a.text, skipped: a.skipped }));
+    // API 정리문을 먼저 보여 준다. 실패·시간 초과일 때만 로컬 초안을 쓴다.
     postJsonTimeout("/api/thinking-friend/guided/summary", { activityId: entry.id, answers }, 30000)
-      .catch(() => ({ summary: GQ.composeSummary(entry, answers), summarySource: "client_template" }))
       .then((r) => {
-        g.summary = String((r && r.summary) || GQ.composeSummary(entry, answers)).trim();
-        g.summarySource = (r && r.summarySource) || "";
+        if (!flow.active || flow.guided !== g || g._sumToken !== token) return;
+        const apiSum = String((r && r.summary) || "").trim();
+        g.summary = apiSum || fallback();
+        g.summarySource = apiSum ? ((r && r.summarySource) || "api") : "client_template";
         _lastSummaryPath = g.summarySource;
+        g.finalDraft = g.summary;
+        g.phase = "confirm";
+        save();
+        paint();
+      })
+      .catch(() => {
+        if (!flow.active || flow.guided !== g || g._sumToken !== token) return;
+        g.summary = fallback();
+        g.summarySource = "client_template";
+        _lastSummaryPath = "client_template";
         g.finalDraft = g.summary;
         g.phase = "confirm";
         save();

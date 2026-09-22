@@ -3,14 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>?�리 문화 ?�호?�</title>
+  <title>우리 문화 수호대</title>
+  <script src="assets/js/asset-url.js?v=2"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Round:wght@700;800&display=swap" rel="stylesheet" />
   <style>
-    /* ?�?�?�?�?�?�?�?�?� ?�작 ?�면(?�처) ?�?�?�?�?�?�?�?�?�
-       ?�프로그???�행?�기??????본체(app.html)
-       배포 ?? �??�래 ONLINE_URL ??배포 주소�??�으�? USB?�서 ?�일�??�었????       버튼???�라??주소�??�결?�니????주소·로컬 ?�버�??�면 그�?�?app.html). */
+    /* 시작 화면(런처)
+       「프로그램 실행하기」 → 앱 본체(app.html)
+       배포 후: 맨 아래 ONLINE_URL 에 배포 주소를 넣으면, USB에서 파일로 열었을 때
+       버튼이 온라인 주소로 연결됩니다(웹 주소·로컬 서버로 열면 그대로 app.html). */
     :root {
       --ink: #33394a;
       --ink-soft: #6a7184;
@@ -28,7 +30,6 @@
       background: #cfe9f4 url("assets/images/home-bg.webp") center bottom / cover no-repeat;
       overflow-x: hidden;
     }
-    /* 배경??????밝게 ?�러 글????보이?�록 */
     body::before {
       content: "";
       position: fixed;
@@ -129,6 +130,83 @@
       text-underline-offset: 3px;
     }
 
+    .btn-copyright {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 4px;
+      font-family: "Nanum Round", "Malgun Gothic", sans-serif;
+      font-size: .95rem;
+      font-weight: 800;
+      color: var(--ink);
+      background: rgba(255, 255, 255, .92);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 10px 18px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(30, 60, 80, .12);
+    }
+    .btn-copyright:hover { background: #fff; }
+    .btn-copyright:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
+
+    .copyright-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(20, 28, 40, .55);
+    }
+    .copyright-modal[hidden] { display: none; }
+    .copyright-dialog {
+      width: min(920px, 100%);
+      max-height: min(92vh, 920px);
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 18px 48px rgba(0, 0, 0, .28);
+      overflow: hidden;
+    }
+    .copyright-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+    .copyright-head h2 {
+      margin: 0;
+      font-family: "Jua", "Malgun Gothic", sans-serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+    }
+    .copyright-close {
+      border: 0;
+      background: #eef2f5;
+      color: var(--ink);
+      font-size: 1rem;
+      font-weight: 800;
+      border-radius: 999px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+    .copyright-body {
+      overflow: auto;
+      padding: 12px;
+      background: #f4f7f9;
+    }
+    .copyright-body img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      background: #fff;
+    }
+
     @media (max-width: 560px) {
       .row { grid-template-columns: 1fr; gap: 2px; }
     }
@@ -137,37 +215,89 @@
 <body>
   <main class="launcher">
     <h1 style="margin:0">
-      <img class="logo" src="assets/images/logo-start.webp" alt="?�리 문화 ?�호?�" />
+      <img class="logo" src="assets/images/logo-start.webp" alt="우리 문화 수호대" data-asset-src="assets/images/logo-start.webp" />
     </h1>
 
-    <p class="tagline">?�리 문화�?<em>?��??�로 체험</em>?�고 문화??가치�? <em>?�재???��? ?�결</em>?�는 ?�업 ?�우미입?�다.</p>
+    <p class="tagline">우리 문화를 <em>디지털로 체험</em>하고 문화의 가치를 <em>현재의 나와 연결</em>하는 수업 도우미입니다.</p>
 
-    <section class="panel" aria-label="?�품 ?�보">
+    <section class="panel" aria-label="작품 정보">
       <div class="row">
-        <span class="label">?�구보고??/span>
-        <span class="value">?��??�로 ?�히??교실, 체험?�서 ?�고�??�장?�는 ?�리 문화 교육 <span class="app-name">?�우�?문화 ?�호?�??/span></span>
+        <span class="label">연구보고서</span>
+        <span class="value">디지털로 넓히는 교실, 체험에서 사고로 확장되는 우리 문화 교육 <span class="app-name">「우리 문화 수호대」</span></span>
       </div>
       <div class="row">
-        <span class="label">?�???�년</span>
-        <span class="value">초등?�교 1?�년</span>
+        <span class="label">대상 학년</span>
+        <span class="value">초등학교 1학년</span>
       </div>
       <div class="row">
-        <span class="label">관??교과</span>
-        <span class="value">?�합 <small>(즐거???�활 · ?�기로운 ?�활 · 바른 ?�활)</small></span>
+        <span class="label">관련 교과</span>
+        <span class="value">통합 <small>(즐거운 생활 · 슬기로운 생활 · 바른 생활)</small></span>
       </div>
     </section>
 
-    <a class="btn-run" id="runBtn" href="app.html">?�로그램 ?�행?�기</a>
-    <a class="btn-local" id="localBtn" href="app.html" hidden>??컴퓨?�에???�행?�기(?�프?�인 ?�연)</a>
+    <a class="btn-run" id="runBtn" href="app.html">프로그램 실행하기</a>
+    <button type="button" class="btn-copyright" id="copyrightBtn">저작권</button>
+    <a class="btn-local" id="localBtn" href="app.html" hidden>이 컴퓨터에서 실행하기(오프라인 시연)</a>
   </main>
 
+  <div class="copyright-modal" id="copyrightModal" hidden>
+    <div class="copyright-dialog" role="dialog" aria-modal="true" aria-labelledby="copyrightTitle">
+      <div class="copyright-head">
+        <h2 id="copyrightTitle">저작권 증빙자료</h2>
+        <button type="button" class="copyright-close" id="copyrightClose">닫기</button>
+      </div>
+      <div class="copyright-body">
+        <img src="assets/images/copyright-proof.png" alt="저작권 증빙목록" data-asset-src="assets/images/copyright-proof.png" />
+      </div>
+    </div>
+  </div>
+
   <script>
-    var ONLINE_URL = "https://kculture-guard2.vercel.app/app.html";
-    // USB?�서 ?�일�???경우?�만 ?�라??주소�?보내�? ?�프?�인 ?�연 링크�??�께 보여 줍니??
+    // 배포 후 여기에 온라인 주소를 넣으세요. 예) var ONLINE_URL = "https://kculture-guard2.vercel.app/app.html";
+    var ONLINE_URL = "";
+    // USB에서 파일로 연 경우에만 온라인 주소로 보내고, 오프라인 시연 링크를 함께 보여 줍니다.
     if (ONLINE_URL && location.protocol === "file:") {
       document.getElementById("runBtn").href = ONLINE_URL;
       document.getElementById("localBtn").hidden = false;
     }
+
+    (function () {
+      var btn = document.getElementById("copyrightBtn");
+      var modal = document.getElementById("copyrightModal");
+      var closeBtn = document.getElementById("copyrightClose");
+      if (!btn || !modal || !closeBtn) return;
+      function openModal() {
+        modal.hidden = false;
+        closeBtn.focus();
+      }
+      function closeModal() {
+        modal.hidden = true;
+        btn.focus();
+      }
+      btn.addEventListener("click", openModal);
+      closeBtn.addEventListener("click", closeModal);
+      modal.addEventListener("click", function (e) {
+        if (e.target === modal) closeModal();
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && !modal.hidden) closeModal();
+      });
+    })();
+
+    (function () {
+      function setBg(url) {
+        if (!url) return;
+        document.body.style.backgroundImage = 'url("' + url + '")';
+        document.body.style.backgroundPosition = "center bottom";
+        document.body.style.backgroundSize = "cover";
+        document.body.style.backgroundRepeat = "no-repeat";
+      }
+      if (typeof pickAssetUrl === "function") {
+        pickAssetUrl(["assets/images/home-bg.webp", "assets/images/home-bg.png"], setBg);
+      } else {
+        setBg("assets/images/home-bg.webp");
+      }
+    })();
   </script>
 </body>
 </html>

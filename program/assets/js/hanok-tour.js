@@ -319,8 +319,10 @@
   }
 
   function withVer(src) {
-    const webp = String(src || "").replace(/\.(png|jpe?g)(\?[^#]*)?$/i, ".webp$2");
-    return `${webp}${webp.includes("?") ? "" : `?v=${HANOK_IMG_VER}`}`;
+    const mapped = typeof assetUrl === "function"
+      ? assetUrl(src)
+      : String(src || "").replace(/\.(png|jpe?g)(\?[^#]*)?$/i, ".webp$2");
+    return `${mapped}${mapped.includes("?") ? "" : `?v=${HANOK_IMG_VER}`}`;
   }
 
   function sceneSrc(key) {

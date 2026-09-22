@@ -10,7 +10,10 @@
   "use strict";
 
   const IMG_VER = "1";
-  const IMG = (file) => String(`assets/hanok/${file}?v=${IMG_VER}`).replace(/\.(png|jpe?g)(\?[^#]*)?$/i, ".webp$2");
+  const IMG = (file) => {
+    const raw = `assets/hanok/${file}?v=${IMG_VER}`;
+    return typeof assetUrl === "function" ? assetUrl(raw) : String(raw).replace(/\.(png|jpe?g)(\?[^#]*)?$/i, ".webp$2");
+  };
   const TRANSITION_MS = 420;
 
   const GATE_HOTSPOT = { left: 42, top: 42, width: 18, height: 38 };

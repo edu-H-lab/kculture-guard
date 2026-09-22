@@ -472,7 +472,43 @@ function teacherAnalysisPrompts(entry, ideasEntry, students) {
   return { system, user };
 }
 
+// 정리 문장: 아이가 직접 쓴 말이 있는 단계만, 그 단계의 문장 틀에 맞춰 한 문장씩 쓴다
+function guidedStepSentencePrompts(entry, items) {
+  const system = [
+    "너는 초등학교 1학년 아이의 답을 가치수호록 문장으로 옮겨 적는 도우미다.",
+    "단계마다 아이의 답을 그 단계의 '문장 틀'에 맞춰 딱 한 문장으로 쓴다.",
+    "",
+    "[규칙]",
+    "- 한 단계에 한 문장만 쓴다. 마침표는 문장 끝에 하나만.",
+    "- 문장 틀의 앞뒤 말은 그대로 살리고, ○○ 자리에 아이 말을 자연스럽게 넣는다. 조사와 어미만 맞게 고친다.",
+    "- 아이가 한 말과 고른 보기만 쓴다. 새 낱말, 느낌, 결과, 꾸미는 말(잘, 정말, 오래 등)을 더하지 않는다.",
+    "- 아이 말의 뜻을 바꾸지 않는다. (예: '경기아리랑이 더 좋아'를 '경기아리랑을 들었어요'로 바꾸면 안 된다)",
+    "- 맞춤법과 띄어쓰기는 바르게 고친다. (예: 바게잇고 → 밖에 있고, 이스면 → 있으면)",
+    "- ② 생각하기(concept) 문장은 반드시 '~라고 생각해요.' 또는 '~다고 생각해요.'로 끝낸다.",
+    "- 모든 문장은 '~요.'로 끝나는 쉬운 말로 쓴다.",
+    `- 쓰지 않을 말: ${GUIDED_BANNED.join(", ")}.`,
+    "JSON으로만 답한다: sentences = [{step, sentence}]"
+  ].join("\n");
+  const user = [
+    `활동: ${entry.title}`,
+    `핵심 질문: ${entry.core}`,
+    "",
+    ...items.map((it) => [
+      `[step ${it.index}] (${it.type === "fact" ? "① 떠올리기" : it.type === "concept" ? "② 생각하기" : "③ 나와 연결"})`,
+      `질문: ${it.question}`,
+      `문장 틀: ${it.frame}`,
+      it.example ? `틀을 쓴 예: ${it.example}` : "",
+      it.picked.length ? `아이가 고른 보기: ${it.picked.join(", ")}` : "",
+      `아이가 직접 쓴 말: "${it.text}"`
+    ].filter(Boolean).join("\n")),
+    "",
+    "위 step 번호마다 한 문장씩 써라."
+  ].join("\n");
+  return { system, user };
+}
+
 module.exports = {
+  guidedStepSentencePrompts,
   teacherAnalysisPrompts,
   GUIDED_BANNED,
   guidedReactPrompts,

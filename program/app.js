@@ -223,7 +223,7 @@ const STAGE_MENUS = {
   }
 };
 
-const QUESTION_IMG = (name) => toAsset(`assets/images/question/${name}?v=1`);
+const QUESTION_IMG = (name) => toAsset(`assets/images/question/${name}?v=2`);
 
 /** 활동 시작 직전 탐구 질문 (정답 입력 없음 — 활동 속에서 스스로 발견) */
 const activityQuestions = {
@@ -2942,9 +2942,10 @@ function getNextActivityRoute() {
 function canGoNext() {
   if (!state.loggedIn) return false;
   if (isActivityIntroVisible()) return false;
-  // 수호책 질문 화면에서도 「다음」표시·이동 가능
+  // 수호책 질문 중: 저장이 끝난 뒤에만 「다음」으로 다음 활동 이동
+  // (정리·확인 중에 나가면 최종 정리가 안 된 것처럼 보임)
   if (state.valueReflection?.active) {
-    return true;
+    return state.valueReflection.step === "saved";
   }
   const info = activityNavInfo();
   if (info) {
@@ -2990,8 +2991,9 @@ function goToNextScreen() {
   if (!canGoNext()) return;
   playSound("click.mp3");
 
-  // 수호책 질문 중 「다음」→ 다음 활동 (저장 전후 모두)
+  // 수호책 질문 중 「다음」→ 저장 완료 후에만 다음 활동
   if (state.valueReflection?.active) {
+    if (state.valueReflection.step !== "saved") return;
     leaveValueReflectionToNext();
     return;
   }
@@ -3445,6 +3447,8 @@ function renderValueReflectionFlow() {
       try {
         if (!isMissionRouteCompleted(savedRoute)) completeMission(savedRoute);
       } catch (_) {}
+      updateGlobalNextButton();
+      updateGlobalBackButton();
     },
     openValueBook: (activity) => {
       const fromRoute = normalizeMissionRoute(state.valueReflection?.route || state.current);
@@ -4145,12 +4149,15 @@ function renderMain() {
     ? window.ValueGuardianBook.getProgress(state, STAGE_MENUS)
     : { complete: 0, total: 14 };
   const studentBookName = (state.userProfile?.name || "").trim();
-  const bookBtnTitle = (!studentBookName || studentBookName === "나")
-    ? "나의 우리 문화 수호책"
-    : `${studentBookName}의 우리 문화 수호책`;
-  const bookBtn = state.loginType === "teacher"
-    ? ""
-    : `<button type="button" class="value-book-home-btn${(bookProgress.complete > 0 || treasureCount > 0) ? " is-ready" : ""}" id="valueBookBtn">
+  const bookBtnTitle = state.loginType === "teacher"
+    ? ((!studentBookName || studentBookName === "나" || studentBookName === "선생님")
+      ? "선생님의 우리 문화 수호책"
+      : `${studentBookName}의 우리 문화 수호책`)
+    : ((!studentBookName || studentBookName === "나")
+      ? "나의 우리 문화 수호책"
+      : `${studentBookName}의 우리 문화 수호책`);
+  // 교사·심사용도 홈에서 자신의 문화 수호책을 열 수 있다.
+  const bookBtn = `<button type="button" class="value-book-home-btn${(bookProgress.complete > 0 || treasureCount > 0) ? " is-ready" : ""}" id="valueBookBtn">
         <span class="value-book-home-icon" aria-hidden="true">📖</span>
         <span class="value-book-home-text">
           <span class="value-book-home-title">${bookBtnTitle}</span>
@@ -4173,7 +4180,7 @@ function renderMain() {
           ${sessionBadges}
           <h1 class="home-title">우리 문화 수호대</h1>
           <p class="home-grade">초등학교 1학년</p>
-          ${bookBtn ? `<div class="home-tool-btns">${bookBtn}</div>` : ""}
+          <div class="home-tool-btns">${bookBtn}</div>
           <div class="hub-wrap">
             <img class="home-character" src="${CHAR_IMG("HOME-CHARAC.png")}" alt="수호대 친구들 화이팅" draggable="false" />
             <button class="stage-node s1" data-go="stage1_menu" aria-label="스테이지 1">
@@ -4326,7 +4333,9 @@ function renderValueBook() {
       ? (viewing.name || "").trim()
       : (state.userProfile?.name || "").trim()) || "나",
     homeLabel: viewing ? "◀ 학급관리" : "◀ 홈으로",
-    headerTitle: viewing ? `${viewing.name}의 수호책` : "나의 수호책",
+    headerTitle: viewing
+      ? `${viewing.name}의 수호책`
+      : (state.loginType === "teacher" ? "선생님의 수호책" : "나의 수호책"),
     getStageMenus: () => STAGE_MENUS,
     stageImage: (stageNum, file) => STAGE_IMG(stageNum, file),
     getTreasureList: () => getTreasureAlbumList(
@@ -4486,8 +4495,9 @@ function setupNavigationAndHelp(helpText) {
 function renderStageActivityMenu(stageNum) {
   const menu = STAGE_MENUS[stageNum];
   if (!menu) return;
-  const gridClass = menu.activities.length === 3
-    ? "activity-picker-grid activity-picker-grid--triple"
+  const count = menu.activities.length;
+  const gridClass = count === 3
+    ? "activity-picker-grid activity-picker-grid--three"
     : "activity-picker-grid";
   const cards = menu.activities.map((act) => {
     const locked = !isActivityOpenForStudent(act.route);
@@ -4501,7 +4511,7 @@ function renderStageActivityMenu(stageNum) {
   }).join("");
 
   app.innerHTML = `
-    <div class="stage-screen stage-screen--menu${stageNum === 4 ? " stage-screen--menu-s4" : ""}">
+    <div class="stage-screen stage-screen--menu">
       <img class="stage-bg" src="${IMG(`stage${stageNum}-bg.png`)}" alt="" decoding="async" fetchpriority="low" />
       <div class="stage-overlay stage-overlay--menu">
         <div class="activity-picker-screen">
@@ -5514,7 +5524,7 @@ function muguNavSteps() {
   for (let i = 0; i < MUGU_STORY.length; i++) steps.push({ phase: "story", storyIdx: i });
   steps.push({ phase: "game" });
   for (let i = 0; i < MUGU_PHOTOS.length; i++) steps.push({ phase: "photo", photoIdx: i });
-  steps.push({ phase: "done" });
+  // 완료 중간화면 없이 마지막 사진 다음 → 바로 생각친구 질문
   return steps;
 }
 
@@ -5576,9 +5586,16 @@ function muguMissionBtn(ready) {
 
 function renderStage1Act2() {
   const m = muguInit();
+  if (m.phase === "done") {
+    // 예전 세션·이전 버튼으로 돌아온 경우: 빈 완료화면 대신 마지막 사진 장면
+    m.phase = "photo";
+    m.photoIdx = MUGU_PHOTOS.length - 1;
+    m.photoFound = true;
+    renderMuguPhoto(m);
+    return;
+  }
   if (m.phase === "game") renderMuguGame(m);
   else if (m.phase === "photo") renderMuguPhoto(m);
-  else if (m.phase === "done") renderMuguDone(m);
   else renderMuguStory(m);
 }
 
@@ -5805,11 +5822,12 @@ function renderMuguPhoto(m) {
         m.phase = "done";
         state.solved.mugunghwa = true;
         saveProgress();
-      } else {
-        m.photoIdx += 1;
-        m.photoWrong = 0;
-        m.photoFound = false;
+        beginValueReflection("stage1_a2", { fromNext: true, force: true });
+        return;
       }
+      m.photoIdx += 1;
+      m.photoWrong = 0;
+      m.photoFound = false;
       render();
     };
     return;
@@ -5831,14 +5849,11 @@ function renderMuguPhoto(m) {
 }
 
 function renderMuguDone(m) {
-  app.innerHTML = sceneTemplate("STAGE 1-2 무궁화 피우기", `
-    <div class="section-card mugu-game mugu-game--done">
-      <p class="mugu-done-msg">🎉 무궁화 이야기, 개화 게임, 사진 찾기를 모두 마쳤어요!</p>
-      <p class="sub">↺ 다시 하기로 처음부터 다시 즐길 수 있어요.</p>
-    </div>
-  `);
-  setupNavigationAndHelp("무궁화 활동을 다시 즐겨보자!");
-  muguMissionBtn(true);
+  // 완료 중간화면은 쓰지 않음 — 바로 생각친구 질문으로
+  m.phase = "done";
+  state.solved.mugunghwa = true;
+  saveProgress();
+  beginValueReflection("stage1_a2", { fromNext: true, force: true });
 }
 
 /** STAGE 1-3 애국가 — 월드컵 시상식 노래방 활동 */
@@ -8397,37 +8412,47 @@ function bindDancheongZones(svg, pattern, patternFills, dc, statusEl, onComplete
 }
 
 function renderDancheongShare(dc) {
-  if (!dancheongAllColored(dc)) {
-    dc.phase = "pick";
-    return renderStage2Act3();
-  }
-  const arts = DANCHEONG_PATTERNS.map((p) => {
-    const art = dancheongPreviewHtml(p, dc);
-    return `<div class="dancheong-share-card">
+  // 색칠·등록 여부와 상관없이 「다음」으로 이 화면을 지나갈 수 있다.
+  // (심사·체험처럼 활동을 다 안 해도 수호책 질문으로 이어지게)
+  const ready = dancheongAllColored(dc);
+  const arts = ready
+    ? DANCHEONG_PATTERNS.map((p) => {
+      const art = dancheongPreviewHtml(p, dc);
+      return `<div class="dancheong-share-card">
       <div class="dancheong-pick-art">${art || `<img src="${dancheongThumbSrc(p)}" alt="${p.name}" />`}</div>
       <span class="dancheong-pick-label">${p.name}</span>
     </div>`;
-  }).join("");
+    }).join("")
+    : `<p class="dancheong-bubble-text" style="text-align:center;margin:12px 0 4px;">아직 단청을 다 색칠하지 않았어요. 「다음」을 누르면 생각 친구 질문으로 갈 수 있어요.</p>`;
   app.innerHTML = sceneTemplate("우리반 단청 전시회", `
     <div class="section-card dancheong-game dancheong-game--share">
       <div class="dancheong-talk">
         <img class="dancheong-talk-char" src="${CHAR_IMG("suho.png")}" alt="수호" draggable="false" />
         <div class="dancheong-bubble">
-          <p class="dancheong-bubble-text">색칠한 단청을 우리반 전시회에 올리면, 친구들이 만든 단청도 함께 구경할 수 있어!</p>
+          <p class="dancheong-bubble-text">${ready
+            ? "색칠한 단청을 우리반 전시회에 올리면, 친구들이 만든 단청도 함께 구경할 수 있어!"
+            : "단청 색칠은 나중에 해도 괜찮아. 「다음」을 누르면 생각 친구와 이야기해 보자!"}</p>
         </div>
       </div>
       <div class="dancheong-share-preview">${arts}</div>
-      <button type="button" class="btn primary" id="dcRegisterBtn">전시회에 올리기</button>
+      ${ready ? `<button type="button" class="btn primary" id="dcRegisterBtn">전시회에 올리기</button>` : ""}
       <button type="button" class="btn" id="dcShareBack">◀ 문양 고르기로</button>
     </div>
   `);
-  setupNavigationAndHelp("내가 색칠한 단청을 우리반 전시회에 올려 친구들과 구경해보자!");
+  setupNavigationAndHelp(ready
+    ? "내가 색칠한 단청을 우리반 전시회에 올려 친구들과 구경해보자!"
+    : "「다음」을 누르면 생각 친구 질문으로 이어져요.");
   dancheongMissionBtn(dancheongMissionReady(dc));
   document.getElementById("dcShareBack").onclick = () => {
     dc.phase = "pick";
     playSound("click.mp3");
     renderStage2Act3();
   };
+  if (!ready) {
+    relocateScreenButtonsToGlobalNav();
+    setupActivityControls();
+    return;
+  }
   document.getElementById("dcRegisterBtn").onclick = async () => {
     const btn = document.getElementById("dcRegisterBtn");
     btn.disabled = true;
@@ -8463,20 +8488,21 @@ function dancheongWorkArtHtml(work, pattern) {
 }
 
 function renderDancheongGallery(dc) {
-  if (!dancheongAllColored(dc) || !dc.registered) {
-    dc.phase = dancheongAllColored(dc) ? "share" : "pick";
-    return renderStage2Act3();
-  }
+  // 전시회 등록 여부와 상관없이 마지막 단계로 머물 수 있게 한다.
+  // 등록 전이면 빈 전시회를 보여주고, 「다음」에서 수호책 질문이 열린다.
   const myId = dancheongArtistId();
+  const canBrowse = dancheongAllColored(dc) && !!dc.registered;
   app.innerHTML = sceneTemplate("우리반 단청 전시회", `
     <div class="section-card dancheong-game dancheong-game--gallery">
       <div class="dancheong-talk">
         <img class="dancheong-talk-char" src="${CHAR_IMG("suho.png")}" alt="수호" draggable="false" />
         <div class="dancheong-bubble">
-          <p class="dancheong-bubble-text">친구들이 색칠한 단청을 눌러 구경하고, 마음에 들면 하트를 눌러 응원해 줘!</p>
+          <p class="dancheong-bubble-text">${canBrowse
+            ? "친구들이 색칠한 단청을 눌러 구경하고, 마음에 들면 하트를 눌러 응원해 줘!"
+            : "전시회는 단청을 색칠하고 올린 뒤에 구경할 수 있어요. 「다음」을 누르면 생각 친구 질문으로 가요!"}</p>
         </div>
       </div>
-      <p class="dancheong-gallery-status" id="dcGalleryStatus">전시회를 불러오는 중...</p>
+      <p class="dancheong-gallery-status" id="dcGalleryStatus">${canBrowse ? "전시회를 불러오는 중..." : "아직 올린 단청이 없어요. 「다음」으로 질문을 이어 보세요."}</p>
       <div class="dancheong-gallery-grid" id="dcGalleryGrid"></div>
       <div class="dancheong-gallery-detail hidden" id="dcGalleryDetail"></div>
       <div class="dancheong-gallery-actions">
@@ -8484,7 +8510,9 @@ function renderDancheongGallery(dc) {
       </div>
     </div>
   `);
-  setupNavigationAndHelp("우리반 친구들이 색칠한 단청을 구경해보자!");
+  setupNavigationAndHelp(canBrowse
+    ? "우리반 친구들이 색칠한 단청을 구경해보자!"
+    : "「다음」을 누르면 생각 친구 질문으로 이어져요.");
   dancheongMissionBtn(dancheongMissionReady(dc));
   document.getElementById("dcGalleryBack").onclick = () => {
     stopDancheongGallerySync();
@@ -8492,6 +8520,11 @@ function renderDancheongGallery(dc) {
     playSound("click.mp3");
     renderStage2Act3();
   };
+  if (!canBrowse) {
+    relocateScreenButtonsToGlobalNav();
+    setupActivityControls();
+    return;
+  }
 
   function drawGallery(list) {
     const status = document.getElementById("dcGalleryStatus");
@@ -12010,7 +12043,7 @@ const TALCHUM_MOVES = [
   { key: "hwangso", name: "황소걸음", desc: "한 발을 반대쪽 무릎에 붙이기", detect: tcDetectHwangso },
   { key: "oesawi", name: "외사위", desc: "한 다리 들고 한 팔 머리 위로", detect: tcDetectOesawi }
 ];
-const TC_VIDEO = (name) => `assets/images/talchum/${name}`;
+const TC_VIDEO = (name) => toAsset(`assets/images/talchum/${name}`);
 const TC_MOVE_VIDEOS = {
   bulleum: "bulim.mp4",
   gogaejabi: "gogaejabi.mp4",
@@ -12508,7 +12541,23 @@ function renderStage4Act4() {
   const wearMeta = TALCHUM_MASKS.find((m) => m.id === wearId) || TALCHUM_MASKS[0];
   const wearImg = new Image();
   wearImg.decoding = "async";
-  wearImg.src = TC_VIDEO(wearMeta.file);
+  // new Image()는 DOM <img> 폴백을 못 받으므로, webp→png 후보를 직접 시도한다.
+  {
+    const preferred = TC_VIDEO(wearMeta.file);
+    const pool = (typeof assetCandidates === "function"
+      ? assetCandidates(preferred)
+      : [preferred, String(preferred).replace(/\.webp(\?[^#]*)?$/i, ".png$1")]).filter(Boolean);
+    let tryIdx = 0;
+    const tryLoad = () => {
+      if (tryIdx >= pool.length) return;
+      const url = pool[tryIdx];
+      tryIdx += 1;
+      wearImg.onerror = tryLoad;
+      wearImg.src = url;
+    };
+    wearImg.onload = () => { wearImg.onerror = null; };
+    tryLoad();
+  }
 
   talchumGame = {
     video, sampleVideo: sampleVideoEl, stream: null, landmarker: null,
