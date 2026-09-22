@@ -2853,6 +2853,10 @@ async function goToPreviousScreen() {
 function updateGlobalBackButton() {
   const btn = document.getElementById("globalBackBtn");
   if (!btn) return;
+  if (state.current === "intro") {
+    btn.hidden = true;
+    return;
+  }
   btn.disabled = !canGoBack();
   btn.hidden = false;
 }
@@ -2860,6 +2864,10 @@ function updateGlobalBackButton() {
 function updateGlobalNextButton() {
   const btn = document.getElementById("globalNextBtn");
   if (!btn) return;
+  if (state.current === "intro") {
+    btn.hidden = true;
+    return;
+  }
   const loggedIn = !!state.loggedIn;
   // 활동 「다음」으로 펼친 내 수호책에서는 「다음」으로 다음 활동까지 이어 간다
   const bookFromActivity = state.current === "value_book" && !!state.valueBookFromRoute;
