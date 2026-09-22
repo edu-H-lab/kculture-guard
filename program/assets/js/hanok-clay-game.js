@@ -386,7 +386,7 @@
 
   /* ================= 4. 안내 캐릭터 (곰) ================= */
   function goblinSVG() {
-    return `<img src="assets/images/character/bear.png" alt="곰" draggable="false" />`;
+    return `<img src="assets/images/character/bear.webp" alt="곰" draggable="false" />`;
   }
 
   /* ================= 5. 아이소메트릭 한옥 씬 ================= */

@@ -1,6 +1,9 @@
-  const IMG = (name) => `assets/images/${name}`;
-const BIBIMBAP_IMG = (name) => `assets/images/bibimbap/${name}`;
-const HOLIDAY_IMG = (name) => `assets/images/holiday/${name}?v=2`;
+const toAsset = (path) => (typeof assetUrl === "function"
+  ? assetUrl(path)
+  : String(path || "").replace(/\.(png|jpe?g)(\?[^#]*)?$/i, ".webp$2"));
+const IMG = (name) => toAsset(`assets/images/${name}`);
+const BIBIMBAP_IMG = (name) => toAsset(`assets/images/bibimbap/${name}`);
+const HOLIDAY_IMG = (name) => toAsset(`assets/images/holiday/${name}?v=2`);
 
 /** 돌솥 위 레이어 쌓임 순서 (아래 → 위). 밥이 가장 아래, 고추장이 가장 위 */
 const BIBIMBAP_LAYER_ORDER = [
@@ -19,22 +22,22 @@ const BIBIMBAP_LAYER_FILES = {
   "sesame-oil": "layer-sesame.png",
   gochujang: "layer-gochujang.png"
 };
-const HANBOK_IMG = (name) => `assets/images/hanbok/${name}`;
-const STAGE_IMG = (stageNum, file) => `assets/images/stage${stageNum}/${file}?v=rev316`;
-const YUT_IMG = (name) => `assets/images/yut/${name}`;
-const TG_IMG = (name) => `assets/images/taegukgi/${name}`;
-const MONEY_IMG = (name) => `assets/images/money/화폐/${name}`;
-const MONEY_POP_IMG = (name) => `assets/images/money/${encodeURIComponent(name)}`;
-const MUGU_IMG = (name) => `assets/images/mugunghwa/${encodeURIComponent(name)}`;
-const MUGU_PART_IMG = (name) => `assets/images/mugunghwa/parts/${encodeURIComponent(name)}`;
-const CHAR_IMG = (name) => `assets/images/character/${name}`;
-const ANTHEM_IMG = (name) => `assets/images/anthem/${name}`;
-const DANCHEONG_IMG = (name) => `assets/images/dancheong/${name}`;
+const HANBOK_IMG = (name) => toAsset(`assets/images/hanbok/${name}`);
+const STAGE_IMG = (stageNum, file) => toAsset(`assets/images/stage${stageNum}/${file}?v=rev316`);
+const YUT_IMG = (name) => toAsset(`assets/images/yut/${name}`);
+const TG_IMG = (name) => toAsset(`assets/images/taegukgi/${name}`);
+const MONEY_IMG = (name) => toAsset(`assets/images/money/화폐/${name}`);
+const MONEY_POP_IMG = (name) => toAsset(`assets/images/money/${encodeURIComponent(name)}`);
+const MUGU_IMG = (name) => toAsset(`assets/images/mugunghwa/${encodeURIComponent(name)}`);
+const MUGU_PART_IMG = (name) => toAsset(`assets/images/mugunghwa/parts/${encodeURIComponent(name)}`);
+const CHAR_IMG = (name) => toAsset(`assets/images/character/${name}`);
+const ANTHEM_IMG = (name) => toAsset(`assets/images/anthem/${name}`);
+const DANCHEONG_IMG = (name) => toAsset(`assets/images/dancheong/${name}`);
 const SND = (name) => `assets/sounds/${name}`;
 const INTRO_VIDEO = "assets/videos/intro/intro2.mp4";
 const HANGUL_ORIGIN_VIDEO = "assets/videos/hangul/hangul-origin.mp4";
 const DDAKJI_VIDEO = (file) => `assets/images/ddakji/${encodeURIComponent(file)}`;
-const TREASURE_IMG = (name) => `assets/images/treasures/${name}`;
+const TREASURE_IMG = (name) => toAsset(`assets/images/treasures/${name}`);
 
 /** 멀티미디어_교육자료_목록.xlsx 비고(출처 등). 확보 사진만 표시하고 개발 자료는 넣지 않음. */
 const PHOTO_SOURCE = {
@@ -220,7 +223,7 @@ const STAGE_MENUS = {
   }
 };
 
-const QUESTION_IMG = (name) => `assets/images/question/${name}?v=1`;
+const QUESTION_IMG = (name) => toAsset(`assets/images/question/${name}?v=1`);
 
 /** 활동 시작 직전 탐구 질문 (정답 입력 없음 — 활동 속에서 스스로 발견) */
 const activityQuestions = {
@@ -7655,7 +7658,7 @@ const HANGUL_ASSET_SET = new Set([
   "ㄱ", "ㄴ", "ㄹ", "ㅁ", "ㅂ", "ㅅ", "ㅇ", "ㅊ", "ㅌ", "ㅎ",
   "ㅏ", "ㅐ", "ㅓ", "ㅗ", "ㅘ", "ㅜ", "ㅠ", "ㅡ", "ㅣ"
 ]);
-const HANGUL_IMG = (name) => `assets/images/hangul/${name}`;
+const HANGUL_IMG = (name) => toAsset(`assets/images/hangul/${name}`);
 const HG_VOWELS = new Set(["ㅏ", "ㅐ", "ㅑ", "ㅒ", "ㅓ", "ㅔ", "ㅕ", "ㅖ", "ㅗ", "ㅘ", "ㅙ", "ㅚ", "ㅛ", "ㅜ", "ㅝ", "ㅞ", "ㅟ", "ㅠ", "ㅡ", "ㅢ", "ㅣ"]);
 /** 초성 오른쪽(옆)에 오는 모음 — ㅏ·ㅓ 계열·ㅣ. 나머지(ㅗ·ㅜ·ㅡ 계열)는 초성 아래 */
 const HG_JUNG_BESIDE = new Set(["ㅏ", "ㅐ", "ㅑ", "ㅒ", "ㅓ", "ㅔ", "ㅕ", "ㅖ", "ㅣ"]);

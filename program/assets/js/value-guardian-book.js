@@ -13,12 +13,13 @@
   "use strict";
 
   const TRANSITION_MS = 420;
-  const HANOK_DEFAULT_IMAGE = "assets/hanok/hanok-01-exterior.png";
+  const toWebp = (path) => String(path || "").replace(/\.(png|jpe?g)(\?[^#]*)?$/i, ".webp$2");
+  const HANOK_DEFAULT_IMAGE = toWebp("assets/hanok/hanok-01-exterior.png");
   const BOOK_IMG_VER = "1";
   const BOOK_IMG = {
-    cover: `assets/value-book/value-book-cover.png?v=${BOOK_IMG_VER}`,
-    page: `assets/value-book/value-book-page.png?v=${BOOK_IMG_VER}`,
-    bookmark: `assets/value-book/value-book-bookmark.png?v=${BOOK_IMG_VER}`
+    cover: toWebp(`assets/value-book/value-book-cover.png?v=${BOOK_IMG_VER}`),
+    page: toWebp(`assets/value-book/value-book-page.png?v=${BOOK_IMG_VER}`),
+    bookmark: toWebp(`assets/value-book/value-book-bookmark.png?v=${BOOK_IMG_VER}`)
   };
 
   const ACCENT_BY_ACTIVITY = {
@@ -79,31 +80,31 @@
       selectedElement: "ondol",
       selectedElementLabel: "온돌",
       valueLabel: "따뜻하게 지내는 지혜",
-      representativeImage: "assets/hanok/hanok-11-ondol.png"
+      representativeImage: toWebp("assets/hanok/hanok-11-ondol.png")
     },
     maru: {
       selectedElement: "maru",
       selectedElementLabel: "마루",
       valueLabel: "자연과 어울리는 생활의 지혜",
-      representativeImage: "assets/hanok/hanok-08-maru.png"
+      representativeImage: toWebp("assets/hanok/hanok-08-maru.png")
     },
     hanji: {
       selectedElement: "hanji",
       selectedElementLabel: "창호지",
       valueLabel: "빛을 부드럽게 담는 마음",
-      representativeImage: "assets/hanok/hanok-10-hanji-window.png"
+      representativeImage: toWebp("assets/hanok/hanok-10-hanji-window.png")
     },
     nature: {
       selectedElement: "nature",
       selectedElementLabel: "나무·흙·돌",
       valueLabel: "자연과 어울리는 생활의 지혜",
-      representativeImage: "assets/hanok/hanok-12-hwangto-wall.png"
+      representativeImage: toWebp("assets/hanok/hanok-12-hwangto-wall.png")
     },
     giwa: {
       selectedElement: "giwa",
       selectedElementLabel: "기와지붕",
       valueLabel: "아름다움을 지키는 마음",
-      representativeImage: "assets/hanok/hanok-13-giwa-roof.png"
+      representativeImage: toWebp("assets/hanok/hanok-13-giwa-roof.png")
     }
   };
 
@@ -433,7 +434,7 @@
 
   function treasureSrc(file) {
     if (_ctx && typeof _ctx.treasureSrc === "function") return _ctx.treasureSrc(file);
-    return file ? `assets/images/treasures/${file}` : "";
+    return file ? toWebp(`assets/images/treasures/${file}`) : "";
   }
 
   function treasureForRoute(route) {
