@@ -63,12 +63,21 @@
 
     .tagline {
       margin: 0;
-      max-width: 880px;
-      font-size: clamp(1rem, 1.6vw + .4vh, 1.35rem);
+      max-width: min(1100px, 96vw);
+      width: 100%;
+      font-size: clamp(0.7rem, 1.9vw, 1.12rem);
       font-weight: 800;
-      line-height: 1.5;
+      line-height: 1.35;
       color: var(--ink);
       word-break: keep-all;
+      white-space: nowrap;
+      text-align: center;
+    }
+    @media (max-width: 720px) {
+      .tagline {
+        white-space: normal;
+        font-size: clamp(0.85rem, 3.2vw, 1.05rem);
+      }
     }
     .tagline em { font-style: normal; color: var(--teal-deep); }
 
