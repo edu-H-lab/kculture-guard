@@ -4120,6 +4120,7 @@ function renderIntro() {
       allowEscapeKey: false
     });
     if (!result.isConfirmed) return;
+    state.pendingMediaPermOnboard = true;
     state.current = "main";
     clearNavHistory();
     playSound("click.mp3");
@@ -4239,6 +4240,10 @@ function renderMain() {
     };
   }
   if (state.studentMode === "registered") updateOnlineBadge();
+  if (state.pendingMediaPermOnboard) {
+    state.pendingMediaPermOnboard = false;
+    setTimeout(() => { runMediaPermissionOnboarding(); }, 280);
+  }
 }
 
 function classroomActivityList() {
@@ -6120,6 +6125,75 @@ function describeMicError(err) {
     title: "마이크 오류",
     text: `마이크를 준비하지 못했어요. (${name || err?.message || "알 수 없는 오류"}) 원곡은 계속 재생돼요!`
   };
+}
+
+const MEDIA_PERM_ONBOARD_KEY = "kculture_media_perm_onboard_v1";
+
+function stopMediaStreamTracks(stream) {
+  if (!stream) return;
+  try { stream.getTracks().forEach((track) => track.stop()); } catch (_) {}
+}
+
+async function requestMediaAccessOnce(constraints, label) {
+  if (!window.isSecureContext || !navigator.mediaDevices?.getUserMedia) {
+    await Swal.fire({
+      icon: "info",
+      title: `${label} 안내`,
+      text: "이 주소에서는 브라우저가 카메라·마이크를 막을 수 있어요. https 또는 ‘실행하기’로 열어 주세요.",
+      confirmButtonText: "알겠어요"
+    });
+    return false;
+  }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+    stopMediaStreamTracks(stream);
+    return true;
+  } catch (err) {
+    const denied = err?.name === "NotAllowedError"
+      || err?.name === "PermissionDeniedError"
+      || err?.name === "SecurityError";
+    await Swal.fire({
+      icon: "warning",
+      title: `${label} 허용이 필요해요`,
+      text: denied
+        ? `브라우저에서 ${label}를 ‘허용’으로 바꿔 주세요. 주소창 왼쪽 자물쇠(또는 카메라/마이크) 아이콘을 확인해 주세요.`
+        : `${label}를 준비하지 못했어요. 나중에 활동에서 다시 허용할 수 있어요.`,
+      confirmButtonText: "다음"
+    });
+    return false;
+  }
+}
+
+/** 인트로 직후 홈에서 카메라→마이크 권한을 미리 받는다. 실제 영상/목소리는 각 활동에서만 쓴다. */
+async function runMediaPermissionOnboarding() {
+  try {
+    if (localStorage.getItem(MEDIA_PERM_ONBOARD_KEY) === "1") return;
+  } catch (_) {}
+
+  const res = await Swal.fire({
+    title: "카메라·마이크 안내",
+    html: `
+      <div style="text-align:left;line-height:1.55;font-size:1.05rem;word-break:keep-all;">
+        <p style="margin:0 0 10px;">몇몇 활동에서는 <strong>카메라</strong>와 <strong>마이크</strong>가 필요해요.</p>
+        <ul style="margin:0 0 12px 1.15em;padding:0;">
+          <li style="margin-bottom:6px;"><strong>카메라</strong> — 탈춤 따라하기, 교실 확장 활동 사진</li>
+          <li><strong>마이크</strong> — 애국가 부르기, 생각친구와 말로 이야기하기</li>
+        </ul>
+        <p style="margin:0 0 8px;">영상·목소리는 <strong>이 기기에만</strong> 잠시 쓰이고, <strong>서버에는 저장되지 않아요.</strong></p>
+        <p style="margin:0;">확인을 누르면 <strong>카메라 → 마이크</strong> 순서로 허용을 물어볼게요.</p>
+      </div>
+    `,
+    confirmButtonText: "확인",
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    width: "min(540px, 94vw)"
+  });
+  if (!res.isConfirmed) return;
+
+  await requestMediaAccessOnce({ video: { facingMode: "user" }, audio: false }, "카메라");
+  await requestMediaAccessOnce({ audio: true, video: false }, "마이크");
+
+  try { localStorage.setItem(MEDIA_PERM_ONBOARD_KEY, "1"); } catch (_) {}
 }
 
 async function setupAnthemMicrophone(statusEl) {
