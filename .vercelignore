@@ -1,0 +1,8 @@
+# Vercel 업로드에서 제외 (앱은 program/ + api/ + source/server 만 사용)
+media/
+document/
+.git/
+.cursor/
+source/server/node_modules/
+source/server/logs/
+public/
